@@ -52,11 +52,11 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	send -- "\r"
 			## defaults to 'src'
 	 
-	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)?.*"
+	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
 	send -- "\r"
 			## defaults to 'npm'
 	 
-	expect -re ".*What type of API are you making.*"
+	expect -re ".*What type of API are you making\?.*"
 	send -- "\r"
 			## defaults to REST & Realtime via Socket.io
 	expect eof
@@ -78,7 +78,7 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 	 
 	spawn	feathers generate service;
 	 
-	expect	-re ".*What kind of service is it?.*"
+	expect	-re ".*What kind of service is it\?.*"
 	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## defaults to NeDB
 			## one downarrow selects "MongoDB"
@@ -88,11 +88,11 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 			## 5 - RethinDB
 			## 6 - custom service
 	 
-	expect	-re ".*What is the name of the service?.*"
+	expect	-re ".*What is the name of the service\?.*"
 	send	-- "$env(SERVICE_NAME)\r"
 			## testtable
 	 
-	expect	-re ".*Which path should the service be registered on?.*"
+	expect	-re ".*Which path should the service be registered on\?.*"
 	send	-- "\r"
 			## defaults to /reverse
 	 
