@@ -1,0 +1,690 @@
+#! /bin/bash
+
+##	jsgrid-sequelize.bsh  -- 2018-03-26
+
+
+##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
+
+##  This has been tested on https://console.cloud.google.com using centos-7.
+
+##  Script is written entirely from https://docs.feathersjs.com/guides/auth/recipe.oauth-basic.html
+
+##  Note:  expect-tcl is used to run the feathers-cli steps.
+##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
+##  am using sudo to make the command global in nature.
+
+##	Be sure to run the feathers install gist first!
+
+
+MariaDB='MariaDB'          ;
+CockroachDB='CockroachDB'  ;
+TYPE=CockroachDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
+
+##   vars for ./config/default.json changes  --  you may need to double-check the values here.
+
+HOST='kyraumanoff.site'                                                                        ;
+GOOGLE_CLIENT_ID='81362834256-dit8bqg32qn66qbqhlge2f2aii7rjqp9.apps.googleusercontent.com'     ;
+GOOGLE_CLIENT_SECRET='BLeuOr4P95mO7paFnahiHu7g'                                                ;
+DB_USER='feathersuser'                                                                          ;
+DB_PASS='aaaaaa'                                                                               ;
+DB_NAME='bank'                                                                                 ;
+SERVER_IP='XXX.XXX.XXX.XXX'                                                                    ;
+
+
+if [ "${TYPE}" = "${MariaDB}" ]; then
+    SERVER_PORT='3306'                                                                                            ;
+    CONNECT_STRING="mysql://${DB_USER}:${DB_PASS}@${SERVER_IP}:${SERVER_PORT}/${DB_NAME}"                         ;
+elif [ "${TYPE}" = "${CockroachDB}" ]; then
+    SERVER_PORT='26257'                                                                                           ;
+    PG_SSL_FLAG='true'                                                                                            ;
+    CONNECT_STRING="postgres://${DB_USER}:${DB_PASS}@${SERVER_IP}:${SERVER_PORT}/${DB_NAME}?ssl=${PG_SSL_FLAG}"   ;
+fi
+
+  ## originally:        postgres": "postgres://postgres:@localhost:5432/google_jsgrid_pgsql
+  ## password example:  postgres://feathersuser:aaaaaa@35.196.161.183:26257/bank
+  ## mysql example:     mysql://feathersuser:aaaaaa@167.99.13.123:3306/bank
+
+
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+
+export HOST;
+DOMAIN_IP=$(dig ${HOST} | grep "$(printf '\t')IN$(printf '\t')A$(printf '\t')" | grep -oE '((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])');
+
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+
+rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
+
+##     feathers generate  app;   ## taking all the defaults, except for the description
+export FileNameWithExtension
+expect <(cat <<'END_OF_GENERATE_APP'
+	#	generates an application, taking ALL the defaults
+
+	#	written from https://docs.feathersjs.com/guides/chat/creating.html
+	 
+	set timeout -1
+	 
+	spawn feathers generate app;
+	 
+	expect -re ".*Project name.*"
+	send -- "\r"
+			## defaults to the name of the directory
+	 
+	expect -re ".*Description.*"
+	send -- "This app created with expect and $env(FileNameWithExtension)!\r"
+			## optional description
+	 
+	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
+	send -- "\r"
+			## defaults to 'src'
+	 
+	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
+	send -- "\r"
+			## defaults to 'npm'
+	 
+	expect -re ".*What type of API are you making.*"
+	send -- "\r"
+			## defaults to REST & Realtime via Socket.io
+	expect eof
+END_OF_GENERATE_APP
+)	## end of feathers generate app
+
+
+
+
+if [ "${TYPE}" = "${MariaDB}" ]; then
+    echo "Setting one uparrow for ${MariaDB}";
+    export ARROW_DIRECTION=$'\x1b\x5b\x41'; ## up-arrow for MariadbDB
+elif [ "${TYPE}" = "${CockroachDB}" ]; then
+    echo "Setting one downarrow for ${CockroachDB}";
+    export ARROW_DIRECTION=$'\x1b\x5b\x42'; ## down-arrow for CockroachDB
+fi
+
+export CONNECT_STRING;
+##	feathers generate authentication; 
+expect <(cat <<'END_OF_GENERATE_AUTHENTICATION'
+
+	#	generates an authentication for Google
+
+	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn	feathers generate authentication ;
+	 
+	expect	-re ".*What authentication providers do you want to use\?.*"
+	##send	-- "\r"		
+	send	-- " ${DOWNARROW}${DOWNARROW} \r"	
+		## return defaults to Local Storage
+		## SPACE, downarrow (twice) SPACE to select Google
+	 
+	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
+	send	-- "\r"
+		## default answer is 'users'
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+		## downarrow(3) for sequelize
+
+	expect	-re ".*Which database are you connecting to\?.*"
+        send    -- "$env(ARROW_DIRECTION)\r"
+		## downarrow for postgres(cockroachdb), uparrow for mariadb
+
+	expect	-re ".*What is the database connection string\?.*"
+	send	-- "$env(CONNECT_STRING)\r"
+		## default answer is nedb://../data
+	 
+	expect eof
+END_OF_GENERATE_AUTHENTICATION
+)	## end of feathers generate authentication
+
+
+##	feathers generate hook;  
+expect <(cat <<'END_OF_GEN_USER_HOOK'
+	#	generates a "BEFORE--CREATE/UPDATE" hook named "user-hook" for for the "users" service for using Google
+
+	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook\?.*"
+	send	-- "user-hook\r"
+
+	expect	-re "What kind of hook should it be\?"
+	send	--  "${DOWNARROW}\r"
+			## downarrow return selects 'before'
+
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW} \r"
+			## downarrow space return selects 'users'
+
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
+		## downarrow (3) space downarrow space selects 'create' and 'update'
+	 
+	expect eof
+END_OF_GEN_USER_HOOK
+)	## end of feathers generate hook user-hook
+
+
+## edit the user-hook.js to extract the custom login stuff, like username, first-name, etc
+
+sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
+3i\
+ \\
+ \\
+    \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+const logger = require('winston');\\
+const _ = require('lodash');\\
+    \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+
+/  return async context => {/ a\
+\\
+\\
+  \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+  if  (  _.has(context, 'data.google.profile')  ){\\
+    if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
+      context.data.displayName = context.data.google.profile.displayName;\\
+      logger.info('displayName: ' + context.data.displayName);  \\
+    }\\
+    if  ( _.has(context.data.google.profile, 'emails' ) ) {\\
+      context.data.email = context.data.google.profile.emails.find(email => email.value).value;\\
+      logger.info('email:       ' + context.data.email);\\
+    }\\
+    if  ( _.has(context.data.google.profile, 'name' ) ) {\\
+      ['familyName', 'givenName'].forEach( (val) => {\\
+        if  ( _.has(context.data.google.profile.name, val )     ) {\\
+          context.data[val] = context.data.google.profile.name[val];\\
+          logger.info(val + ': ' + context.data[val]);\\
+        }\\
+      })\\
+    }\\
+  } // end if has data.google.profile\\
+  \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+  
+END_OF_SED_USER_HOOK
+
+sed --in-place --file=- ./src/models/users.model.js   <<END_OF_SED_USER_MODEL ;
+/    googleId: { type: Sequelize.STRING },/ a\
+\\
+    \/* data items added by ${FileNameWithExtension} ${TimeStamp}  *\/\\
+    email: { type: DataTypes.STRING }, \\
+    displayName: { type: DataTypes.STRING },\\
+    familyName: { type: DataTypes.STRING },\\
+    givenName: { type: DataTypes.STRING },\\
+    \/* end of data items added by ${FileNameWithExtension} ${TimeStamp}  *\/\\
+END_OF_SED_USER_MODEL
+
+
+##		feathers generate service;   ## all defaults except for the service name - "testtable"
+expect <(cat <<'END_OF_GEN_SERVICE'
+
+	#	creates a service:	testtable  (all the defaults)
+	#	written from:	https://docs.feathersjs.com/guides/chat/service.html
+
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set timeout -1
+	 
+	spawn	feathers generate service;
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+			## defaults to NeDB
+			## one downarrow selects "MongoDB"
+			## 2 - Mongoose
+			## 3 - Sequelize
+			## 4 - KnexJS
+			## 5 - RethinDB
+			## 6 - custom service
+	 
+	expect	-re ".*What is the name of the service\?.*"
+	send	-- "testtable\r"
+			## testtable
+	 
+	expect	-re ".*Which path should the service be registered on\?.*"
+	send	-- "\r"
+			## defaults to /testtable
+	 
+	expect	-re ".*Does the service require authentication\?.*"
+	send	-- "y\r"
+			##  y for 'yes' and return
+
+	expect	-re ".*Which database are you connecting to\?.*"
+	send    -- "$env(ARROW_DIRECTION)\r"
+		## downarrow for postgres(cockroachdb), uparrow for mariadb
+
+
+	expect eof
+END_OF_GEN_SERVICE
+)	## end of feathers generate service
+
+
+
+
+sed --in-place --file=- ./src/models/testtable.model.js  <<END_OF_SED_TESTTABLE_MODEL ;
+/text: {/ {
+    N; /type: DataTypes.STRING,/ {
+        N; /allowNull: false/ {
+            N; /}/ {
+                s/text: {//; s/type: DataTypes.STRING,//; s/allowNull: false//; s/}//;a \
+\\
+    \/* new items added by ${FileNameWithExtension} ${TimeStamp} *\/  \\
+    name     : { type: DataTypes.STRING, allowNull: false  }, \\
+    addr     : { type: DataTypes.STRING, allowNull: true   }, \\
+    updatedBy: { type: DataTypes.STRING, allowNull: false  }, \\
+    \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+
+            }
+        }
+    }
+}
+END_OF_SED_TESTTABLE_MODEL
+
+
+##	feathers generate hook;  
+expect <(cat <<'END_OF_GEN_TESTTABLE_HOOK'
+	#	generates a "BEFORE--CREATE/UPDATE" hook named "testtable-hook" for the "testtable" service for Google
+
+	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook\?.*"
+	send	-- "testtable-hook\r"
+
+	expect	-re "What kind of hook should it be\?"
+	send	--  "${DOWNARROW}\r"
+			## downarrow return selects 'before'
+
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW} \r"
+			## downarrow space return selects 'testtable'
+
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
+		## downarrow (3) space downarrow space selects 'create' & 'update'
+	 
+	expect eof
+END_OF_GEN_TESTTABLE_HOOK
+)	## end of feathers generate hook 'testtable-hook'
+
+
+## install the feathers-hooks-common npm module
+npm  install feathers-hooks-common --save ;	
+
+## add in a "custom hook" to remove the id during create (db handles the id for us)
+##     https://auk.docs.feathersjs.com/api/hooks-common.html#discard
+sed  --in-place  --file=- ./src/services/testtable/testtable.hooks.js  <<END_OF_SED_TESTTABLE_HOOK_COMMON ;
+3s?^?\\nconst { discard } = require('feathers-hooks-common'); // added by bash script ${FileNameWithExtension} ${TimeStamp}\\n\\n?;
+s?create: \[testtableHook()],?create: [ discard('id'), testtableHook()],  // "added discard('id')" by bash script ${FileNameWithExtension} ${TimeStamp}?;
+END_OF_SED_TESTTABLE_HOOK_COMMON
+
+##  modify hook to add in the user email into the context variable    
+sed --in-place --file=- ./src/hooks/testtable-hook.js   <<END_OF_SED_TESTTABLE_HOOK ;
+3s?^?\\nconst logger = require('winston'); // added by bash script ${FileNameWithExtension} ${TimeStamp}\\n\\n?;
+/  return async context => {/ a\
+\\
+    \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+     //logger.info(JSON.stringify(context));\\
+     context.data.updatedBy = context.params.user.email;  // save the user email into the context object  ${FileNameWithExtension} ${TimeStamp}  \\
+    \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+END_OF_SED_TESTTABLE_HOOK
+
+## modify the sequelize.js to logging, and add a ssl-dialect true-false flag option
+##	note that mariadb(mysql) does not require a dialect change, and will be ignored for mariadb
+sed --in-place --file=- ./src/sequelize.js   <<END_OF_SED_SEQUELIZE ;
+s?logging: false,?/*logging: false,*/  /* uncomment out 'logging:false in production -- added by ${FileNameWithExtension}  ${TimeStamp} */?;
+s?dialect: 'postgres',?dialect: 'postgres', dialectOptions: { ssl: ${PG_SSL_FLAG} }, /* added dialectOptions:{} ${FileNameWithExtension}  ${TimeStamp} */?;
+END_OF_SED_SEQUELIZE
+
+## modify the default.json file if you are using google (you will have to change these values!)
+## values came from   https://console.developers.google.com/apis/api under credidentials
+sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
+s/"host": "localhost",/"host": "${HOST}",/;
+s/your google client id/${GOOGLE_CLIENT_ID}/;
+s/your google client secret/${GOOGLE_CLIENT_SECRET}/;
+END_OF_SED_CONFIG_DEFAULT
+
+
+cat > ./public/demos.css   <<END_OF_CAT_DEMOS_CSS ;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    padding: 10px;
+    color: #262626;
+    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+h1 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+    font-weight: 300;
+}
+
+h2 {
+    margin: 16px 0 8px 0;
+    font-size: 18px;
+    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+    font-weight: 300;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    color: #2ba6cb;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #258faf;
+}
+
+input, button, select {
+    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+    font-weight: 300;
+    font-size: 14px;
+    padding: 2px;
+}
+
+.navigation {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    border-right: 1px solid #e9e9e9;
+}
+
+.navigation li {
+    margin: 10px 0;
+}
+
+.demo-frame {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 200px;
+}
+
+iframe[name='demo'] {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+END_OF_CAT_DEMOS_CSS
+
+
+cat > ./public/index.html << END_OF_CAT_INDEX_HTML ;
+<html>
+  <head>
+        <link rel="stylesheet" type="text/css" href="demos.css" /> 
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css' />
+	<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+	<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+  </head>
+  <body>
+    <main class="container">
+      <h2 class="center-text">A REST and realtime API layer for modern applications. - using ${TYPE}</h2>
+<p class="center-text"><br/>
+  <a href="/auth/google">Login With Google</a>
+  &nbsp;
+  <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google</a>
+  &nbsp;
+  Adapted from <a href='http://js-grid.com/demos/' target='_blank'>js-grid</a>
+</p>
+</div>
+<div id="jsGrid"></div>
+<script src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+<script src="//unpkg.com/socket.io-client@1.7.3/dist/socket.io.js"></script>
+<script>
+  // Socket.io is exposed as the \`io\` global.
+  var socket = io(':3030', {transports: ['websocket']});
+  // feathers-client is exposed as the \`feathers\` global.
+  var feathersClient = feathers()
+    .configure(feathers.socketio(socket))
+    .configure(feathers.authentication({
+      cookie: 'feathers-jwt'
+    }));
+
+  feathersClient.authenticate()
+    .then(response => {
+      console.info('Feathers Client has Authenticated with the JWT access token!');
+      console.log(response);
+	createAndPopulateGrid();
+    })
+    .catch(error => {
+      console.info("We have not logged in with OAuth, yet.  This means there's no cookie storing the accessToken.  As a result, feathersClient.authenticate() failed.");
+      console.log(error);
+    });
+
+class timingSwitch {
+	constructor (switchName) {
+		this.thisKey	= null	;
+	}
+	setKeyValue (key) {
+		this.thisKey = key;
+	}
+	getKeyValue () {
+		return this.thisKey;
+	}
+}
+
+var insertObj	= new timingSwitch()	;
+var updateObj	= new timingSwitch()	;
+var deleteObj	= new timingSwitch()	;
+
+feathersClient.service('testtable').on('created', (message, context) => {
+
+	if  ( message.id !== insertObj.getKeyValue() )	{
+		insertObj.setKeyValue(message.id);
+		jQuery('div#jsGrid').jsGrid
+			( 'insertItem'
+			,  message
+			).done( () => {
+				console.log("feathers created event - insert completed");
+			});
+	} else {
+		console.log('feathers created event id keys equal - skipping.');
+	}
+})
+
+
+feathersClient.service('testtable').on('updated', (message, context) => {
+	for ( var _gridRow=0; _gridRow < jQuery('div#jsGrid').jsGrid('option', 'data').length ;  _gridRow++ ) 
+	{
+	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'] === message.id )  {
+
+		updateObj.setKeyValue(message.id);
+		jQuery('div#jsGrid').jsGrid
+			( 'updateItem'
+			, jQuery("div#jsGrid").jsGrid('option', 'data')[_gridRow]
+			,  message
+			).done( () => {
+				console.log("update completed");
+			});
+		break;
+	    }	// end if does this row match what we are looking for?
+	}  // end for loop of all grid items
+})
+
+feathersClient.service('testtable').on('removed', (message, context) => {
+
+	for ( var _gridRow=0; _gridRow < jQuery('div#jsGrid').jsGrid('option', 'data').length ;  _gridRow++ )
+	{
+	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'] === message.id )  {
+
+		deleteObj.setKeyValue(message.id);
+
+		jQuery('div#jsGrid').jsGrid({confirmDeleting:false});	// temporarily turn OFF prompting
+		jQuery('div#jsGrid').jsGrid
+			( 'deleteItem'
+			, jQuery("div#jsGrid").jsGrid('option', 'data')[_gridRow]
+			).done( () => {
+				console.log("delete completed");
+				jQuery('div#jsGrid').jsGrid({confirmDeleting:true});	// turn back on
+			});
+		break;
+	    }
+	}
+})
+
+
+async function createAndPopulateGrid()	{
+
+   jQuery("div#jsGrid").jsGrid({
+	height: "70%",
+	width: "100%",
+	filtering: true,
+	editing: true,
+	inserting: true,
+	sorting: true,
+	paging: true,
+	autoload: true,
+	pageSize: 15,
+	pageButtonCount: 5,
+	deleteConfirm: "Do you really want to delete?",
+	fields: [
+	    { name: "name"	,  type: "text", width: 150 },
+	    { name: "addr"	,  type: "text", width: 200 },
+	    { name: "updatedBy"	,  type: "text", width: 200, title: 'Updated By (ReadOnly)' , readOnly: true },
+	    { name: "id"	,  type: "text", width: 100, title: 'Id (ReadOnly)'         , readOnly: true },
+	    { type: "control" }
+	],
+	controller:
+	{	insertItem: async (item) =>	{
+
+				/*	when an item is inserted, we need to determine if this browser window is inserting, 
+				*	or a feathers create event is doing the inserting.  if feathers-create-event is
+				*	inserting, we let this jsGrid-controller-insertItem work normally
+				*/
+
+			if  ( item.id !== insertObj.getKeyValue() )	{	// feathers-create-event sets this flag
+
+					/*	This means that our browser window is doing the inserting, NOT
+					*	feathers-create-event.  In this case, we tell feathers to first insert
+					*	it into the back-end, and skip inserting it for now.
+					*	A microsecond or two later, the feathers-create-event will fire
+					*	and handle the insert.  This way, the insert also includes the
+					*	id number.
+					*/
+
+				feathersClient.service('testtable').create(item).then(	()=>	{
+					// clear out the jsGrid insert row
+					jQuery('div#jsGrid').jsGrid('clearInsert');
+				})
+				
+					/* 	Prevent js-grid from doing any actual updating.
+					*	Remember, feathers will tell js-grid to update once feathers has completed updating.  
+					*/
+				jQuery("div#jsGrid").jsGrid('insertFailed') = true;
+			} else {
+				console.log('tripped by jsgrid-controller-insertItem since the two key values are equal.');
+				return item;
+			}
+		},
+		updateItem: async (item) =>	{
+			if  ( item.id !== updateObj.getKeyValue() )	{
+				feathersClient.service('testtable').update(item.id, item).then( () => {
+					return false;
+				});
+			} else {
+				console.log('in jsgrid controller updateItem:  two key values are equal, skipping.');
+				 updateObj.setKeyValue(null);  // reset since feathers since feathers has completed updating.
+				return item;
+			}
+		},
+		deleteItem: async (item) =>	{
+			if  ( item.id !== deleteObj.getKeyValue() )	{
+				feathersClient.service('testtable').remove(item.id).then( () => {
+					return false;
+				});
+			} else {
+				console.log('in jsgrid controller deleteItem:  two key values are equal, skipping.');
+			}
+		},
+	},
+    });
+
+	await feathersClient.service('testtable').find()
+	.then ( (serviceRow) => {
+		console.log(serviceRow);
+		if  ( serviceRow.hasOwnProperty('data') && serviceRow.data.length ) {
+			serviceRow.data.forEach( (element) =>	{
+				insertObj.setKeyValue(element.id);		// block the feathers event from firing
+				jQuery('div#jsGrid').jsGrid
+					( 'insertItem'
+					,  element
+					).done( () => {
+						console.log("jsGrid insertItem - initial insert completed");
+					});
+			})
+		}
+	});
+}
+</script>
+      <footer>
+        <p class="center-text">For more information on Feathers see <a href="https://docs.feathersjs.com" title="Feathers Documentation" target="blank">docs.feathersjs.com</a>.</p>
+      </footer>
+    </main>
+</html>
+END_OF_CAT_INDEX_HTML
+
+dig ${HOST} | grep  'A';
+cat <<END_OF_SCRIPT;
+Host: ${HOST} points to ${DOMAIN_IP}
+Does ${HOST} resolve to ${THIS_IPADDR} ?
+Please dont forget to change/check the IP ## in both the ./config/default.json  
+*AND*  the google-applications page (make sure they match)
+Feathers google app should now be built.  Please confirm your ./config/default.json values.
+Client id in your ./config/default.json values file:  ${GOOGLE_CLIENT_ID}
+Client secret in your ./config/default.json values file:  ${GOOGLE_CLIENT_SECRET}
+Connect string in your ./config/default.json values file:  
+    $CONNECT_STRING
+Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
+END_OF_SCRIPT
+##
+##
