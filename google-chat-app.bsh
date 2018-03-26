@@ -26,6 +26,7 @@
 HOST='kyraumanoff.site'                                                                         ;
 GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleusercontent.com'     ;
 GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                                 ;
+###  get credentials here:  https://console.developers.google.com/apis/credentials/
 
 
 FileNameWithExtension=${0##*/}                       ;
