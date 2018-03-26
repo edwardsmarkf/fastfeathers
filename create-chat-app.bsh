@@ -30,6 +30,7 @@ mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
 
 ##     feathers generate  app;   ## taking all the defaults, except for the description
 export FileNameWithExtension;
+export TimeStamp;
 expect <(cat <<'END_OF_GENERATE_APP'
 	#	generates an application, taking ALL the defaults
 
