@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##   google-login.bsh   2018-03-26
+##   google-login.bsh   last update: 2018-03-26
 
 ##  Bash-shell script to create the Google-feathers login example entirely from scratch.
 
