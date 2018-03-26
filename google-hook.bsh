@@ -18,7 +18,7 @@ IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
-TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 
 echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
@@ -30,6 +30,7 @@ mkdir	./${FileNameWithoutExtension} && cd	./${FileNameWithoutExtension} ;
 
 ##     feathers generate  app;   ## taking all the defaults, except for the description
 export FileNameWithExtension;
+export TimeStamp;
 expect <(cat <<'END_OF_GENERATE_APP'
 	#	generates an application, taking ALL the defaults
 
@@ -44,7 +45,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 			## defaults to the name of the directory
 	 
 	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension)!\r"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
 			## optional description
 	 
 	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
