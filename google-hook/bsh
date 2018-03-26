@@ -1,0 +1,403 @@
+#! /bin/bash
+
+##	2018-03-26
+##
+##	Bash script to create a google authentication with a hook & service,
+##      using the default NeDB database.
+##
+##	Be sure to run the feathers install gist first!
+
+
+##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
+HOST='kyraumanoff.site'                                                                         ;
+GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleusercontent.com'     ;
+GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                                 ;
+
+
+IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+
+
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+
+rm -Rf	./${FileNameWithoutExtension} ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension} && cd	./${FileNameWithoutExtension} ;
+
+##     feathers generate  app;   ## taking all the defaults, except for the description
+export FileNameWithExtension;
+expect <(cat <<'END_OF_GENERATE_APP'
+	#	generates an application, taking ALL the defaults
+
+	#	written from https://docs.feathersjs.com/guides/chat/creating.html
+	 
+	set timeout -1
+	 
+	spawn feathers generate app;
+	 
+	expect -re ".*Project name.*"
+	send -- "\r"
+			## defaults to the name of the directory
+	 
+	expect -re ".*Description.*"
+	send -- "This app created with expect and $env(FileNameWithExtension)!\r"
+			## optional description
+	 
+	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
+	send -- "\r"
+			## defaults to 'src'
+	 
+	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
+	send -- "\r"
+			## defaults to 'npm'
+	 
+	expect -re ".*What type of API are you making.*"
+	send -- "\r"
+			## defaults to REST & Realtime via Socket.io
+	expect eof
+END_OF_GENERATE_APP
+)	## end of feathers generate app
+
+
+
+##	feathers generate authentication;  ## all defaults
+expect <(cat <<'END_OF_GEN_AUTH'
+	#	generates an authentication for Google
+
+	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn	feathers generate authentication ;
+	 
+	expect	-re ".*What authentication providers do you want to use\?.*"
+	##send	-- "\r"		
+	send	-- " ${DOWNARROW}${DOWNARROW} \r"	
+		## return defaults to Local Storage
+		## first space to de-select local, DOWNARROW two times, final space to select Google, and return
+	 
+	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
+	send	-- "\r"
+		## default answer is 'users'
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "\r"
+		## default answer is NeDB
+
+	expect	-re ".*What is the database connection string\?.*"
+	send	-- "\r"
+		## default answer is nedb://../data
+
+	 
+	expect eof
+END_OF_GEN_AUTH
+)	## end of feathers generate authentication
+
+
+##	feathers generate hook for user "service";  
+expect <(cat <<'END_OF_GEN_BEFORE_HOOK'
+	#	generates a "BEFORE--CREATE/UPDATE" hook named "user-hook" for the "users" service for Google
+
+	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook\?.*"
+	send	-- "user-hook\r"
+
+	expect	-re "What kind of hook should it be\?"
+	send	--  "${DOWNARROW}\r"
+			## downarrow return selects 'before'
+
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW} \r"
+			## downarrow space return selects 'users'
+
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
+		## downarrow (3 times) space downarrow(1) space selects 'create' and 'update'
+	 
+	expect eof
+END_OF_GEN_BEFORE_HOOK
+)	## end of feathers generate hook
+
+
+sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
+3i\
+\\
+    \/*  code added by google-jsgrid-pg.bsh *\/ \\
+const logger = require('winston');\\
+const _ = require('lodash');\\
+    \/* end of code added by google-jsgrid-pg.bsh *\/ \\
+/  return async context => {/ a\
+\\
+\\
+  \/*  code added by google-jsgrid-pg.bsh *\/ \\
+  if  (  _.has(context, 'data.google.profile')  ){\\
+    if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
+      context.data.displayName = context.data.google.profile.displayName;\\
+      logger.info('displayName: ' + context.data.displayName);  \\
+    }\\
+    if  ( _.has(context.data.google.profile, 'emails' ) ) {\\
+      context.data.email = context.data.google.profile.emails.find(email => email.value).value;\\
+      logger.info('email:       ' + context.data.email);\\
+    }\\
+    if  ( _.has(context.data.google.profile, 'name' ) ) {\\
+      ['familyName', 'givenName'].forEach( (val) => {\\
+        if  ( _.has(context.data.google.profile.name, val )     ) {\\
+          context.data[val] = context.data.google.profile.name[val];\\
+          logger.info(val + ': ' + context.data[val]);\\
+        }\\
+      })\\
+    }\\
+  } // end if has data.google.profile\\
+  \/*  end of code added by google-jsgrid-pg.bsh *\/\\
+  
+END_OF_SED_USER_HOOK
+
+
+
+
+
+
+sed --in-place --file=- ./src/models/users.model.js   <<END_OF_SED_USER_MODEL ;
+/    googleId: { type: Sequelize.STRING },/ a\
+\\
+    \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+    email: { type: DataTypes.STRING }, \\
+    displayName: { type: DataTypes.STRING },\\
+    familyName: { type: DataTypes.STRING },\\
+    givenName: { type: DataTypes.STRING },\\
+    \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+END_OF_SED_USER_MODEL
+
+##		feathers generate service;   ## all defaults except for the service name - "testtable"
+expect <(cat <<'END_OF_GEN_SERVICE'
+
+	##	creates a service:	testtable  (all the defaults)
+
+	##	written from:	https://docs.feathersjs.com/guides/chat/service.html
+
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set timeout -1
+	 
+	spawn	feathers generate service;
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "\r"
+	##send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"  ## example for Sequelize
+			## defaults to NeDB
+			## one downarrow selects "MongoDB"
+			## 2 - Mongoose
+			## 3 - Sequelize
+			## 4 - KnexJS
+			## 5 - RethinDB
+			## 6 - custom service
+	 
+	expect	-re ".*What is the name of the service\?.*"
+	send	-- "testtable\r"
+			## testtable
+	 
+	expect	-re ".*Which path should the service be registered on\?.*"
+	send	-- "\r"
+			## defaults to /testtable
+	 
+	expect	-re ".*Does the service require authentication\?.*"
+	send	-- "y\r"
+			##  y for 'yes' and return
+
+	expect eof
+END_OF_GEN_SERVICE
+)	## end of feathers generate service
+
+
+#######################################################################################################
+##
+##   THIS MAY NOT BE REQUIRED WHEN USING SEQUELIZE  (BELOW)
+##
+########################################################################################################
+
+##	feathers generate hook for service "testtable";  
+expect <(cat <<'END_OF_GEN_TESTTABLE_HOOK'
+	#	generates a "BEFORE--CREATE/UPDATE" hook named "testtable-hook" for the "testtable" service for Google
+	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook\?.*"
+	send	-- "testtable-hook\r"
+	expect	-re "What kind of hook should it be\?"
+	send	--  "${DOWNARROW}\r"
+			## downarrow return selects 'before'
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW} \r"
+			## downarrow space return selects 'testtable', 'users' is now the third on the list!
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
+		## downarrow (3) space downarrow space selects 'create' AND 'update'
+		
+	expect eof
+END_OF_GEN_TESTTABLE_HOOK
+)	## end of feathers generate hook
+
+
+## edit testtable-hook.js
+sed --in-place --file=- ./src/hooks/testtable-hook.js   <<END_OF_SED_TESTTABLE_HOOK ;
+3s?^?\\n//const logger = require('winston'); // added by bash script \\n\\n?;
+/  return async context => {/ a\
+\ \ \ \ context.data[options] = new Date(); \/\/ include 'createdAt' and 'updatedAt' in record on create and update.\\
+\ \ \ \ \/\/logger.info(context.data);  // uncomment out to inspect the results.
+END_OF_SED_TESTTABLE_HOOK
+
+sed --in-place --file=- ./src/services/testtable/testtable.hooks.js  <<END_OF_SED_TESTTABLE_HOOKS ;
+s?    create: \[testtableHook()],?    create: \[testtableHook('createdAt')],?;
+s?    update: \[testtableHook()],?    create: \[testtableHook('updatedAt')],?;
+END_OF_SED_TESTTABLE_HOOKS
+
+#######################################################################################################
+##
+##   THIS MAY NOT BE REQUIRED WHEN USING SEQUELIZE  (ABOVE)
+##
+########################################################################################################
+
+
+
+## modify the default.json file if you are using google (you will have to change these values!
+## values came from   https://console.developers.google.com/apis/api under credidentials
+sed --in-place --file=- ./config/default.json  << END_OF_SED_DEFAULT_JSON ;
+s/"host": "localhost",/"host": "${HOST}",/;
+s/your google client id/${GOOGLE_CLIENT_ID}/;                                           
+s/your google client secret/${GOOGLE_CLIENT_SECRET}/;
+END_OF_SED_DEFAULT_JSON
+
+echo " dont forget to change the IP ## in both the ./config/default.json  *AND*  the google-applications page (make sure they match)";
+
+
+sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
+/<h2 class="center-text">A REST and realtime API layer for modern applications.<\/h2>/ a\
+<p class="center-text"><br\/>\\
+  <a href="/auth/google">Login With Google<\/a>\\
+   &nbsp;\\
+  <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google<\/a>\\
+<\/p>\\
+<div style='margin-left:50px;'>\\
+<ul>\\
+	<li>\\
+		const findResult = await feathersClient.service('testtable').find(); &nbsp; console.log( JSON.stringify(findResult), { colors:true, depth: 5 });\\
+	<\/li>\\
+\\
+	<li>\\
+		var firstInsertResult = await feathersClient.service('testtable').create({ text: 'First Data Inserted' });\\
+	<\/li>\\
+\\
+	<li>\\
+		var secondInsertResult = feathersClient.service('testtable').create({ text: 'Second Data Inserted' });\\
+	<\/li>\\
+\\
+	<li>\\
+		var queryResults = featherClient.service('testtable').find( {query: { text: 'Second Data Inserted'}})\\
+	<\/li>\\
+\\
+	<li>\\
+		await feathersClient.service('testtable').find().then( (result) => console.log( JSON.stringify(result), { colors:true, depth: 5 }))  ;\\
+	<\/li>\\
+\\
+	<li>\\
+		var getResult = feathersClient.service('testtable').get('enter key here');\\
+	<\/li>\\
+\\
+	<li>\\
+		var updateResult = feathersClient.service('testtable').update('enter key here', { moreText: 'Data added!'} );\\
+	<\/li>\\
+\\
+	<li>\\
+		var patchResult = feathersClient.service('testtable').patch('enter key here', { text: 'Data Changed!'} );\\
+	<\/li>\\
+\\
+	<li>\\
+		var removeResult = feathersClient.service('testtable').remove('enter key here');\\
+	<\/li>\\
+\\
+<\/ul>\\
+<\/div>\\
+<br \/>\\
+<br \/>\\
+<pre>\\
+await feathersClient.service('testtable').find()\\
+    .then( (pageKeyList) => {\\
+        for ( var pageKey in pageKeyList ) {\\
+            if ( pageKey === 'data' ) {\\
+                for ( var dataKey in pageKeyList.data) {\\
+                      console.log( pageKeyList.data[dataKey] );\\
+                } \/* end for *\/\\
+             } else {\\
+                console.log(pageKey, pageKeyList[pageKey]);\\
+             } \/* end if *\/\\
+          }   \/* end for *\/\\
+        })   \/* end then *\/\\
+<\/pre>\\
+<script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>\\
+<script type="text/javascript"  src="//unpkg.com/socket.io-client@1.7.3/dist/socket.io.js"></script>\\
+<!-- added for google logout -->\\
+<script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>\\
+<script type="text/javascript"  src="//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>\\
+<!-- end of added for google logout -->\\
+<script>\\
+  // Socket.io is exposed as the \`io\` global.\\
+  var socket = io(':3030', {transports: ['websocket']});\\
+  // feathers-client is exposed as the \`feathers\` global.\\
+  var feathersClient = feathers()\\
+	    //.configure(feathers.hooks()) commented out with 3.0\\
+    .configure(feathers.socketio(socket))\\
+    .configure(feathers.authentication({\\
+      cookie: 'feathers-jwt'\\
+    }));\\
+\\
+var setUserInfo = (async () => {\\
+            // a special thanks to feathers-slack "freeline" for providing this code \\
+        var response = await feathersClient.authenticate();\\
+        var payload = await feathersClient.passport.verifyJWT(response.accessToken);\\
+        var user = await feathersClient.service('users').get(payload.userId);\\
+        feathersClient.set('user', user);  // feathersClient.get('user').email to get email address \\
+	console.log('you logged in as: ' + feathersClient.get('user').email); // display what is now in user in the console.\\
+  })\\
+\\
+  feathersClient.authenticate()\\
+    .then(response => {\\
+      console.info('Feathers Client has Authenticated with the JWT access token!');\\
+      console.log(response);\\
+      setUserInfo();\\
+    })\\
+    .catch(error => {\\
+      console.info("We have not logged in with OAuth, yet.  This means there's no cookie storing the accessToken.  As a result, feathersClient.authenticate() failed.");\\
+      console.log(error);\\
+    });\\
+</script>\\
+END_OF_INDEX_HTML
+
+dig ${HOST} | grep  'A';
+cat <<END_OF_SCRIPT;
+Does ${HOST} resolve to ${IPADDR} ?
+Feathers google app should now be built.  Please confirm your ./config/default.json values.
+Client id in your ./config/default.json values file: ${GOOGLE_CLIENT_ID} 
+Client secret in your ./config/default.json values file:  ${CLIENT_SECRET_ID}
+Now run ' cd ./${FileNameWithoutExtension}/  ; npm start;  ' to try it out.
+END_OF_SCRIPT
+#
