@@ -198,7 +198,6 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 	 
 	expect	-re ".*What kind of service is it\?.*"
 	send	-- "\r"
-	##send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"  ## example for Sequelize
 			## defaults to NeDB
 			## one downarrow selects "MongoDB"
 			## 2 - Mongoose
