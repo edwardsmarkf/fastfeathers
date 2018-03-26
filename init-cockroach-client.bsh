@@ -1,0 +1,167 @@
+#! /bin/bash
+
+# init-cockroach-client.bsh     2018-03-26
+
+# this script builds a cockroach(pg) client from scratch for testing with init-cockroach-server.bsh
+
+ dbServerIp='XXX.XXX.XXX.XXX';   ## this this from init-cockroach-server.bsh
+ dbUser='feathersuser';
+ dbPass='aaaaaa';
+ dbPort='26257';
+ dbName='bank';
+ sslFlag='true';
+ ipaddrInternal=$(hostname --all-ip-addresses ;);
+ ipaddrExternal=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+ echo 'ipAddrInternal is: ${ipaddrInternal}';
+ echo 'ipAddrExternal is: ${ipaddrExternal}';
+
+
+if  [ '${$(groups)/sudo}' ] ;
+ then   SUDO='sudo' ; 
+ elif  [ '${$(whoami)/root' ] ;
+ then   echo SUDO=''; 
+ else
+      echo 'you either need to be have sudo or be logged in as root!';
+      exit;
+ fi;
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+
+rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
+
+${SUDO} yum  --assumeyes   install   bind-utils  expect firewalld  wget   ;
+${SUDO} systemctl  start   firewalld ;
+${SUDO} systemctl  enable  firewalld ;
+${SUDO} firewall-cmd --zone=dmz     --add-port=${dbPort}/tcp --permanent ; sudo firewall-cmd --reload ;
+
+${SUDO} yum --assumeyes  update ;
+${SUDO} yum --assumeyes install gcc-c++ make ;
+${SUDO} yum --assumeyes install epel-release ;
+
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash - ;
+${SUDO} yum --assumeyes install nodejs ;
+
+sleep 10 ;  ## installing node appeared to work async in one test.
+
+ echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 used in this writing
+ echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+
+export FileNameWithExtension;
+expect <(cat <<'END_OF_NPM_INIT'
+
+    set timeout -1
+
+    spawn npm  init ;
+    
+    expect -re ".*package name:.*"
+    send -- "\r"
+    
+    expect -re ".*version:.*"
+    send -- "\r"
+
+    expect -re ".*description:.*"
+    send -- "Created using bash script: $env(FileNameWithExtension)\r"
+    
+    expect -re ".*entry point:.*"
+    send -- "\r"
+    
+    expect -re ".*test command:.*"
+    send -- "\r"
+    
+    expect -re ".*git repository:.*"
+    send -- "\r"
+    
+    expect -re ".*keywords:.*"
+    send -- "\r"
+    
+    expect -re ".*author:.*"
+    send -- "Created using bash script: $env(FileNameWithExtension)\r"
+    
+    expect -re ".*license:.*"
+    send -- "\r"
+    
+    expect -re ".*Is this ok?.*"
+    send -- "\r"
+    
+    expect eof
+ 
+END_OF_NPM_INIT
+)
+
+ npm install pg async --save ;
+
+## written from  https://www.cockroachlabs.com/docs/stable/build-a-nodejs-app-with-cockroachdb.html
+cat  > nodePgTest.js <<END_OF_NODE_SCRIPT ;
+
+var async = require('async');
+
+// Require the driver.
+var pg = require('pg');
+
+// Connect to the "bank" database.
+var config = {
+  user: '${dbUser}',
+  password: '${dbPass}',
+  host: '${dbServerIp}',   // CHANGE THIS!
+  database: '${dbName}',
+  ssl: ${sslFlag},
+  port: ${dbPort}
+};
+// Create a pool.
+const pool = new pg.Pool(config);
+
+/*  optionally this should work too:
+const connectionString = 'postgresql://${dbUser}:${dbPass}@${dbServerIp}:${dbPort}/${dbName}?ssl=${sslFlag}';
+const pool = new pg.Pool({
+  connectionString: connectionString,
+})
+*/
+
+pool.connect(function (err, client, done) {
+  // Closes communication with the database and exits.
+  var finish = function () {
+    done();
+    process.exit();
+  };
+
+  if (err) {
+    console.error('could not connect to cockroachdb', err);
+    finish();
+  }
+  async.waterfall([
+    function (next) {
+      // Create the "accounts" table.
+      client.query('CREATE TABLE IF NOT EXISTS accounts (id INT PRIMARY KEY, balance INT);', next);
+    },
+    function (results, next) {
+      // Insert two rows into the "accounts" table.
+      client.query('INSERT INTO accounts (id, balance) VALUES (1, 1000), (2, 250);', next);
+    },
+    function (results, next) {
+      // Print out the balances.
+      client.query('SELECT id, balance FROM accounts;', next);
+    },
+  ],
+  function (err, results) {
+    if (err) {
+      console.error('error inserting into and selecting from accounts', err);
+      finish();
+    }
+
+    console.log('Initial balances:');
+    results.rows.forEach(function (row) {
+      console.log(row);
+    });
+
+    finish();
+  });
+});
+END_OF_NODE_SCRIPT
+
+
+cat <<END_OF_SCRIPT;
+be sure to do   cd  ${FileNameWithoutExtension};  node  nodePgTest.js ;
+END_OF_SCRIPT
