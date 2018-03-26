@@ -1,0 +1,41 @@
+#! /bin/bash
+
+#   feathers-initial-setup.bsh   2018-03-26
+
+# script to initally build your feathers environment
+#
+# you may need to run "[sudo] yum --assumeyes install git;" or "[sudo] yum --assumeyes install wget;" 
+# to use github.
+#
+
+if  [ '${$(groups)/sudo}' ] ;
+then   SUDO='sudo' ; 
+elif  [ '${$(whoami)/root' ] ;
+then   echo SUDO=''; 
+else
+      echo 'you either need to be have sudo or be logged in as root!';
+      exit;
+fi;
+ 
+##		initial installation:
+${SUDO}  yum  --assumeyes  update;                 ## a good idea to start out with.
+${SUDO}  yum  --assumeyes  install bind-utils ;    ## for the 'dig' command
+${SUDO}  yum  --assumeyes  install expect ;        ## for the six feathers generate commands.
+${SUDO}  firewall-cmd --zone=public --add-port=3030/tcp --permanent ;   ## open port 3030
+${SUDO}  firewall-cmd --reload;           ## make the new port opening permanent.
+
+##		node/npm installation:
+##	https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora
+${SUDO} curl --silent --location https://rpm.nodesource.com/setup_8.x | ${SUDO} bash -  ;
+${SUDO} yum  --assumeyes  install nodejs ;
+
+##		feathers-cli installation:
+sudo npm install -g @feathersjs/cli ;  ## https://google.com/feathersjs/cli
+which feathers;		##  /usr/bin/feathers
+#
+#
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+#
+#
