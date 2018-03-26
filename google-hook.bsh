@@ -138,14 +138,15 @@ END_OF_GEN_BEFORE_HOOK
 sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
 3i\
 \\
-    \/*  code added by google-jsgrid-pg.bsh *\/ \\
+    \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
 const logger = require('winston');\\
 const _ = require('lodash');\\
-    \/* end of code added by google-jsgrid-pg.bsh *\/ \\
+    \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+
 /  return async context => {/ a\
 \\
 \\
-  \/*  code added by google-jsgrid-pg.bsh *\/ \\
+  \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
   if  (  _.has(context, 'data.google.profile')  ){\\
     if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
       context.data.displayName = context.data.google.profile.displayName;\\
@@ -164,7 +165,7 @@ const _ = require('lodash');\\
       })\\
     }\\
   } // end if has data.google.profile\\
-  \/*  end of code added by google-jsgrid-pg.bsh *\/\\
+  \/*  end of code added by ${FileNameWithExtension} ${TimeStamp}h *\/\\
   
 END_OF_SED_USER_HOOK
 
@@ -172,9 +173,11 @@ END_OF_SED_USER_HOOK
 
 
 
+############  ?????
 
 sed --in-place --file=- ./src/models/users.model.js   <<END_OF_SED_USER_MODEL ;
 /    googleId: { type: Sequelize.STRING },/ a\
+\\
 \\
     \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
     email: { type: DataTypes.STRING }, \\
@@ -183,6 +186,7 @@ sed --in-place --file=- ./src/models/users.model.js   <<END_OF_SED_USER_MODEL ;
     givenName: { type: DataTypes.STRING },\\
     \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 END_OF_SED_USER_MODEL
+
 
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
 expect <(cat <<'END_OF_GEN_SERVICE'
