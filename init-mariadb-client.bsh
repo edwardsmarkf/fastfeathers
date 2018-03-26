@@ -1,0 +1,137 @@
+#! /bin/bash
+
+# init-mariadb-client.bsh     2018-03-26
+
+# this script builds a mariadb client from scratch for testing with init-mariadb-server.bsh
+
+dbServerIP='XXX.XXX.XXX.XXX';   ## this this from init-mariadb-server.bsh
+dbUser='feathersuser';
+dbPass='aaaaaa';
+dbPort='3306';
+dbName='bank';
+
+
+if  [ '${$(groups)/sudo}' ] ;
+ then   SUDO='sudo' ; 
+ elif  [ '${$(whoami)/root' ] ;
+ then   echo SUDO=''; 
+ else
+      echo 'you either need to be have sudo or be logged in as root!';
+      exit;
+ fi;
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+
+rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
+
+${SUDO} yum  --assumeyes   install   bind-utils  expect firewalld  wget   ;
+${SUDO} systemctl  start   firewalld ;
+${SUDO} systemctl  enable  firewalld ;
+##???????????????????????????????????????????????????????????????????????????????
+${SUDO} firewall-cmd --zone=dmz     --add-port=${dbPort}/tcp --permanent ; sudo firewall-cmd --reload ;
+
+${SUDO} yum --assumeyes  update ;
+
+${SUDO} yum --assumeyes install gcc-c++ make ;
+${SUDO} yum --assumeyes install epel-release ;
+
+
+## create a repo for Mariadb 10.2
+cat  <<END_OF_REPO > /etc/yum.repos.d/MariaDB-10.2.repo ;
+# MariaDB 10.2 CentOS repository list - created 2018-03-19 16:12 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.2/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+END_OF_REPO
+
+sudo yum --assumeyes install MariaDB-client ; ## notice that MariaDB-server is being skipped.
+
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash - ;
+${SUDO} yum --assumeyes install nodejs ;
+
+sleep 10 ;  ## installing node appeared to work async in one test.
+
+ echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 used in this writing
+ echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+
+export FileNameWithExtension;
+expect <(cat <<'END_OF_NPM_INIT'
+
+    set timeout -1
+
+    spawn npm  init ;
+    
+    expect -re ".*package name:.*"
+    send -- "\r"
+    
+    expect -re ".*version:.*"
+    send -- "\r"
+
+    expect -re ".*description:.*"
+    send -- "Created using bash script: $env(FileNameWithExtension)\r"
+    
+    expect -re ".*entry point:.*"
+    send -- "\r"
+    
+    expect -re ".*test command:.*"
+    send -- "\r"
+    
+    expect -re ".*git repository:.*"
+    send -- "\r"
+    
+    expect -re ".*keywords:.*"
+    send -- "\r"
+    
+    expect -re ".*author:.*"
+    send -- "Created using bash script: $env(FileNameWithExtension)\r"
+    
+    expect -re ".*license:.*"
+    send -- "\r"
+    
+    expect -re ".*Is this ok?.*"
+    send -- "\r"
+    
+    expect eof
+ 
+END_OF_NPM_INIT
+)
+
+npm install mysql2 --save ;
+
+## written from  https://www.sitepoint.com/using-node-mysql-javascript-client/
+
+cat  > nodeMariadbTest.js <<END_OF_NODE_SCRIPT ;
+
+// Connect to the "bank" database.
+const mysql = require('mysql2');
+const connection = new mysql.createConnection({
+  host: '${dbServerIP}',
+  user: '${dbUser}',
+  password: '${dbPass}',
+  database: '${dbName}',
+  port:  ${dbPort}
+});
+
+/*  optionally this works too:
+const connectionString = 'mysql://${dbUser}:${dbPass}@${dbServerIP}:${dbPort}/${dbName}';
+const connection = new mysql.createConnection( connectionString );
+*/
+
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected!');
+});
+
+END_OF_NODE_SCRIPT
+
+
+cat <<END_OF_SCRIPT;
+mysql  --user  ${dbUser}  --password   --host  ${dbServerIP}  ;  ## password (twice) ${dbPass}
+be sure to do   cd  ${FileNameWithoutExtension};  node  nodeMariadbTest.js ;
+END_OF_SCRIPT
