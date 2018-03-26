@@ -309,7 +309,10 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
 <div style='margin-left:50px;'>\\
 <ul>\\
 	<li>\\
-		const findResult = await feathersClient.service('testtable').find(); &nbsp; console.log( JSON.stringify(findResult), { colors:true, depth: 5 });\\
+		const findResult = await feathersClient.service('testtable').find(); &nbsp; \\
+	<\/li>\\
+	<li>\\
+		console.log( JSON.stringify(findResult), { colors:true, depth: 5 });\\
 	<\/li>\\
 \\
 	<li>\\
