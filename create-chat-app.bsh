@@ -23,7 +23,7 @@ THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
-TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
