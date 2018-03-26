@@ -12,7 +12,8 @@
 HOST='kyraumanoff.site'                                                                         ;
 GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleusercontent.com'     ;
 GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                                 ;
-## get the google values from   https://console.developers.google.com/   (credidentials)
+###  get credentials here:  https://console.developers.google.com/apis/credentials/
+
 
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
