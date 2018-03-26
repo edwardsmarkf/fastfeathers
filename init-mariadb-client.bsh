@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-mariadb-client.bsh     2018-03-26
+# init-mariadb-client.bsh     last update: 2018-03-26
 
 # this script builds a mariadb client from scratch for testing with init-mariadb-server.bsh
 
