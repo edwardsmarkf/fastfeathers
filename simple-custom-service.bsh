@@ -48,7 +48,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	send -- "This app created with expect and $env(FileNameWithExtension)!\r"
 			## optional description
 	 
-	expect -re ".*What folder should the source files live in? \\\(src\\\).*"
+	expect -re ".*What folder should the source files live in\?.?\\\(src\\\).*"
 	send -- "\r"
 			## defaults to 'src'
 	 
