@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-cockroach-client.bsh     2018-03-26
+# init-cockroach-client.bsh     last update: 2018-03-26
 
 # this script builds a cockroach(pg) client from scratch for testing with init-cockroach-server.bsh
 
