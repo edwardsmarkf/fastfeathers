@@ -25,7 +25,7 @@ echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at 
 HOST='123.123.123.123'                                  ;
 GITHUB_CLIENT_ID='dccac33a9360323fe2af'                         ;
 GITHUB_CLIENT_SECRET='960393c181f10a44527c7dc6e4196317939f3c59' ;
-##  get credentials here  https://github.com/settings/developers
+##  get credentials here:  https://github.com/settings/developers
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
