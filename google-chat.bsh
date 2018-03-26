@@ -1,0 +1,738 @@
+#! /bin/bash
+
+##	last update 2018-03-26
+
+##  Bash-shell script to create the Google-feathers chat application entirely from scratch.
+
+##  This has been tested on https://console.cloud.google.com using centos-7.
+
+##  Script is written entirely from https://docs.feathersjs.com/guides/chat/readme.html
+
+##  Note:  expect-tcl is used to run the six feathers-cli steps.
+##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
+##  am using sudo to make the command global in nature.
+
+##	chat local-auth example differences:
+##	1) we do the authorization first, then the service, eliminiating the need
+##		to edit the messages.hooks.js file.   (it only needed editing in the 
+##		first example, since the example showed the message service being first
+##		accessed without authorization in an earlier step)
+##	2) there are a handful of code changes, all noted
+
+##	Be sure to run the feathers install gist first!
+
+
+##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
+HOST='kyraumanoff.site'                                                                         ;
+GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleusercontent.com'     ;
+GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                                 ;
+
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+
+
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+
+
+rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension}/ &&  cd	./${FileNameWithoutExtension}/ ;
+
+
+##     feathers generate  app;   ## taking all the defaults, except for the description
+export FileNameWithExtension;
+expect <(cat <<'END_OF_GENERATE_APP'
+	#	generates an application, taking ALL the defaults
+
+	#	written from https://docs.feathersjs.com/guides/chat/creating.html
+	 
+	set timeout -1
+	 
+	spawn feathers generate app;
+	 
+	expect -re ".*Project name.*"
+	send -- "\r"
+			## defaults to the name of the directory
+	 
+	expect -re ".*Description.*"
+	send -- "This app created with expect and $env(FileNameWithExtension)!\r"
+			## optional description
+	 
+	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
+	send -- "\r"
+			## defaults to 'src'
+	 
+	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
+	send -- "\r"
+			## defaults to 'npm'
+	 
+	expect -re ".*What type of API are you making.*"
+	send -- "\r"
+			## defaults to REST & Realtime via Socket.io
+	expect eof
+END_OF_GENERATE_APP
+)	## end of feathers generate app
+
+
+##	feathers generate authentication;  ## all defaults
+expect <(cat <<'END_OF_GEN_AUTH'
+	#	generates an authentication for Google
+
+	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn	feathers generate authentication ;
+	 
+	expect	-re ".*What authentication providers do you want to use\?.*"
+	send	-- " ${DOWNARROW}${DOWNARROW} \r"	
+		## return defaults to Local Storage
+		## first space to de-select 'local', DOWNARROW twice, final space to select 'Google', and return
+	 
+	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
+	send	-- "\r"
+		## default answer is 'users'
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "\r"
+		## default answer is NeDB
+	 
+	expect	-re ".*What is the database connection string\?.*"
+	send	-- "\r"
+		## default answer is nedb://../data
+
+	expect eof
+END_OF_GEN_AUTH
+)	## end of feathers generate authentication
+
+##		feathers generate service;   ## all defaults except for the service name - "messages"
+expect <(cat <<'END_OF_GEN_SERVICE'
+
+	##	creates a service:	messages  (all the defaults)
+
+	##	written from:	https://docs.feathersjs.com/guides/chat/service.html
+	 
+	set timeout -1
+	 
+	spawn	feathers generate service;
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "\r"
+			## defaults to NeDB
+	 
+	expect	-re ".*What is the name of the service\?.*"
+	send	-- "messages\r"
+			## messages
+	 
+	expect	-re ".*Which path should the service be registered on\?.*"
+	send	-- "\r"
+			## defaults to /messages
+	 
+	expect	-re ".*Does the service require authentication\?.*"
+	send	-- "y\r"
+			##  y for 'yes' and return
+
+	expect eof
+END_OF_GEN_SERVICE
+)	## end of feathers genereate service
+
+
+
+
+##			generate this hook FIRST!
+
+##	feathers generate hook;  
+expect <(cat <<'END_OF_GEN_USER_HOOK'
+	#	generates a "BEFORE--CREATE/UPDATE" hook named "user-hook" for the "user" service, for use with Google
+
+	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook\?.*"
+	send	-- "user-hook\r"
+
+	expect	-re "What kind of hook should it be\?"
+	send	--  "${DOWNARROW}\r"
+			## downarrow return selects 'before'
+
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW} \r"
+			## downarrow space return selects 'users'
+
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"
+		## downarrow (3) space downarrow(1) space selects both 'create' and 'update'
+	 
+	expect eof
+END_OF_GEN_USER_HOOK
+)	## end of feathers generate hook
+
+##  	feathers generate hook;   
+##	hook name:	process-message
+##	type of hook:	before
+##	which service:	messages
+##	which method:	create
+expect <(cat <<'END_OF_PROCESS_MESSAGE_HOOK'
+
+	#	creates the first "BEFORE-CREATE" hook named "process-message" for the "messages" service
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn feathers generate hook;
+	 
+	expect -re ".*What is the name of the hook\?.*"
+	send -- "process-message\r"
+		## hook is "process-message"
+	 
+	expect -re ".*What kind of hook should it be\?.*"
+	send -- "${DOWNARROW}\r"
+		## DOWNARROW & return selects "before"
+	 
+	expect -re ".*What service\\\(s\\\) should this hook be for .*"
+	send -- "${DOWNARROW} \r"
+		## DOWNARROW, space, & return selects "messages"
+
+	expect -re ".*What methods should the hook be for .*"
+	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"
+		## DOWNARROW three times, space, and return to select "create"
+	 
+	expect eof
+END_OF_PROCESS_MESSAGE_HOOK
+)	## end of feathers generate hook	process-message	(first hook)
+
+
+
+##  	feathers generate hook;   
+##	hook name:	gravatar
+##	type of hook:	before
+##	which service:	messages
+##	which method:	create
+expect <(cat <<'END_OF_GRAVATAR_HOOK'
+	 
+	##	creates second "BEFORE--CREATE" hook named "gravatar" for the "user" service
+
+	##	written from https://docs.feathersjs.com/guides/chat/authentication.html
+
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn feathers generate hook;
+	 
+	expect -re ".*What is the name of the hook\?.*"
+	send -- "gravatar\r"
+		## name the hook "gravatar"
+	 
+	expect -re ".*What kind of hook should it be\?.*"
+	send -- "${DOWNARROW}\r"
+		## DOWNARROW & return selects "before"
+	 
+	expect -re ".*What service\\\(s\\\) should this hook be for .*"
+	send -- "${DOWNARROW}${DOWNARROW} \r"
+		## DOWNARROW twice, space, & return selects "user"
+
+	expect -re ".*What methods should the hook be for .*"
+	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"
+		## DOWNARROW three times, space and return to select "create"
+	 
+	expect eof
+END_OF_GRAVATAR_HOOK
+)	## end of feathers generate hook	gravatar	(second hook)
+
+
+##  	feathers generate hook;   
+##	hook name:	populate-user
+##	type of hook:	after
+##	which service:	messages
+##	which method:	all
+expect <(cat <<'END_OF_POPULATE_USER_HOOK'
+
+	#	creates a third and final "AFTER-ALL" hook named "populate-user" for the "messages" service
+
+	#	written from:	https://docs.feathersjs.com/guides/chat/authentication.html
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+
+	spawn feathers generate hook;
+	 
+	expect -re ".*What is the name of the hook\?.*"
+	send -- "populate-user\r"
+	 
+	expect -re ".*What kind of hook should it be\?.*"
+	send -- "${DOWNARROW}${DOWNARROW}\r"
+		## DOWNARROW & return selects "after"
+	 
+	expect -re ".*What service\\\(s\\\) should this hook be for .*"
+	send -- "${DOWNARROW} \r"
+		## DOWNARROW, space, & return selects "messages"
+
+	expect -re ".*What methods should the hook be for .*"
+	send -- "$ \r"
+		## space & return to select "all"
+	 
+	expect eof	
+END_OF_POPULATE_USER_HOOK
+)	## end of feathers generate hook	populate-user	(third and final hook)
+
+
+
+## modify the default.json file if you are using google (you will have to change these values !)
+## values came from   https://console.developers.google.com/apis/api under credidentials
+sed --in-place --file=- ./config/default.json  << END_OF_SED_DEFAULT_JSON_HOOK ;
+s/"host": "localhost",/"host": "${HOST}",/;
+s/your google client id/${GOOGLE_CLIENT_ID}/;
+s/your google client secret/${GOOGLE_CLIENT_SECRET}/;
+END_OF_SED_DEFAULT_JSON_HOOK
+
+CAT <<END_OF_SCRIPT;
+Dont forget to change the IP ## in both the ./config/default.json  *AND*  the google-applications page (make sure they match)
+END_OF_SCRIPT
+
+## REMOVED since this script generates authentication before service
+## authenticate code as per:  https://docs.feathersjs.com/guides/chat/authentication.html
+##sed --in-place --file=- ./src/services/messages/messages.hooks.js		<<EOF	;
+##1s/^/const { authenticate } = require('@feathersjs\/authentication').hooks;/;
+##/^  before: {/N; s/all: \[]/all:[authenticate('jwt')]/;
+##EOF
+
+
+
+## hook code in three files from   https://docs.feathersjs.com/guides/chat/processing.html
+
+sed --in-place --file=- ./src/hooks/process-message.js	<< EOF	;
+/^  return async context => {$/a\
+const { data } = context;\\
+\\
+    \/\/ Throw an error if we didn't get a text\\
+    if(!data.text) {\\
+      throw new Error('A message must have a text');\\
+    }\\
+\\
+    \/\/ The authenticated user\\
+    const user = context.params.user;\\
+    \/\/ The actual message text\\
+    const text = context.data.text\\
+      \/\/ Messages can't be longer than 400 characters\\
+      .substring(0, 400);\\
+\\
+    \/\/ Override the original data (so that people can't submit additional stuff)\\
+    context.data = {\\
+      text,\\
+      \/\/ Set the user id\\
+      userId: user._id,\\
+      \/\/ Add the current date\\
+      createdAt: new Date().getTime()\\
+    };\\
+\\
+    \/\/ Best practise, hooks should always return the context
+EOF
+
+
+## several changes to gravatar.js, so we are using cat instead of sed
+
+cat <<EOF	>  ./src/hooks/gravatar.js	;
+// Use this hook to manipulate incoming or outgoing data.
+// For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
+
+// We need this to create the MD5 hash
+const crypto = require('crypto');
+
+// The Gravatar image service
+const gravatarUrl = 'https://s.gravatar.com/avatar';
+// The size query. Our chat needs 60px images
+const query = 's=60';
+
+module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+  return async context => {
+    // The user email
+    const { email } = context.data;
+    // Gravatar uses MD5 hashes from an email address to get the image
+    const hash = crypto.createHash('md5').update(email).digest('hex');
+
+    context.data.avatar = \`\${gravatarUrl}/\${hash}?\${query}\`;
+
+    // Best practise, hooks should always return the context
+    return context;
+  };
+};
+EOF
+
+sed --in-place --file=- ./src/hooks/populate-user.js	<< EOF	;
+/^  return async context => {$/a\
+   \/\/ Get \`app\`, \`method\`, \`params\` and \`result\` from the hook context\\
+    const { app, method, result, params } = context;\\
+\\
+    \/\/ Make sure that we always have a list of messages either by wrapping\\
+    \/\/ a single message into an array or by getting the \`data\` from the \`find\` method's result\\
+    const messages = method === 'find' ? result.data : \[ result ];\\
+\\
+    \/\/ Asynchronously get user object from each message's \`userId\`\\
+    \/\/ and add it to the message\\
+    await Promise.all(messages.map(async message => {\\
+      \/\/ We'll also pass the original \`params\` to the service call\\
+      \/\/ so that it has the same information available (e.g. who is requesting it)\\
+      const user = await app.service('users').get(message.userId, params);\\
+\\
+      message.user = user;\\
+    }));\\
+\\
+    \/\/ Best practise, hooks should always return the context\\
+EOF
+
+
+
+
+sed --in-place --file=- ./src/hooks/user-hook.js   <<EOF ;
+/  return async context => {/ a\
+\\
+\\
+	if (context.data.google) {\\
+		context.data.displayName	= context.data.google.profile.displayName	;\\
+		context.data.familyName		= context.data.google.profile.name.familyName	;\\
+		context.data.givenName		= context.data.google.profile.name.givenName	;\\
+		if  ( context.data.google.profile.hasOwnProperty('emails') )	{\\
+			context.data.email		= context.data.google.profile.emails.find(email => email.value).value;\\
+				// changed email.primary to email.value\\
+		} else {\\
+			context.data.email		= null;\\
+		}\\
+			// emails: [ { value: 'mark@edwardsmark.com' } ],\\
+\\
+		console.log('we added the following to context.data:');\\
+		console.log('email:       ' + context.data.email);\\
+		console.log('displayName: ' + context.data.displayName);\\
+		console.log('familyName: '  + context.data.familyName);\\
+		console.log('givenName: '   + context.data.givenName);\\
+	}\\
+EOF
+
+
+
+##	we need to add two lines to users.hooks.js - the const line at top, and to add a new call at the before-create hook.
+
+sed --in-place --file=-  ./src/services/users/users.hooks.js   <<EOF ;
+3i\\const userHook = require('../../hooks/user-hook');	\/\/ added by mark/;
+s/create: \[gravatar()\],/create: [userHook(), gravatar()],/
+EOF
+
+
+
+## html&js code from  https://docs.feathersjs.com/guides/chat/frontend.html
+
+cat <<EOF	>  ./public/index.html				;
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+    <title>Vanilla JavaScript Feathers Chat</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="//cdn.rawgit.com/feathersjs/feathers-chat/v0.2.0/public/base.css">
+    <link rel="stylesheet" href="//cdn.rawgit.com/feathersjs/feathers-chat/v0.2.0/public/chat.css">
+  </head>
+  <body>
+    <div id="app" class="flex flex-column"></div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+    <script src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+EOF
+
+cat <<EOF	>   ./public/app.js				;
+
+// Establish a Socket.io connection
+const socket = io();
+// Initialize our Feathers client application through Socket.io
+// with hooks and authentication.
+const client = feathers();
+
+client.configure(feathers.socketio(socket));
+// Use localStorage to store our login token
+client.configure(feathers.authentication({
+            cookie: 'feathers-jwt' 	// we changed storage: window.localStorage to cooker: 'feathers-jwt'
+}));
+
+// Login screen
+const loginHTML = \`<main class="login container">
+<!-- added for Google login-->
+<div class="row">
+	<div class="col-12 col-6-tablet push-3-tablet text-center heading">
+	<h1 class="font-100">Log in or signup</h1>
+		<a href="/auth/google">Log in or sign up using Google!</a>
+	</div>
+</div>
+<!-- REMOVED FOR GOOGLE LOGIN  <div class="row">
+<!-- REMOVED FOR GOOGLE LOGIN    <div class="col-12 col-6-tablet push-3-tablet text-center heading">
+<!-- REMOVED FOR GOOGLE LOGIN      <h1 class="font-100">Log in or signup</h1>
+<!-- REMOVED FOR GOOGLE LOGIN    </div>
+<!-- REMOVED FOR GOOGLE LOGIN  </div>
+<!-- REMOVED FOR GOOGLE LOGIN  <div class="row">
+<!-- REMOVED FOR GOOGLE LOGIN    <div class="col-12 col-6-tablet push-3-tablet col-4-desktop push-4-desktop">
+<!-- REMOVED FOR GOOGLE LOGIN      <form class="form">
+<!-- REMOVED FOR GOOGLE LOGIN        <fieldset>
+<!-- REMOVED FOR GOOGLE LOGIN          <input class="block" type="email" name="email" placeholder="email">
+<!-- REMOVED FOR GOOGLE LOGIN        </fieldset>
+<!-- REMOVED FOR GOOGLE LOGIN
+<!-- REMOVED FOR GOOGLE LOGIN        <fieldset>
+<!-- REMOVED FOR GOOGLE LOGIN          <input class="block" type="password" name="password" placeholder="password">
+<!-- REMOVED FOR GOOGLE LOGIN        </fieldset>
+<!-- REMOVED FOR GOOGLE LOGIN
+<!-- REMOVED FOR GOOGLE LOGIN        <button type="button" id="login" class="button button-primary block signup">
+<!-- REMOVED FOR GOOGLE LOGIN          Log in
+<!-- REMOVED FOR GOOGLE LOGIN        </button>
+<!-- REMOVED FOR GOOGLE LOGIN
+<!-- REMOVED FOR GOOGLE LOGIN        <button type="button" id="signup" class="button button-primary block signup">
+<!-- REMOVED FOR GOOGLE LOGIN          Sign up and log in
+<!-- REMOVED FOR GOOGLE LOGIN        </button>
+<!-- REMOVED FOR GOOGLE LOGIN      </form>
+<!-- REMOVED FOR GOOGLE LOGIN    </div>
+<!-- REMOVED FOR GOOGLE LOGIN  </div>
+	-->
+</main>\`;
+
+// Chat base HTML (without user list and messages)
+const chatHTML = \`<main class="flex flex-column">
+  <header class="title-bar flex flex-row flex-center">
+    <div class="title-wrapper block center-element">
+      <img class="logo" src="http://feathersjs.com/img/feathers-logo-wide.png"
+        alt="Feathers Logo">
+      <span class="title">Chat</span>
+    </div>
+  </header>
+
+  <div class="flex flex-row flex-1 clear">
+    <aside class="sidebar col col-3 flex flex-column flex-space-between">
+      <header class="flex flex-row flex-center">
+        <h4 class="font-300 text-center">
+          <span class="font-600 online-count">0</span> users
+        </h4>
+      </header>
+
+      <ul class="flex flex-column flex-1 list-unstyled user-list"></ul>
+      <footer class="flex flex-row flex-center">
+        <a href="#" id="logout" class="button button-primary">
+          Sign Out
+        </a>
+      </footer>
+    </aside>
+
+    <div class="flex flex-column col col-9">
+      <main class="chat flex flex-column flex-1 clear"></main>
+
+      <form class="flex flex-row flex-space-between" id="send-message">
+        <input type="text" name="text" class="flex flex-1">
+        <button class="button-primary" type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+</main>\`;
+
+// Add a new user to the list
+const addUser = user => {
+  const userList = document.querySelector('.user-list');
+
+  if(userList) {
+    // Add the user to the list
+    userList.insertAdjacentHTML('beforeend', \`<li>
+      <a class="block relative" href="#">
+        <img src="\${user.avatar}" alt="" class="avatar">
+        <span class="absolute username">\${user.email}</span>
+      </a>
+    </li>\`);
+
+    // Update the number of users
+    const userCount = document.querySelectorAll('.user-list li').length;
+
+    document.querySelector('.online-count').innerHTML = userCount;
+  }
+};
+
+// Renders a new message and finds the user that belongs to the message
+const addMessage = message => {
+  // Find the user belonging to this message or use the anonymous user if not found
+  const { user = {} } = message;
+  const chat = document.querySelector('.chat');
+  // Escape HTML
+  const text = message.text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  if(chat) {
+    chat.insertAdjacentHTML( 'beforeend', \`<div class="message flex flex-row">
+      <img src="\${user.avatar}" alt="\${user.email}" class="avatar">
+      <div class="message-wrapper">
+        <p class="message-header">
+          <span class="username font-600">\${user.email}</span>
+          <span class="sent-date font-300">\${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
+        </p>
+        <p class="message-content font-300">\${text}</p>
+      </div>
+    </div>\`);
+
+    chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+  }
+};
+
+// Show the login page
+const showLogin = (error = {}) => {
+  if(document.querySelectorAll('.login').length) {
+    document.querySelector('.heading').insertAdjacentHTML('beforeend', \`<p>There was an error: \${error.message}</p>\`);
+  } else {
+    document.getElementById('app').innerHTML = loginHTML;
+  }
+};
+
+// Shows the chat page
+const showChat = async () => {
+  document.getElementById('app').innerHTML = chatHTML;
+
+  // Find the latest 25 messages. They will come with the newest first
+  // which is why we have to reverse before adding them
+  const messages = await client.service('messages').find({
+    query: {
+      \$sort: { createdAt: -1 },
+      \$limit: 25
+    }
+  });
+
+  // We want to show the newest message last
+  messages.data.reverse().forEach(addMessage);
+
+  // Find all users
+  const users = await client.service('users').find();
+
+  users.data.forEach(addUser);
+};
+
+// Retrieve email/password object from the login/signup page
+<!-- REMOVED FOR GOOGLE LOGIN const getCredentials = () => {
+<!-- REMOVED FOR GOOGLE LOGIN   const user = {
+<!-- REMOVED FOR GOOGLE LOGIN     email: document.querySelector('[name="email"]').value,
+<!-- REMOVED FOR GOOGLE LOGIN     password: document.querySelector('[name="password"]').value
+<!-- REMOVED FOR GOOGLE LOGIN   };
+<!-- REMOVED FOR GOOGLE LOGIN 
+<!-- REMOVED FOR GOOGLE LOGIN   return user;
+<!-- REMOVED FOR GOOGLE LOGIN };
+-->
+
+// code changed for google auth
+
+client.authenticate()
+            .then(response => {
+            console.info('Feathers Client has Authenticated with the JWT access token!');
+            console.log(response);
+    showChat();
+    })
+    .catch(error => {
+    	console.info("We have not logged in with OAuth, yet.  This means there's no cookie storing the accessToken.  As a result, feathersClient.authenticate() failed.");
+        console.log(error);
+    showLogin(error);
+});
+
+
+// REMOVED FOR GOOGLE LOGIN  Log in either using the given email/password or the token from storage
+// REMOVED FOR GOOGLE LOGIN const login = async credentials => {
+// REMOVED FOR GOOGLE LOGIN   try {
+// REMOVED FOR GOOGLE LOGIN     if(!credentials) {
+// REMOVED FOR GOOGLE LOGIN       // Try to authenticate using the JWT from localStorage
+// REMOVED FOR GOOGLE LOGIN       await client.authenticate();
+// REMOVED FOR GOOGLE LOGIN     } else {
+// REMOVED FOR GOOGLE LOGIN       // If we get login information, add the strategy we want to use for login
+// REMOVED FOR GOOGLE LOGIN       const payload = Object.assign({ strategy: 'local' }, credentials);
+// REMOVED FOR GOOGLE LOGIN 
+// REMOVED FOR GOOGLE LOGIN       await client.authenticate(payload);
+// REMOVED FOR GOOGLE LOGIN     }
+// REMOVED FOR GOOGLE LOGIN 
+// REMOVED FOR GOOGLE LOGIN     // If successful, show the chat page
+// REMOVED FOR GOOGLE LOGIN     showChat();
+// REMOVED FOR GOOGLE LOGIN   } catch(error) {
+// REMOVED FOR GOOGLE LOGIN     // If we got an error, show the login page
+// REMOVED FOR GOOGLE LOGIN     showLogin(error);
+// REMOVED FOR GOOGLE LOGIN   }
+// REMOVED FOR GOOGLE LOGIN };
+
+document.addEventListener('click', async ev => {
+  switch(ev.target.id) {
+<!-- REMOVED FOR GOOGLE LOGIN   case 'signup': {
+<!-- REMOVED FOR GOOGLE LOGIN     // For signup, create a new user and then log them in
+<!-- REMOVED FOR GOOGLE LOGIN     const credentials = getCredentials();
+<!-- REMOVED FOR GOOGLE LOGIN 
+<!-- REMOVED FOR GOOGLE LOGIN     // First create the user
+<!-- REMOVED FOR GOOGLE LOGIN     await client.service('users').create(credentials);
+<!-- REMOVED FOR GOOGLE LOGIN     // If successful log them in
+<!-- REMOVED FOR GOOGLE LOGIN     await login(credentials);
+<!-- REMOVED FOR GOOGLE LOGIN 
+<!-- REMOVED FOR GOOGLE LOGIN     break;
+<!-- REMOVED FOR GOOGLE LOGIN   }
+<!-- REMOVED FOR GOOGLE LOGIN   case 'login': {
+<!-- REMOVED FOR GOOGLE LOGIN     const user = getCredentials();
+<!-- REMOVED FOR GOOGLE LOGIN 
+<!-- REMOVED FOR GOOGLE LOGIN     await login(user);
+<!-- REMOVED FOR GOOGLE LOGIN 
+<!-- REMOVED FOR GOOGLE LOGIN     break;
+<!-- REMOVED FOR GOOGLE LOGIN   }
+  case 'logout': {
+    await client.logout();
+
+    document.getElementById('app').innerHTML = loginHTML;
+
+    break;
+  }
+  }
+});
+
+
+document.addEventListener('submit', async ev => {
+  if(ev.target.id === 'send-message') {
+    // This is the message text input field
+    const input = document.querySelector('[name="text"]');
+
+    ev.preventDefault();
+
+    // Create a new message and then clear the input field
+    await client.service('messages').create({
+      text: input.value
+    });
+
+    input.value = '';
+  }
+});
+
+// Listen to created events and add the new message in real-time
+client.service('messages').on('created', addMessage);
+
+// We will also see when new users get created in real-time
+client.service('users').on('created', addUser);
+
+// REMOVED FOR GOOGLE LOGIN login();
+EOF
+
+cat <<END;
+Feathers google app should now be built.  Did you change your ./config/default.json values?
+Client id in your ./config/default.json values file:  ${GOOGLE_CLIENT_ID}
+Client secret in your ./config/default.json values file:  ${GOOGLE_CLIENT_SECRET}
+Now run ' cd ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
+END
