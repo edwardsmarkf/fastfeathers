@@ -44,7 +44,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 			## defaults to the name of the directory
 	 
 	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension) ${TimeStamp}!\r"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
 			## optional description
 	 
 	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
