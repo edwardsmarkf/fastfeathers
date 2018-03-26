@@ -1,0 +1,125 @@
+#! /bin/bash
+
+# init-cockroach-server.bsh  2018-03-26
+
+# script to build a cockroach server 
+
+# Optionally, use init-cockroach-client to test this.
+
+# NOTE:  manually run:   [sudo] yum  -y  install git;
+ 
+dbUser='feathersuser';
+dbPass='aaaaaa';
+dbPort='26257';
+dbName='bank';
+ 
+
+if  [ '${$(groups)/sudo}' ] ;
+then   SUDO='sudo' ; 
+elif  [ '${$(whoami)/root' ] ;
+then   echo SUDO=''; 
+else
+     echo 'you either need to be have sudo or be logged in as root!';
+      exit;
+fi;
+ 
+
+${SUDO} yum --assumeyes   update ;
+
+${SUDO} yum --assumeyes   install  bind-utils  expect firewalld wget ;
+
+ipaddrInternal=$(hostname --all-ip-addresses ;);
+ipaddrExternal=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+echo 'ipAddrInternal is: ${ipaddrInternal}';
+echo 'ipAddrExternal is: ${ipaddrExternal}';
+
+${SUDO} systemctl  start   firewalld ;
+${SUDO} systemctl  enable  firewalld ;
+${SUDO} firewall-cmd --zone=dmz     --add-port=${dbPort}/tcp --permanent ; sudo firewall-cmd --reload ;
+${SUDO} firewall-cmd --zone=public  --add-port=${dbPort}/tcp --permanent ; sudo firewall-cmd --reload ;
+
+ #####sudo firewall-cmd --zone=public(trusted)  --add-port=${dbPort}/tcp --permanent ; sudo firewall-cmd --reload ;
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+
+rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
+
+ 
+${SUDO} wget -qO- https://binaries.cockroachdb.com/cockroach-v1.1.6.linux-amd64.tgz | tar  xvz ;
+
+${SUDO} cp --force --verbose  ./cockroach-v1.1.6.linux-amd64/cockroach /usr/local/bin/ ;
+
+which cockroach ;  ##  /usr/local/bin/cockroach
+cockroach  version ;   ## v1.1.6 at the time of this writing
+
+
+mkdir  ./path-to-ca-key/;
+
+cockroach cert  create-ca  --certs-dir=./path-to-certs-directory/  --ca-key=./path-to-ca-key/ca-key  ;
+
+cockroach cert create-node localhost ${ipaddrInternal} ${ipaddrExternal}   \
+         --certs-dir=./path-to-certs-directory/     \
+         --ca-key=./path-to-ca-key/ca-key    ;
+
+cockroach cert create-client root         --certs-dir=./path-to-certs-directory/    --ca-key=./path-to-ca-key/ca-key  ;
+
+cockroach cert create-client ${dbUser}  --certs-dir=./path-to-certs-directory/    --ca-key=./path-to-ca-key/ca-key  ;
+
+ ## finally, start up server:
+cockroach start --certs-dir=./path-to-certs-directory/  --port=${dbPort}  --http-host=localhost --background ;
+
+cockroach sql  --user=root  -e  "CREATE DATABASE ${dbName};"                          --certs-dir=./path-to-certs-directory/  ;
+cockroach sql  --user=root  -e  "CREATE USER ${dbUser} WITH PASSWORD '${dbPass}';"    --certs-dir=./path-to-certs-directory/ ;
+cockroach sql  --user=root  -e  "GRANT ALL ON DATABASE ${dbName} TO ${dbUser};"       --certs-dir=./path-to-certs-directory/  ;
+ 
+cockroach node status --certs-dir=./path-to-certs-directory/   ;
+ 
+export dbUser;
+export dbPass;
+expect <(cat <<'END_OF_EXPECT_CR_SET_USER'
+
+    set timeout -1
+
+     spawn cockroach user set $env(dbUser) --certs-dir=./path-to-certs-directory/  --password ; ## prompts for two passwords
+     
+     expect -re ".*Enter password:.*"
+     send -- "$env(dbPass)\r"
+     
+     expect -re ".*Confirm password:.*"
+     send -- "$env(dbPass)\r"
+     
+     expect eof
+END_OF_EXPECT_CR_SET_USER
+)
+
+cat >./nodePgTest.js  <<END_OF_NODE_SCRIPT;
+// Connect to the "${dbName}" database.
+var config = {
+  user: '${dbUser}',
+  password: '${dbPass}',
+  host: '${ipaddrExternal}',  
+  database: '${dbName}',
+  ssl: true,
+  port: ${dbPort}
+};
+// Create a pool.
+const pool = new pg.Pool(config);
+
+// or connect with just one line
+const connectionString = 'postgresql://${dbUser}:${dbPass}@${ipaddrExternal}:${dbPort}/${dbName}?ssl=true';
+const pool = new pg.Pool({
+  connectionString: connectionString,
+})
+END_OF_NODE_SCRIPT
+
+cat <<END_OF_SCRIPT
+to start:          cockroach  start  --port=${dbPort} --http-host=localhost  --certs-dir=./path-to-certs-directory --background ;
+to check status:   cockroach  node status                                    --certs-dir=./path-to-certs-directory/     ;
+to quit:           cockroach  quit                                           --certs-dir=./path-to-certs-directory/     ;
+to log in:         cockroach  sql --user=${dbUser} --database=${dbName}      --certs-dir=./path-to-certs-directory/     ;
+Dont forget to do:    cd  ${FileNameWithoutExtension};   cat ./nodePgTest.js ;    to see an example 
+END_OF_SCRIPT
+#
