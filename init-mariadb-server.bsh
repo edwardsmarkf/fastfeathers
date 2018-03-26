@@ -1,0 +1,313 @@
+#!  /bin/bash
+
+#   init-mariadb-server.bsh   -- 2018-03-25
+
+#  script to install mariadb 10.2 entirely from scratch
+
+#  optionally, use init-mariadb-client.bsh to test.
+
+
+dbUser='feathersuser';
+dbPass='aaaaaa';
+dbName='bank'
+dbPort=3306 ;
+
+sudo yum  yum --assumeyes  update ;
+
+sudo yum  --assumeyes  install bind-utils  expect  firewalld  wget  ;
+
+sudo systemctl  start   firewalld ;
+sudo systemctl  enable  firewalld ;
+sudo systemctl  status  firewalld ;
+
+sudo firewall-cmd --zone=dmz     --add-port=${dbPort}/tcp --permanent ; sudo firewall-cmd --reload ;
+sudo firewall-cmd --zone=public  --add-port=${dbPort}/tcp --permanent ; sudo firewall-cmd --reload ;
+
+
+## just doing yum install version 5.X, but i choose to install 10.2 since the yum repositor tends to be a bit behind.
+
+## create a repo for Mariadb 10.2
+cat  <<END_OF_REPO > /etc/yum.repos.d/MariaDB-10.2.repo ;
+# MariaDB 10.2 CentOS repository list - created 2018-03-19 16:12 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.2/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+END_OF_REPO
+
+sudo yum --assumeyes install MariaDB-server ;   ## notice that MariaDB-client is being skipped.
+
+
+sudo systemctl enable  mariadb ;  ## make mariadb start up at bootup
+sudo systemctl start   mariadb ;   ## start mariadb for the first time!
+sudo systemctl status  mariadb ;
+
+mysql  --version;   ## looking for 10.2
+
+
+## add some security to mariadb
+
+expect <(cat <<'END_OF_EXPECT'
+    set timeout -1
+
+    spawn sudo mysql_secure_installation ;
+
+    expect -re ".*Enter current password for root.*"
+    send -- "\r"
+
+    expect -re ".*Set root password?.*"
+    send -- "n\r"
+
+    expect -re ".*Remove anonymous users?.*"
+    send -- "\r"
+        # 'Y' Yes is default
+
+    expect -re ".*Disallow root login remotely?.*"
+    send -- "\r"
+        # 'Y' Yes is default
+
+    expect -re ".*Remove test database and access to it?.*"
+    send -- "\r"
+        # 'Y' Yes is default
+
+
+    expect -re ".*Reload privilege tables now?.*"
+    send -- "\r"
+        # 'Y' Yes is default
+
+    expect eof
+END_OF_EXPECT
+)
+
+
+
+
+
+## https://www.cyberciti.biz/faq/how-to-setup-mariadb-ssl-and-secure-connections-from-clients/
+
+## Steps one and two already done
+## Step 3 – Create the CA certificate
+
+ sudo  mkdir --parent --verbose  /etc/mysql/ssl  ;
+
+##    Type the following command to create a new CA key:
+
+sudo openssl genrsa 2048 > /etc/mysql/ssl/ca-key.pem ;
+
+##    Type the following command to generate the certificate using that key:
+
+expect <(cat <<'END_OF_CA_CERT_EXPECT'
+    set timeout -1
+
+    spawn sudo openssl req -new -x509 -nodes -days 365000 -key   /etc/mysql/ssl/ca-key.pem -out   /etc/mysql/ssl/ca-cert.pem ;
+
+    expect -re ".*Country Name.*"
+    send -- "\r"
+        # default 'XX'
+        
+    expect -re ".*State or Province Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Locality Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Organization Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Organizational Unit Name.*"
+    send -- "\r"
+        # default '[]'
+
+    expect -re ".*Common Name.*"
+    send -- "\r"
+        # default '[]'
+
+    expect -re ".*Email Address.*"
+    send -- "\r"
+        # default '[]'
+                
+    expect eof
+    
+END_OF_CA_CERT_EXPECT
+)
+
+
+
+sudo   ls -l  /etc/mysql/ssl  ;
+
+
+## Step 4 – Create the server certificate
+
+##    To create the server key, run:
+
+expect <(cat <<'END_OF_SERVER_CERT_EXPECT'
+    set timeout -1
+
+    spawn sudo openssl req -newkey rsa:2048 -days 365000 -nodes                               \
+                                                      -keyout  /etc/mysql/ssl/server-key.pem  \
+                                                      -out  /etc/mysql/ssl/server-req.pem     ;
+    expect -re ".*Country Name.*"
+    send -- "\r"
+        # default 'XX'
+        
+    expect -re ".*State or Province Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Locality Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Organization Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Organizational Unit Name.*"
+    send -- "\r"
+        # default '[]'
+
+    expect -re ".*Common Name.*"
+    send -- "\r"
+        # default '[]'
+
+    expect -re ".*Email Address.*"
+    send -- "\r"
+        # default '[]'
+                
+    expect -re ".*A challenge password.*"
+    send -- "\r"
+        # default '[]'
+                
+    expect -re ".*An optional company name.*"
+    send -- "\r"
+        # default '[]'
+                
+    expect eof
+    
+END_OF_SERVER_CERT_EXPECT
+)
+
+
+##    Next process the server RSA key, enter:
+
+sudo openssl rsa -in /etc/mysql/ssl/server-key.pem -out /etc/mysql/ssl/server-key.pem ;
+
+##    Finally sign the server certificate, run:
+
+sudo openssl x509 -req -in  /etc/mysql/ssl/server-req.pem -days 365000 \
+                 -CA  /etc/mysql/ssl/ca-cert.pem                       \
+                 -CAkey  /etc/mysql/ssl/ca-key.pem                     \
+                 -set_serial 01                                        \
+                 -out  /etc/mysql/ssl/server-cert.pem                  ;
+
+
+
+##  Step 5 – Create the client certificate
+
+expect <(cat <<'END_OF_CLIENT_CERT_EXPECT'
+    set timeout -1
+
+    spawn sudo openssl req -newkey rsa:2048 -days 365000 -nodes \
+                          -keyout /etc/mysql/ssl/client-key.pem \
+                          -out /etc/mysql/ssl/client-req.pem    ;
+
+expect -re ".*Country Name.*"
+    send -- "\r"
+        # default 'XX'
+        
+    expect -re ".*State or Province Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Locality Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Organization Name.*"
+    send -- "\r"
+        # default '[]'
+        
+    expect -re ".*Organizational Unit Name.*"
+    send -- "\r"
+        # default '[]'
+
+    expect -re ".*Common Name.*"
+    send -- "\r"
+        # default '[]'
+
+    expect -re ".*Email Address.*"
+    send -- "\r"
+        # default '[]'
+                
+    expect -re ".*A challenge password.*"
+    send -- "\r"
+        # default '[]'
+                
+    expect -re ".*An optional company name.*"
+    send -- "\r"
+        # default '[]'
+                
+    expect eof
+    
+END_OF_CLIENT_CERT_EXPECT
+)
+
+
+
+##    Next process the server RSA key, enter:
+sudo openssl rsa -in  /etc/mysql/ssl/client-key.pem -out  /etc/mysql/ssl/client-key.pem ;
+
+
+##     Finally, sign the client certificate, run:
+
+sudo openssl x509 -req -in  /etc/mysql/ssl/client-req.pem      \
+                         -days   365000                        \
+                         -CA     /etc/mysql/ssl/ca-cert.pem    \
+                         -CAkey  /etc/mysql/ssl/ca-key.pem     \
+                         -set_serial 01                        \
+                         -out  /etc/mysql/ssl/client-cert.pem  ;
+
+##  Step 6 – How do I verify the certificates?
+
+openssl verify -CAfile /etc/mysql/ssl/ca-cert.pem      \
+                       /etc/mysql/ssl/server-cert.pem  \
+                       /etc/mysql/ssl/client-cert.pem  ;
+
+
+
+sudo cat  >> /etc/my.cnf <<END_OF_MY_CNF;
+## added by ${FileNameWithExtension}
+### MySQL Server ###
+## Securing the Database with ssl option and certificates ##
+## There is no control over the protocol level used. ##
+##  mariadb will use TLSv1.0 or better.  ##
+ssl
+ssl-ca=/etc/mysql/ssl/ca-cert.pem
+ssl-cert=/etc/mysql/ssl/server-cert.pem
+ssl-key=/etc/mysql/ssl/server-key.pem
+END_OF_MY_CNF
+
+
+
+
+
+IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+mysql --verbose   --user  root  <<END_OF_MARIADB  ;
+CREATE DATABASE IF NOT EXISTS ${dbName};
+CREATE USER '${dbUser}'@'%' IDENTIFIED BY '${dbPass}';
+GRANT ALL ON ${dbName}.* to '${dbUser}' IDENTIFIED BY '${dbPass}' ;
+SELECT Host, User FROM mysql.user\G ; 
+quit
+END_OF_MARIADB
+
+cat <<END_OF_COMPLETION_STATUS;
+mysql  --user  ${dbUser}  --password   --host  ${IPADDR}  ;  ## use password ${dbPass}
+your connection string:
+mysql://${dbUser}:${dbPass}@${IPADDR}:${dbPort}/${dbName}
+
+END_OF_COMPLETION_STATUS
