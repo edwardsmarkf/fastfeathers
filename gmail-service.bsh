@@ -141,17 +141,17 @@ END_OF_GENERATE_BEFORE_HOOK
 )	## end of feathers generate hook
 
 
+## edit the user-hook.js to extract the custom login stuff, like username, first-name, etc
+
 sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
 3i\
-\\
+ \\
+ \\
     \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
 const logger = require('winston');\\
 const _ = require('lodash');\\
     \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
-
-/  return async context => {/ a\
-\\
-\\
+/^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
   if  (  _.has(context, 'data.google.profile')  ){\\
     if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
@@ -171,10 +171,9 @@ const _ = require('lodash');\\
       })\\
     }\\
   } // end if has data.google.profile\\
-  \/*  end of code added by ${FileNameWithExtension} ${TimeStamp}h *\/\\
+  \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
   
 END_OF_SED_USER_HOOK
-
 
 
 
