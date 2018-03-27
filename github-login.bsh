@@ -122,7 +122,7 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
   <a href="/auth/github">Login With Github<\/a>\\
   &nbsp;\\
   <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Github<\/a>\\
-  <br />\\
+  <br /><br />\\
   Login reply will be in your console (ctrl-shift-I or right-click and select 'view console')\\
 <\/p>\\
 <script type="text/javascript"  src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>\\
