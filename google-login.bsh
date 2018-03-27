@@ -1,10 +1,8 @@
 #! /bin/bash
 
-##   google-login.bsh   last update: 2018-03-26
+##   google-login.bsh   last update: 2018-03-27
 
-##  Bash-shell script to create the Google-feathers login example entirely from scratch.
-
-##  This has been tested on https://console.cloud.google.com using centos-7.
+##  Bash-shell script to create the Google-feathers 'simple' login example entirely from scratch.
 
 ##  Script is written entirely from https://docs.feathersjs.com/guides/auth/recipe.oauth-basic.html
 
@@ -27,7 +25,7 @@ FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
@@ -73,7 +71,7 @@ END_OF_GENERATE_APP
 
 
 ##	feathers generate authentication;  ## all defaults
-expect <(cat <<'END_OF_GEN_AUTH'
+expect <(cat <<'END_OF_GENERATE_AUTH'
 	#	generates an authentication for Google
 
 	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
@@ -105,7 +103,7 @@ expect <(cat <<'END_OF_GEN_AUTH'
 
 	 
 	expect eof
-END_OF_GEN_AUTH
+END_OF_GENERATE_AUTH
 )	## end of feathers generate authentication
 
 
