@@ -15,11 +15,11 @@
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
 ##       values came from   https://github.com/settings/developers
-HOST='35.197.110.63'                                            ;
 GITHUB_CLIENT_ID='dccac33a9360323fe2af'                         ;
 GITHUB_CLIENT_SECRET='960393c181f10a44527c7dc6e4196317939f3c59' ;
 ##  get credentials here:    https://github.com/settings/developers
 
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
@@ -176,7 +176,7 @@ END_OF_SED_USER_HOOK
 
 ## modify the default.json file if you are using github (you will have to change these values!
 sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
-s/"host": "localhost",/"host": "${HOST}",/;
+s/"host": "localhost",/"host": "${THIS_IPADDR}",/;
 s/your github client id/${GITHUB_CLIENT_ID}/;
 s/your github client secret/${GITHUB_CLIENT_SECRET}/;
 END_OF_SED_CONFIG_DEFAULT
