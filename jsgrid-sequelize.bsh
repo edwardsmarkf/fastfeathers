@@ -193,9 +193,7 @@ const logger = require('winston');\\
 const _ = require('lodash');\\
     \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
 
-/  return async context => {/ a\
-\\
-\\
+/^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
   if  (  _.has(context, 'data.google.profile')  ){\\
     if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
@@ -343,8 +341,7 @@ END_OF_SED_TESTTABLE_HOOK_COMMON
 ##  modify hook to add in the user email into the context variable    
 sed --in-place --file=- ./src/hooks/testtable-hook.js   <<END_OF_SED_TESTTABLE_HOOK ;
 3s?^?\\nconst logger = require('winston'); // added by bash script ${FileNameWithExtension} ${TimeStamp}\\n\\n?;
-/  return async context => {/ a\
-\\
+/^  return async context => {$/a\
     \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
      //logger.info(JSON.stringify(context));\\
      context.data.updatedBy = context.params.user.email;  // save the user email into the context object  ${FileNameWithExtension} ${TimeStamp}  \\
