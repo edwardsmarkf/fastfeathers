@@ -75,7 +75,7 @@ END_OF_GENERATE_APP
 
 
 ##	feathers generate authentication;  
-expect <(cat <<'END_OF_GEN_AUTH'
+expect <(cat <<'END_OF_GENERATE_AUTH'
 	#	generates an authentication for Github
 
 	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
@@ -107,12 +107,12 @@ expect <(cat <<'END_OF_GEN_AUTH'
 
 	 
 	expect eof
-END_OF_GEN_AUTH
+END_OF_GENERATE_AUTH
 )	## end of feathers generate authentication
 
 
 ##	feathers generate hook;  
-expect <(cat <<'END_OF_GEN_USER_HOOK'
+expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	#	generates a hook for Github
 
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
@@ -140,7 +140,7 @@ expect <(cat <<'END_OF_GEN_USER_HOOK'
 		## downarrow (3) space downarrow space selects  both 'create' and 'update'
 	 
 	expect eof
-END_OF_GEN_USER_HOOK
+END_OF_GENERATE_USER_HOOK
 )	## end of feathers generate hook
 
 
