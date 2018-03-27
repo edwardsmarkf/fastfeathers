@@ -303,9 +303,7 @@ s/your google client id/${GOOGLE_CLIENT_ID}/;
 s/your google client secret/${GOOGLE_CLIENT_SECRET}/;
 END_OF_SED_DEFAULT_JSON_HOOK
 
-CAT <<END_OF_SCRIPT;
-Dont forget to change the IP ## in both the ./config/default.json  *AND*  the google-applications page (make sure they match)
-END_OF_SCRIPT
+
 
 ## REMOVED since this script generates authentication before service
 ## authenticate code as per:  https://docs.feathersjs.com/guides/chat/authentication.html
@@ -318,7 +316,7 @@ END_OF_SCRIPT
 
 ## hook code in three files from   https://docs.feathersjs.com/guides/chat/processing.html
 
-sed --in-place --file=- ./src/hooks/process-message.js	<< EOF	;
+sed --in-place --file=- ./src/hooks/process-message.js	<< END_OF_SED_PROCESS_MESSAGE	;
 /^  return async context => {$/a\
 const { data } = context;\\
 \\
@@ -344,12 +342,12 @@ const { data } = context;\\
     };\\
 \\
     \/\/ Best practise, hooks should always return the context
-EOF
+END_OF_SED_PROCESS_MESSAGE
 
 
 ## several changes to gravatar.js, so we are using cat instead of sed
 
-cat <<EOF	>  ./src/hooks/gravatar.js	;
+cat <<END_OF_CAT_GRAVATAR_JS	>  ./src/hooks/gravatar.js	;
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
@@ -374,9 +372,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     return context;
   };
 };
-EOF
+END_OF_CAT_GRAVATAR_JS
 
-sed --in-place --file=- ./src/hooks/populate-user.js	<< EOF	;
+sed --in-place --file=- ./src/hooks/populate-user.js	<< END_OF_SED_POPULATE_USER	;
 /^  return async context => {$/a\
    \/\/ Get \`app\`, \`method\`, \`params\` and \`result\` from the hook context\\
     const { app, method, result, params } = context;\\
@@ -396,15 +394,14 @@ sed --in-place --file=- ./src/hooks/populate-user.js	<< EOF	;
     }));\\
 \\
     \/\/ Best practise, hooks should always return the context\\
-EOF
+END_OF_SED_POPULATE_USER
 
 
 
 
-sed --in-place --file=- ./src/hooks/user-hook.js   <<EOF ;
+sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
+
 /  return async context => {/ a\
-\\
-\\
 	if (context.data.google) {\\
 		context.data.displayName	= context.data.google.profile.displayName	;\\
 		context.data.familyName		= context.data.google.profile.name.familyName	;\\
@@ -423,22 +420,22 @@ sed --in-place --file=- ./src/hooks/user-hook.js   <<EOF ;
 		console.log('familyName: '  + context.data.familyName);\\
 		console.log('givenName: '   + context.data.givenName);\\
 	}\\
-EOF
+END_OF_SED_USER_HOOK
 
 
 
 ##	we need to add two lines to users.hooks.js - the const line at top, and to add a new call at the before-create hook.
 
-sed --in-place --file=-  ./src/services/users/users.hooks.js   <<EOF ;
+sed --in-place --file=-  ./src/services/users/users.hooks.js   <<END_OF_SED_USER_HOOKS_JS ;
 3i\\const userHook = require('../../hooks/user-hook');	\/\/ added by mark/;
 s/create: \[gravatar()\],/create: [userHook(), gravatar()],/
-EOF
+END_OF_SED_USER_HOOKS_JS
 
 
 
 ## html&js code from  https://docs.feathersjs.com/guides/chat/frontend.html
 
-cat <<EOF	>  ./public/index.html				;
+cat <<END_OF_CAT_INDEX_HTML	>  ./public/index.html				;
 
 <html>
   <head>
@@ -459,9 +456,9 @@ cat <<EOF	>  ./public/index.html				;
     <script src="app.js"></script>
   </body>
 </html>
-EOF
+END_OF_CAT_INDEX_HTML
 
-cat <<EOF	>   ./public/app.js				;
+cat <<END_OF_CAT_APP_JS	>   ./public/app.js				;
 
 // Establish a Socket.io connection
 const socket = io();
@@ -728,11 +725,11 @@ client.service('messages').on('created', addMessage);
 client.service('users').on('created', addUser);
 
 // REMOVED FOR GOOGLE LOGIN login();
-EOF
+END_OF_CAT_APP_JS
 
-cat <<END;
+cat <<END_OF_SCRIPT;
 Feathers google app should now be built.  Did you change your ./config/default.json values?
 Client id in your ./config/default.json values file:  ${GOOGLE_CLIENT_ID}
 Client secret in your ./config/default.json values file:  ${GOOGLE_CLIENT_SECRET}
 Now run ' cd ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
-END
+END_OF_SCRIPT
