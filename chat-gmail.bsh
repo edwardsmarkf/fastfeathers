@@ -399,28 +399,40 @@ END_OF_SED_POPULATE_USER
 
 
 
-sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
+## edit the user-hook.js to extract the custom login stuff, like username, first-name, etc
 
-/  return async context => {/ a\
-	if (context.data.google) {\\
-		context.data.displayName	= context.data.google.profile.displayName	;\\
-		context.data.familyName		= context.data.google.profile.name.familyName	;\\
-		context.data.givenName		= context.data.google.profile.name.givenName	;\\
-		if  ( context.data.google.profile.hasOwnProperty('emails') )	{\\
-			context.data.email		= context.data.google.profile.emails.find(email => email.value).value;\\
-				// changed email.primary to email.value\\
-		} else {\\
-			context.data.email		= null;\\
-		}\\
-			// emails: [ { value: 'mark@edwardsmark.com' } ],\\
-\\
-		console.log('we added the following to context.data:');\\
-		console.log('email:       ' + context.data.email);\\
-		console.log('displayName: ' + context.data.displayName);\\
-		console.log('familyName: '  + context.data.familyName);\\
-		console.log('givenName: '   + context.data.givenName);\\
-	}\\
+sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
+3i\
+ \\
+ \\
+    \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+const logger = require('winston');\\
+const _ = require('lodash');\\
+    \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+/^  return async context => {$/a\
+  \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+  if  (  _.has(context, 'data.google.profile')  ){\\
+    if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
+      context.data.displayName = context.data.google.profile.displayName;\\
+      logger.info('displayName: ' + context.data.displayName);  \\
+    }\\
+    if  ( _.has(context.data.google.profile, 'emails' ) ) {\\
+      context.data.email = context.data.google.profile.emails.find(email => email.value).value;\\
+      logger.info('email:       ' + context.data.email);\\
+    }\\
+    if  ( _.has(context.data.google.profile, 'name' ) ) {\\
+      ['familyName', 'givenName'].forEach( (val) => {\\
+        if  ( _.has(context.data.google.profile.name, val )     ) {\\
+          context.data[val] = context.data.google.profile.name[val];\\
+          logger.info(val + ': ' + context.data[val]);\\
+        }\\
+      })\\
+    }\\
+  } // end if has data.google.profile\\
+  \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+  
 END_OF_SED_USER_HOOK
+
 
 
 
