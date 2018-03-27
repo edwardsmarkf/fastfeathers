@@ -4,8 +4,6 @@
 
 ##  Bash-shell script to create the Google-feathers chat application with gmail login entirely from scratch.
 
-##  This has been tested on https://console.cloud.google.com using centos-7.
-
 ##  Script is written entirely from https://docs.feathersjs.com/guides/chat/readme.html
 
 ##  Note:  expect-tcl is used to run the six feathers-cli steps.
