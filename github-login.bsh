@@ -56,7 +56,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	send -- "\r"
 			## defaults to 'src'
 	 
-	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\\)?.*"
+	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)?.*"
 	send -- "\r"
 			## defaults to 'npm'
 	 
