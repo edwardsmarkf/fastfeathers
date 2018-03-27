@@ -305,6 +305,8 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
   <a href="/auth/google">Login With Google<\/a>\\
    &nbsp;\\
   <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google<\/a>\\
+  <br /><br />\\
+  Run the following commands in the console:\\
 <\/p>\\
 <div style='margin-left:50px;'>\\
 <ul>\\
@@ -324,7 +326,7 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
 	<\/li>\\
 \\
 	<li>\\
-		var queryResults = featherClient.service('testtable').find( {query: { text: 'Second Data Inserted'}})\\
+		var queryResults = feathersClient.service('testtable').find( {query: { text: 'Second Data Inserted'}})\\
 	<\/li>\\
 \\
 	<li>\\
