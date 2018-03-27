@@ -269,7 +269,7 @@ END_OF_GENERATE_TESTTABLE_HOOK
 ## edit testtable-hook.js
 sed --in-place --file=- ./src/hooks/testtable-hook.js   <<END_OF_SED_TESTTABLE_HOOK ;
 3s?^?\\n//const logger = require('winston'); // added by bash script \\n\\n?;
-/  return async context => {/ a\
+/^  return async context => {$/a\
 \ \ \ \ context.data[options] = new Date(); \/\/ include 'createdAt' and 'updatedAt' in record on create and update.\\
 \ \ \ \ \/\/logger.info(context.data);  // uncomment out to inspect the results.
 END_OF_SED_TESTTABLE_HOOK
