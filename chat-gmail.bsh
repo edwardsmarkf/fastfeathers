@@ -1,8 +1,8 @@
 #! /bin/bash
 
-##	gooogle-chat-app.bsh    last update: 2018-03-27
+##	chat-gmail.bsh    last update: 2018-03-27
 
-##  Bash-shell script to create the Google-feathers chat application entirely from scratch.
+##  Bash-shell script to create the Google-feathers chat application with gmail login entirely from scratch.
 
 ##  This has been tested on https://console.cloud.google.com using centos-7.
 
