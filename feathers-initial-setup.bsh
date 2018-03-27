@@ -34,7 +34,7 @@ sudo npm install -g @feathersjs/cli ;  ## https://google.com/feathersjs/cli
 which feathers;		##  /usr/bin/feathers
 #
 #
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 #
