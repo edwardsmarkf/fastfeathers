@@ -150,7 +150,7 @@ const logger = require('winston');\\
 const _ = require('lodash');\\
     \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
     
-/  return async context => {/ a\
+/^  return async context => {$/a\
 \\
 \\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
