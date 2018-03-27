@@ -24,9 +24,9 @@ echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-HOST='123.123.123.123'                                          ;
 GITHUB_CLIENT_ID='dccac33a9360323fe2af'                         ;
 GITHUB_CLIENT_SECRET='960393c181f10a44527c7dc6e4196317939f3c59' ;
 ##  get credentials here:  https://github.com/settings/developers
@@ -298,7 +298,7 @@ END_OF_GENERATE_POPULATE_USER_HOOK
 ## modify the default.json file if you are using google (you will have to change these values!)
 ## values came from   https://console.developers.google.com/apis/api under credidentials
 sed -in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
-s/"host": "localhost",/"host": "${HOST}",/;
+s/"host": "localhost",/"host": "${THIS_IPADDR}",/;
 s/your github client id/${GITHUB_CLIENT_ID}/;
 s/your github client secret/${GITHUB_CLIENT_SECRET}/;
 END_OF_SED_CONFIG_DEFAULT
