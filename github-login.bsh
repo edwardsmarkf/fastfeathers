@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	github-login   last update: 2018-03-26
+##	github-login.bsh   last update: 2018-03-27
 
 ##  Bash-shell script to create the Github-feathers chat application entirely from scratch.
 
@@ -16,7 +16,7 @@
 ##  Be sure to run the gist build feathers first!
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
@@ -72,7 +72,7 @@ END_OF_GENERATE_APP
 
 
 ##	feathers generate authentication;  ## all defaults
-expect <(cat <<'END_OF_GEN_AUTH'
+expect <(cat <<'END_OF_GENERATE_AUTH'
 	#	generates an authentication for Github
 
 	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
@@ -103,11 +103,11 @@ expect <(cat <<'END_OF_GEN_AUTH'
 		## default answer is nedb://../data
 
 	expect eof
-END_OF_GEN_AUTH
+END_OF_GENERATE_AUTH
 )	## end of feathers generate authentication
 
 ##		feathers generate service;   ## all defaults except for the service name - "messages"
-expect <(cat <<'END_OF_GEN_SERVICE'
+expect <(cat <<'END_OF_GENERATE_SERVICE'
 
 	##	creates a service:	messages  (all the defaults)
 
@@ -134,7 +134,7 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 			##  y for 'yes' and return
 
 	expect eof
-END_OF_GEN_SERVICE
+END_OF_GENERATE_SERVICE
 )	## end of feathers genereate service
 
 
