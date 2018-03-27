@@ -1,11 +1,8 @@
 #! /bin/bash
 
-##	jsgrid-sequelize.bsh  	last update: 2018-03-26
-
+##	jsgrid-sequelize.bsh  	last update: 2018-03-27
 
 ##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
-
-##  This has been tested on https://console.cloud.google.com using centos-7.
 
 ##  Script is written entirely from https://docs.feathersjs.com/guides/auth/recipe.oauth-basic.html
 
@@ -52,7 +49,7 @@ THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 export HOST;
 DOMAIN_IP=$(dig ${HOST} | grep "$(printf '\t')IN$(printf '\t')A$(printf '\t')" | grep -oE '((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])');
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
@@ -153,7 +150,7 @@ END_OF_GENERATE_AUTHENTICATION
 
 
 ##	feathers generate hook;  
-expect <(cat <<'END_OF_GEN_USER_HOOK'
+expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	#	generates a "BEFORE--CREATE/UPDATE" hook named "user-hook" for for the "users" service for using Google
 
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
@@ -181,7 +178,7 @@ expect <(cat <<'END_OF_GEN_USER_HOOK'
 		## downarrow (3) space downarrow space selects 'create' and 'update'
 	 
 	expect eof
-END_OF_GEN_USER_HOOK
+END_OF_GENERATE_USER_HOOK
 )	## end of feathers generate hook user-hook
 
 
@@ -235,7 +232,7 @@ END_OF_SED_USER_MODEL
 
 
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
-expect <(cat <<'END_OF_GEN_SERVICE'
+expect <(cat <<'END_OF_GENERATE_SERVICE'
 
 	#	creates a service:	testtable  (all the defaults)
 	#	written from:	https://docs.feathersjs.com/guides/chat/service.html
@@ -274,7 +271,7 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 
 
 	expect eof
-END_OF_GEN_SERVICE
+END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
 
@@ -301,7 +298,7 @@ END_OF_SED_TESTTABLE_MODEL
 
 
 ##	feathers generate hook;  
-expect <(cat <<'END_OF_GEN_TESTTABLE_HOOK'
+expect <(cat <<'END_OF_GENERATE_TESTTABLE_HOOK'
 	#	generates a "BEFORE--CREATE/UPDATE" hook named "testtable-hook" for the "testtable" service for Google
 
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
@@ -329,7 +326,7 @@ expect <(cat <<'END_OF_GEN_TESTTABLE_HOOK'
 		## downarrow (3) space downarrow space selects 'create' & 'update'
 	 
 	expect eof
-END_OF_GEN_TESTTABLE_HOOK
+END_OF_GENERATE_TESTTABLE_HOOK
 )	## end of feathers generate hook 'testtable-hook'
 
 
