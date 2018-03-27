@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	gooogle-chat-app.bsh    last update: 2018-03-26
+##	gooogle-chat-app.bsh    last update: 2018-03-27
 
 ##  Bash-shell script to create the Google-feathers chat application entirely from scratch.
 
@@ -34,7 +34,7 @@ FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
@@ -80,7 +80,7 @@ END_OF_GENERATE_APP
 
 
 ##	feathers generate authentication;  ## all defaults
-expect <(cat <<'END_OF_GEN_AUTH'
+expect <(cat <<'END_OF_GENERATE_AUTH'
 	#	generates an authentication for Google
 
 	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
@@ -110,11 +110,11 @@ expect <(cat <<'END_OF_GEN_AUTH'
 		## default answer is nedb://../data
 
 	expect eof
-END_OF_GEN_AUTH
+END_OF_GENERATE_AUTH
 )	## end of feathers generate authentication
 
 ##		feathers generate service;   ## all defaults except for the service name - "messages"
-expect <(cat <<'END_OF_GEN_SERVICE'
+expect <(cat <<'END_OF_GENERATE_SERVICE'
 
 	##	creates a service:	messages  (all the defaults)
 
@@ -141,7 +141,7 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 			##  y for 'yes' and return
 
 	expect eof
-END_OF_GEN_SERVICE
+END_OF_GENERATE_SERVICE
 )	## end of feathers genereate service
 
 
@@ -150,7 +150,7 @@ END_OF_GEN_SERVICE
 ##			generate this hook FIRST!
 
 ##	feathers generate hook;  
-expect <(cat <<'END_OF_GEN_USER_HOOK'
+expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	#	generates a "BEFORE--CREATE/UPDATE" hook named "user-hook" for the "user" service, for use with Google
 
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
@@ -178,7 +178,7 @@ expect <(cat <<'END_OF_GEN_USER_HOOK'
 		## downarrow (3) space downarrow(1) space selects both 'create' and 'update'
 	 
 	expect eof
-END_OF_GEN_USER_HOOK
+END_OF_GENERATE_USER_HOOK
 )	## end of feathers generate hook
 
 ##  	feathers generate hook;   
