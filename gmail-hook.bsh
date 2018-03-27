@@ -1,8 +1,9 @@
 #! /bin/bash
 
-##	google-hook.bsh   -- 2018-03-27
+##	gmail-hook.bsh   -- 2018-03-27
 
-##  Bash-shell script to create the Google-feathers login example with a hook entirely from scratch.
+##  Bash-shell script to create the Google-feathers login example with a hook entirely from scratch in
+##	order to extract out the email address, google user information, etc.
 
 ##  Script is written entirely from https://docs.feathersjs.com/guides/auth/recipe.oauth-basic.html
 
