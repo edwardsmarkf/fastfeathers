@@ -153,7 +153,7 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
 END_OF_INDEX_HTML
 
 cat <<END_OF_SCRIPT;
-Feathers google app should now be built.  Did you change your ./config/default.json values?
+Feathers google-gmail app should now be built.  Did you change your ./config/default.json values?
 Client id in your ./config/default.json values file: ${GOOGLE_CLIENT_ID}
 Client secret in your ./config/default.json values file: ${GOOGLE_CLIENT_SECRET}
 Now run ' cd ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
