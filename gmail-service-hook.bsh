@@ -144,8 +144,7 @@ sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
 const logger = require('winston');\\
 const _ = require('lodash');\\
     \/* end of code added by ${FileNameWithExtension} ${TimeStamp}*\/ \\
-/  return async context => {/ a\
-\\
+/^  return async context => {$/a\
 \\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
   if  (  _.has(context, 'data.google.profile')  ){\\
