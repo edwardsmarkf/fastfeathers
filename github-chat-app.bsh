@@ -1,10 +1,8 @@
 #! /bin/bash
 
-##	github-chat-app.bsh   last update: 2018-03-26
+##	github-chat-app.bsh   last update: 2018-03-27
 
 ##  Bash-shell script to create the Github-feathers chat application entirely from scratch.
-
-##  This has been tested on https://console.cloud.google.com using centos-7.
 
 ##  Script is written entirely from https://docs.feathersjs.com/guides/chat/readme.html
 
@@ -22,7 +20,7 @@
 ##  Be sure to run the gist build feathers first!
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.9.4 used in this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
@@ -81,7 +79,7 @@ END_OF_GENERATE_APP
 
 
 ##	feathers generate authentication;  ## all defaults
-expect <(cat <<'END_OF_GEN_AUTH'
+expect <(cat <<'END_OF_GENERATE_AUTH'
 	#	generates an authentication for Github
 
 	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
@@ -112,11 +110,11 @@ expect <(cat <<'END_OF_GEN_AUTH'
 		## default answer is nedb://../data
 
 	expect eof
-END_OF_GEN_AUTH
+END_OF_GENERATE_AUTH
 )	## end of feathers generate authentication
 
 ##		feathers generate service;   ## all defaults except for the service name - "messages"
-expect <(cat <<'END_OF_GEN_SERVICE'
+expect <(cat <<'END_OF_GENERATE_SERVICE'
 
 	##	creates a service:	messages  (all the defaults)
 
@@ -143,7 +141,7 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 			##  y for 'yes' and return
 
 	expect eof
-END_OF_GEN_SERVICE
+END_OF_GENERATE_SERVICE
 )	## end of feathers genereate service
 
 
@@ -152,7 +150,7 @@ END_OF_GEN_SERVICE
 ##			generate this hook FIRST!
 
 ##	feathers generate hook;  
-expect <(cat <<'END_OF_GEN_USER_HOOK'
+expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	#	generates a "BEFORE--CREATE/UPDATE" hook named "user-hook" for the "user" service - for use with Github
 
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
@@ -180,7 +178,7 @@ expect <(cat <<'END_OF_GEN_USER_HOOK'
 		## downarrow (3) space downarrow space selects  both 'create' and 'update'
 	 
 	expect eof
-END_OF_GEN_USER_HOOK
+END_OF_GENERATE_USER_HOOK
 )	## end of feathers generate hook
 
 ##  	feathers generate hook;   
@@ -188,7 +186,7 @@ END_OF_GEN_USER_HOOK
 ##	type of hook:	before
 ##	which service:	messages
 ##	which method:	create
-expect <(cat <<'END_OF_GEN_PROC_MESSAGE_HOOK'
+expect <(cat <<'END_OF_GENERATE_PROC_MESSAGE_HOOK'
 
 	#	creates the first "BEFORE--CREATE" hook named "process-message" for the "messages" service - for Github login
 	 
@@ -216,7 +214,7 @@ expect <(cat <<'END_OF_GEN_PROC_MESSAGE_HOOK'
 		## DOWNARROW three times, space, and return to select "create"
 	 
 	expect eof
-END_OF_GEN_PROC_MESSAGE_HOOK
+END_OF_GENERATE_PROC_MESSAGE_HOOK
 )	## end of feathers generate hook	process-message	(first hook)
 
 
@@ -226,7 +224,7 @@ END_OF_GEN_PROC_MESSAGE_HOOK
 ##	type of hook:	before
 ##	which service:	messages
 ##	which method:	create
-expect <(cat <<'END_OF_GEN_GRAVATAR_HOOK'
+expect <(cat <<'END_OF_GENERATE_GRAVATAR_HOOK'
 	 
 	##	creates second "BEFORE--CREATE" hook named "gravatar" for the "user" service
 
@@ -256,7 +254,7 @@ expect <(cat <<'END_OF_GEN_GRAVATAR_HOOK'
 		## DOWNARROW three times, space and return to select "create"
 	 
 	expect eof
-END_OF_GEN_GRAVATAR_HOOK
+END_OF_GENERATE_GRAVATAR_HOOK
 )	## end of feathers generate hook	gravatar	(second hook)
 
 
@@ -265,7 +263,7 @@ END_OF_GEN_GRAVATAR_HOOK
 ##	type of hook:	after
 ##	which service:	messages
 ##	which method:	all
-expect <(cat <<'END_OF_GEN_POPULATE_USER_HOOK'
+expect <(cat <<'END_OF_GENERATE_POPULATE_USER_HOOK'
 
 	#	creates a third and final "AFTER--ALL" hook named "populate-user" for the "messages" service
 
@@ -294,7 +292,7 @@ expect <(cat <<'END_OF_GEN_POPULATE_USER_HOOK'
 		## space & return to select "all"
 	 
 	expect eof	
-END_OF_GEN_POPULATE_USER_HOOK
+END_OF_GENERATE_POPULATE_USER_HOOK
 )	## end of feathers generate hook	populate-user	(third and final hook)
 
 ## modify the default.json file if you are using google (you will have to change these values!)
