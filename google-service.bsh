@@ -1,8 +1,8 @@
 #! /bin/bash
 
-##	google-hook.bsh  	last update: 2018-03-26
+##	google-hook.bsh  	last update: 2018-03-27
 ##
-##	Bash script to create a google authentication with a hook & service,
+##	Bash script to create a google authentication with a service,
 ##      using the default NeDB database.
 ##
 ##	Be sure to run the feathers install gist first!
@@ -72,7 +72,7 @@ END_OF_GENERATE_APP
 
 
 ##	feathers generate authentication;  ## all defaults
-expect <(cat <<'END_OF_GEN_AUTH'
+expect <(cat <<'END_OF_GENERATE_AUTH'
 	#	generates an authentication for Google
 
 	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
@@ -104,12 +104,12 @@ expect <(cat <<'END_OF_GEN_AUTH'
 
 	 
 	expect eof
-END_OF_GEN_AUTH
+END_OF_GENERATE_AUTH
 )	## end of feathers generate authentication
 
 
 ##	feathers generate hook for user "service";  
-expect <(cat <<'END_OF_GEN_BEFORE_HOOK'
+expect <(cat <<'END_OF_GENERATE_BEFORE_HOOK'
 	#	generates a "BEFORE--CREATE/UPDATE" hook named "user-hook" for the "users" service for Google
 
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
@@ -137,7 +137,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_HOOK'
 		## downarrow (3 times) space downarrow(1) space selects 'create' and 'update'
 	 
 	expect eof
-END_OF_GEN_BEFORE_HOOK
+END_OF_GENERATE_BEFORE_HOOK
 )	## end of feathers generate hook
 
 
@@ -178,24 +178,23 @@ END_OF_SED_USER_HOOK
 
 
 
+############  future use for sql based example
 
-############  ?????
-
-sed --in-place --file=- ./src/models/users.model.js   <<END_OF_SED_USER_MODEL ;
-/    googleId: { type: Sequelize.STRING },/ a\
-\\
-\\
-    \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
-    email: { type: DataTypes.STRING }, \\
-    displayName: { type: DataTypes.STRING },\\
-    familyName: { type: DataTypes.STRING },\\
-    givenName: { type: DataTypes.STRING },\\
-    \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
-END_OF_SED_USER_MODEL
+###sed --in-place --file=- ./src/models/users.model.js   <<END_OF_SED_USER_MODEL ;
+###/    googleId: { type: Sequelize.STRING },/ a\
+###\\
+###\\
+###    \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+###    email: { type: DataTypes.STRING }, \\
+###    displayName: { type: DataTypes.STRING },\\
+###    familyName: { type: DataTypes.STRING },\\
+###    givenName: { type: DataTypes.STRING },\\
+###    \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+###END_OF_SED_USER_MODEL
 
 
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
-expect <(cat <<'END_OF_GEN_SERVICE'
+expect <(cat <<'END_OF_GENERATE_SERVICE'
 
 	##	creates a service:	testtable  (all the defaults)
 
@@ -230,7 +229,7 @@ expect <(cat <<'END_OF_GEN_SERVICE'
 			##  y for 'yes' and return
 
 	expect eof
-END_OF_GEN_SERVICE
+END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
 
@@ -241,7 +240,7 @@ END_OF_GEN_SERVICE
 ########################################################################################################
 
 ##	feathers generate hook for service "testtable";  
-expect <(cat <<'END_OF_GEN_TESTTABLE_HOOK'
+expect <(cat <<'END_OF_GENERATE_TESTTABLE_HOOK'
 	#	generates a "BEFORE--CREATE/UPDATE" hook named "testtable-hook" for the "testtable" service for Google
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
 	 
@@ -261,10 +260,10 @@ expect <(cat <<'END_OF_GEN_TESTTABLE_HOOK'
 			## downarrow space return selects 'testtable', 'users' is now the third on the list!
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
 	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
-		## downarrow (3) space downarrow space selects 'create' AND 'update'
+		## downarrow (3) space downarrow space selects BOTH 'create' AND 'update'
 		
 	expect eof
-END_OF_GEN_TESTTABLE_HOOK
+END_OF_GENERATE_TESTTABLE_HOOK
 )	## end of feathers generate hook
 
 
