@@ -2,7 +2,7 @@
 
 ##	chat-github.bsh   last update: 2018-03-27
 
-##  Bash-shell script to create the Github-feathers chat application entirely from scratch.
+##  Bash-shell script to create the Github-feathers chat application with github login entirely from scratch.
 
 ##  Script is written entirely from https://docs.feathersjs.com/guides/chat/readme.html
 
