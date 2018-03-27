@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	google-service-hook.bsh     last updated: 2018-03-27
+##	gmail-service-hook.bsh     last updated: 2018-03-27
 ##
 ##	Bash script to create a google authentication with a hook & service,
 ##      using the default NeDB database.
