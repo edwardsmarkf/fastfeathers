@@ -403,8 +403,8 @@ END_OF_SED_POPULATE_USER
 
 
 sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
-/  return async context => {/ a\
-\\
+
+/^  return async context => {$/a\
 	if (context.data.github) {\\
 		context.data.displayName	= context.data.github.profile.displayName	;\\
 		context.data.username		= context.data.github.profile.username		;\\
