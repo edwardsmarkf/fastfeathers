@@ -191,6 +191,8 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
   <a href="/auth/github">Login With GitHub<\/a>\\
   &nbsp;\\
   <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of GitHub<\/a>\\
+  <br /><br />\\
+  Login reply will be in your console (ctrl-shift-I or right-click and select 'view console') and in the feathers console.\\
 <\/p>\\
 <script type="text/javascript"  src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>\\
 <script type="text/javascript"  src="//unpkg.com/socket.io-client@1.7.3/dist/socket.io.js"></script>\\
