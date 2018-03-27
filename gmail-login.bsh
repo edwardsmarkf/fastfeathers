@@ -123,6 +123,7 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
   &nbsp;\\
   <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google<\/a>\\
 <\/p>\\
+<p>Login reply will be in your console (ctrl-shift-I or right-click and select 'view console')</p>\\
 <script type="text/javascript"  src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>\\
 <script type="text/javascript"  src="//unpkg.com/socket.io-client@1.7.3/dist/socket.io.js"></script>\\
 <!-- added for google logout -->\\
