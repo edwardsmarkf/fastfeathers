@@ -1,10 +1,8 @@
 #! /bin/bash
 
-##   google-login.bsh   last update: 2018-03-27
+##   gmail-login.bsh   last update: 2018-03-27
 
-##  Bash-shell script to create the Google-feathers 'simple' login example entirely from scratch.
-
-##  Script is written entirely from https://docs.feathersjs.com/guides/auth/recipe.oauth-basic.html
+##  Bash-shell script to create the feathers-gmail 'simple' login example entirely from scratch.
 
 ##  Note:  expect-tcl is used to run the feathers-cli steps.
 ##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
