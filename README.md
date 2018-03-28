@@ -12,6 +12,8 @@ delete does not necessarily work - test
 
 These scripts has been tested on the following:
   digitalocean droplets (cent0s7)
+  
   google.cloud.google.com (centos7)
+  
   amazon ec2 RHEL
 
