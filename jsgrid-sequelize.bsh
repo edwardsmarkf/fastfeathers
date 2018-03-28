@@ -534,7 +534,7 @@ feathersClient.service('testtable').on('updated', (message, context) => {
 	for ( var _gridRow=0; _gridRow < jQuery('div#jsGrid').jsGrid('option', 'data').length ;  _gridRow++ ) 
 	{
 	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'] === message.id )  {
-
+debugger;  // 2018-03-27
 		updateObj.setKeyValue(message.id);
 		jQuery('div#jsGrid').jsGrid
 			( 'updateItem'
