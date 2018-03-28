@@ -11,9 +11,7 @@ when sequelize-grid EDITS, the new email address is NOT displaying in the lastUp
 delete does not necessarily work - test
 
 These scripts has been tested on the following:
-  digitalocean droplets (cent0s7)
-  
-  google.cloud.google.com (centos7)
-  
-  amazon ec2 RHEL
+1)  digitalocean droplets (cent0s7)
+2)  google.cloud.google.com (centos7)  
+3)  amazon ec2 RHEL
 
