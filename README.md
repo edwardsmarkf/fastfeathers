@@ -58,9 +58,9 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 3) Point the "A" record of the VPS from step one to the IP address in the second step (Gmail login only, not required for Github login)
 
-4) ```sudo yum --assumeyes install git;  git clone https://edwardsmarkf/fastfeathers ;```
+4) ```sudo yum --assumeyes install git;   git clone https://edwardsmarkf/fastfeathers ;```
 
-5) ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh```  for all feathers examples.
+5) ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh;```  for all feathers examples.
 
 6) (Optional) Edit your choice of examples for the following (Or edit the ./config/default.json file afterwards)
       - HOST (Domain name required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) login)
