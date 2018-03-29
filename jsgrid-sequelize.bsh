@@ -585,8 +585,8 @@ async function createAndPopulateGrid()	{
 	pageButtonCount: 5,
 	deleteConfirm: "Do you really want to delete?",
 	fields: [
-	    { name: "name"	,  type: "text", width: 150 },
-	    { name: "addr"	,  type: "text", width: 200 },
+	    { name: "name"	,  type: "text", width: 150, validate: "required" },
+	    { name: "addr"	,  type: "text", width: 200, validate: "required" },
 	    { name: "updatedBy"	,  type: "text", width: 200, title: 'Updated By (ReadOnly)' , readOnly: true },
 	    { name: "id"	,  type: "text", width: 100, title: 'Id (ReadOnly)'         , readOnly: true },
 	    { type: "control" }
