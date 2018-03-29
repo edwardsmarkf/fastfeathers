@@ -1,14 +1,14 @@
 # FastFeathers
 
-A collection of bash-shell scripts to run various feathers examples very quickly
+A collection of bash-shell scripts to run various feathers examples very quickly.
 
-**Note**:  Please do not simply run these scripts without going through this [excellent feathers tutorial](https://docs.feathersjs.com/guides/readme.html)
+**Note**:  Please do not simply run these scripts without going through this [excellent feathers tutorial](https://docs.feathersjs.com/guides/readme.html).
 
 
 All the Feathers examples all use tcl-expect to answer the CLI questions.
 
 
-## List Of Examples:
+### List Of Examples:
 
 feathers-initial-setup.bsh - Installs and Initializes the feathers enviroment.  Required for every feathers example.
 
@@ -33,7 +33,7 @@ feathers-initial-setup.bsh - Installs and Initializes the feathers enviroment.  
 10) jsgrid-sequelize - Uses Js-grid.com as a front end example. Options include either [MariaDb](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).
 
 
-## Databases
+### Databases
 
 1) init-mariadb-server.bsh - Install/initialize the [MariaDB](https://mariadb.com/) server for examples which require MariaDB.
 
@@ -44,7 +44,7 @@ feathers-initial-setup.bsh - Installs and Initializes the feathers enviroment.  
 4) init-cockroach-client.bsh - (Optional) install a [CockroachDB](https://cockroachlabs.com/) client for testing with _init-cockroach-server.bsh_
 
 
-## Tested Environments
+### Tested Environments
 
 1)  [Digital Ocean](https://digitalocean.com) droplets (cent0s7)
 2)  [Google Cloud](google.cloud.google.com) (centos7)  
