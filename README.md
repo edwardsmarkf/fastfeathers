@@ -2,7 +2,7 @@
 
 A collection of bash-shell scripts to run various [Feathers](https://feathersjs.com/) examples very quickly.
 
-**Note**:  Please do not simply run these scripts without carefully reviewing this [excellent feathers tutorial](https://docs.feathersjs.com/guides/readme.html).
+**Note**:  Please do not simply run these scripts without carefully reviewing this [excellent Feathers tutorial](https://docs.feathersjs.com/guides/readme.html).
 
 
 All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31/expect.1.html) to automatically respond to the Feathers CLI questions.  It is not required to have a separate VPS environment for a database connection, but it does make it more interesting.  All database examples are using SSH connections.  Testing has been done on  [Centos 7](https://www.centos.org/) / [RHEL](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux).
