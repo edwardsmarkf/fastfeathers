@@ -5,7 +5,7 @@ A collection of bash-shell scripts to run various feathers examples very quickly
 **Note**:  Please do not simply run these scripts without carefully reviewing this [excellent feathers tutorial](https://docs.feathersjs.com/guides/readme.html).
 
 
-All the Feathers examples all use [Tcl-Expect](https://www.tcl.tk/man/expect5.31/expect.1.html) to answer the Feathers CLI questions.
+All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31/expect.1.html) to answer the Feathers CLI questions.
 
 
 ### List Of Examples:
