@@ -2,7 +2,7 @@
 
 A collection of bash-shell scripts to run various feathers examples very quickly
 
-**Note**:  Please do not simply run these scripts without going through this ![excellent feathers tutorial](https://docs.feathersjs.com/guides/readme.html)
+**Note**:  Please do not simply run these scripts without going through this [excellent feathers tutorial](https://docs.feathersjs.com/guides/readme.html)
 
 
 All the Feathers examples all use tcl-expect to answer the CLI questions.
@@ -13,7 +13,7 @@ All the Feathers examples all use tcl-expect to answer the CLI questions.
 feathers-initial-setup.bsh - this will install the feathers enviroment.  required for every feathers example.
 
 
-chat-default.bsh - this will quickly install the chat example here: https://docs.feathersjs.com/guides/chat/readme.html.  its entirely written from this site and the results should be indentical.
+chat-default.bsh - this will quickly install the [chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
 
 chat-gmail.bsh - a rework of the chat-default.bsh example, except this uses a gmail address to log in.
 
