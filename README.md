@@ -14,9 +14,9 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 1) **chat-default.bsh** - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
 
-2) **chat-gmail.bsh** - a rework of the chat-default.bsh example, except this uses a gmail address to log in.
+2) **chat-gmail.bsh** - a rework of the **chat-default.bsh** example, except this uses a Gmail address to log in.
 
-3) **chat-github.bsh** - a rework of the chat-default.bsh example, except this uses a github address to log in.
+3) **chat-github.bsh** - a rework of the **chat-default.bsh** example, except this uses a Github address to log in.
 
 4) **gmail-login.bsh** - a very simple example of using gmail to log in rather than the default authentication (Local Storage).
 
