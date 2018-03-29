@@ -54,9 +54,9 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 1) Create a [VPS](https://en.wikipedia.org/wiki/Virtual_private_server), and optionally a second one for database usage.
 
-2) Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing gmail login (Google login only, not required for Github login)
+2) Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing Gmail login (Gmail login only, not required for Github login)
 
-3) Point the "A" record of step one to a VPS from the first step to the IP address in the second step.
+3) Point the "A" record of the VPS from step one to the IP address in the second step (Gmail login only, not required for Github login)
 
 4) ```sudo yum --assumeyes install git;  git clone https://edwardsmarkf/fastfeathers ;```
 
