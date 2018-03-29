@@ -533,17 +533,21 @@ feathersClient.service('testtable').on('created', (message, context) => {
 feathersClient.service('testtable').on('updated', (message, context) => {
 	for ( var _gridRow=0; _gridRow < jQuery('div#jsGrid').jsGrid('option', 'data').length ;  _gridRow++ ) 
 	{
-	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'] === message.id )  {
-debugger;  // 2018-03-27
-		updateObj.setKeyValue(message.id);
-		jQuery('div#jsGrid').jsGrid
-			( 'updateItem'
-			, jQuery("div#jsGrid").jsGrid('option', 'data')[_gridRow]
-			,  message
-			).done( () => {
-				console.log("update completed");
-			});
-		break;
+	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'].toString() === message.id.toString() )  {
+	    		// is this the correct jsgrid row?   
+	    			
+	    	if  ( message.id !== updateObj.getKeyValue()    ) {	// is this update from some other browser window?
+		
+			updateObj.setKeyValue(message.id);	// save this message.id so we dont process it again.
+			jQuery('div#jsGrid').jsGrid
+				( 'updateItem'
+				, jQuery("div#jsGrid").jsGrid('option', 'data')[_gridRow]
+				,  message
+				).done( () => {
+					console.log("update completed");
+				});
+			break;
+		} // end if this update is from some other browser window
 	    }	// end if does this row match what we are looking for?
 	}  // end for loop of all grid items
 })
@@ -552,19 +556,23 @@ feathersClient.service('testtable').on('removed', (message, context) => {
 
 	for ( var _gridRow=0; _gridRow < jQuery('div#jsGrid').jsGrid('option', 'data').length ;  _gridRow++ )
 	{
-	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'] === message.id )  {
+	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'] === message.id.toString() )  {
+	    	    		// is this the correct jsgrid row?
+				
+	    	if  ( message.id !== deleteObj.getKeyValue()    ) {	// is this delete from some other browser window?
 
-		deleteObj.setKeyValue(message.id);
+			deleteObj.setKeyValue(message.id);	// save this message.id so we dont try to delete it again
 
-		jQuery('div#jsGrid').jsGrid({confirmDeleting:false});	// temporarily turn OFF prompting
-		jQuery('div#jsGrid').jsGrid
-			( 'deleteItem'
-			, jQuery("div#jsGrid").jsGrid('option', 'data')[_gridRow]
-			).done( () => {
-				console.log("delete completed");
-				jQuery('div#jsGrid').jsGrid({confirmDeleting:true});	// turn back on
-			});
-		break;
+			jQuery('div#jsGrid').jsGrid({confirmDeleting:false});	// temporarily turn OFF prompting
+			jQuery('div#jsGrid').jsGrid
+				( 'deleteItem'
+				, jQuery("div#jsGrid").jsGrid('option', 'data')[_gridRow]
+				).done( () => {
+					console.log("delete completed");
+					jQuery('div#jsGrid').jsGrid({confirmDeleting:true});	// turn prompting back on
+				});
+			break;
+		} // end if this delete is from some other browser window
 	    }
 	}
 })
