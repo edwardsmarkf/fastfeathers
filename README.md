@@ -2,7 +2,8 @@
 
 A collection of bash-shell scripts to run various feathers examples very quickly
 
-Note:  Please do not simply run these scripts without going through the excellent feathers tutorial here:  https://docs.feathersjs.com/guides/readme.html
+**Note**:  Please do not simply run these scripts without going through this ![excellent feathers tutorial](https://docs.feathersjs.com/guides/readme.html)
+
 
 All the Feathers examples all use tcl-expect to answer the CLI questions.
 
