@@ -30,7 +30,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 9) **custom-service.bsh** - a very simple example of a custom service which reverses strings.
 
-10) **jsgrid-sequelize** - Uses Js-grid.com as a front end example. Options include either [MariaDb](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).
+10) **jsgrid-sequelize** - Uses Js-grid.com as a front end example. Options include either [MariaDb](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
 
 
 ### Databases
@@ -60,9 +60,11 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 4) ```sudo yum --assumeyes install git;  git clone https://edwardsmarkf/fastfeathers ;```
 
-5) (Optional) Edit your choice of examples for the following:
+5) ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh```  for all feathers examples.
+
+6) (Optional) Edit your choice of examples for the following (Or edit the ./config/default.json file afterwards)
       - HOST (Domain name required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) login)
       - Client_ID & Secret_ID  (required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) & [Github](https://github.com/settings/developers) Oath2 login)
       - IP (required for database examples)
       
-5) ```bash  -vx  ./fastfeathers/XXXXXXX.bsh ;```   substitute XXXXXXX.bsh for your choice of examples.
+7) ```bash  -vx  ./fastfeathers/XXXXXXX.bsh ;```   substitute XXXXXXX.bsh for your choice of examples.
