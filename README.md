@@ -10,39 +10,38 @@ All the Feathers examples all use tcl-expect to answer the CLI questions.
 
 ## List Of Examples:
 
-feathers-initial-setup.bsh - this will install the feathers enviroment.  required for every feathers example.
+feathers-initial-setup.bsh - Installs and Initializes the feathers enviroment.  Required for every feathers example.
 
+1) chat-default.bsh - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
 
-chat-default.bsh - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
+2) chat-gmail.bsh - a rework of the chat-default.bsh example, except this uses a gmail address to log in.
 
-chat-gmail.bsh - a rework of the chat-default.bsh example, except this uses a gmail address to log in.
+3) chat-github.bsh - a rework of the chat-default.bsh example, except this uses a github address to log in.
 
-chat-github.bsh - a rework of the chat-default.bsh example, except this uses a github address to log in.
+4) gmail-login.bsh - a very simple example of using gmail to log in rather than the default authentication (Local Storage).
 
-gmail-login.bsh - a very simple example of using gmail to log in rather than the default authentication (Local Storage).
+5) gmail-hook.bsh - a very simple example of using gmail-login.bsh, but includes a hook to capture gmail information such as first name, etc
 
-gmail-hook.bsh - a very simple example of using gmail-login.bsh, but includes a hook to capture gmail information such as first name, etc
+6) gmail-service.bsh - a very simple example of using gmail-login.bsh and gmail-hook.bsh, but also includes an SQL service to save gmail information such as first name, 
 
-gmail-service.bsh - a very simple example of using gmail-login.bsh and gmail-hook.bsh, but also includes an SQL service to save gmail information such as first name, 
+7) github-login.bsh - a very simple example of using github to log in rather than the default authentication (Local Storage).
 
-github-login.bsh - a very simple example of using github to log in rather than the default authentication (Local Storage).
+8) github-hook.bsh - a very simple example of using github-login.bsh, but includes a hook to capture gmail information such as first name, etc
 
-github-hook.bsh - a very simple example of using github-login.bsh, but includes a hook to capture gmail information such as first name, etc
+9) custom-service.bsh - a very simple example of a custom service which reverses strings.
 
-custom-service.bsh - a very simple example of a custom service which reverses strings.
-
-jsgrid-sequelize - Uses Js-grid.com as a front end example.
+10) jsgrid-sequelize - Uses Js-grid.com as a front end example. Options include either [MariaDb](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).
 
 
 ## Databases
 
-init-mariadb-server.bsh - install & initialize the mariadb server for examples which require mariadb SQL
+1) init-mariadb-server.bsh - Install/initialize the [MariaDB](https://mariadb.com/) server for examples which require MariaDB.
 
-init-mariadb-client.bsh - install a mariadb client for testing with init-mariadb-server.bsh
+2) init-mariadb-client.bsh - (Optional) Install a [MariaDB](https://mariadb.com/) client for testing with _init-mariadb-server.bsh_
 
-init-cockroach-server.bsh - install & initialize the cockroach server for examples which require cockroach SQL
+3) init-cockroach-server.bsh - Install/initialize the [CockroachDB](https://cockroachlabs.com/) server for examples which require cockroach.
 
-init-cockroach-client.bsh - install a cockroach client for testing with init-cockroach-server.bsh
+4) init-cockroach-client.bsh - (Optional) install a [CockroachDB](https://cockroachlabs.com/) client for testing with _init-cockroach-server.bsh_
 
 
 ## Tested Environments
