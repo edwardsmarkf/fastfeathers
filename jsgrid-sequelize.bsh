@@ -556,7 +556,7 @@ feathersClient.service('testtable').on('removed', (message, context) => {
 
 	for ( var _gridRow=0; _gridRow < jQuery('div#jsGrid').jsGrid('option', 'data').length ;  _gridRow++ )
 	{
-	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'] === message.id.toString() )  {
+	    if  ( jQuery('div#jsGrid').jsGrid('option', 'data')[_gridRow]['id'].toString() === message.id.toString() )  {
 	    	    		// is this the correct jsgrid row?
 				
 	    	if  ( message.id !== deleteObj.getKeyValue()    ) {	// is this delete from some other browser window?
