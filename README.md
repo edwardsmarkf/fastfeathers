@@ -48,7 +48,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 1)  [Digital Ocean](https://digitalocean.com) droplets (cent0s7)
 2)  [Google Cloud](google.cloud.google.com) (centos7)  
-3)  [Amazon Ec2](https://console.aws.amazon.com/ec2) (RHEL)
+3)  [Amazon EC2](https://console.aws.amazon.com/ec2) (RHEL)
 
 ### To Run:
 
