@@ -52,4 +52,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 ### To Run:
 
+1) Obtain a [Namecheap](https://namecheap.com)
+1) Create one VPS environment
+
 ```sudo yum --assumeyes install git;  git clone https://edwardsmarkf/fastfeathers ;```
