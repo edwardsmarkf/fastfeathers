@@ -14,19 +14,19 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 1) **chat-default.bsh** - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
 
-2) **chat-gmail.bsh** - a rework of the **chat-default.bsh** example, except this uses a Gmail address to log in.
+2) **chat-gmail.bsh** - rework of the **chat-default.bsh** example, except this uses a Gmail address to log in.
 
-3) **chat-github.bsh** - a rework of the **chat-default.bsh** example, except this uses a Github address to log in.
+3) **chat-github.bsh** - rework of the **chat-default.bsh** example, except this uses a Github address to log in.
 
-4) **gmail-login.bsh** - a very simple example of using gmail to log in rather than the default authentication (Local Storage).
+4) **gmail-login.bsh** - simple example of using gmail to log in rather than the default authentication (Local Storage NeDB).
 
-5) **gmail-hook.bsh** - a very simple example of using **gmail-login.bsh**, but includes a hook to capture gmail information such as first name, etc
+5) **gmail-hook.bsh** - simple example of using **gmail-login.bsh**, but includes a hook to capture gmail information such as first name, etc
 
-6) **gmail-service.bsh** - a very simple example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save gmail information such as first name, 
+6) **gmail-service.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save Gmail information such as first name, 
 
-7) **github-login.bsh** - a very simple example of using github to log in rather than the default authentication (Local Storage).
+7) **github-login.bsh** - example of using Github to log in rather than the default authentication (Local Storage NeDB).
 
-8) **github-hook.bsh** - a very simple example of using github-login.bsh, but includes a hook to capture gmail information such as first name, etc
+8) **github-hook.bsh** - example of using Github-login.bsh, but includes a hook to capture Gmail information such as first name, etc
 
 9) **custom-service.bsh** - a very simple example of a custom service which reverses strings.
 
@@ -54,7 +54,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 1) Create a [VPS](https://en.wikipedia.org/wiki/Virtual_private_server), and optionally a second one for database usage.
 
-2) Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing gmail login (Google login only, not required for github login)
+2) Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing gmail login (Google login only, not required for Github login)
 
 3) Point the "A" record of step one to a VPS from the first step to the IP address in the second step.
 
