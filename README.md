@@ -13,7 +13,7 @@ All the Feathers examples all use tcl-expect to answer the CLI questions.
 feathers-initial-setup.bsh - this will install the feathers enviroment.  required for every feathers example.
 
 
-chat-default.bsh - this will quickly install the [chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
+chat-default.bsh - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
 
 chat-gmail.bsh - a rework of the chat-default.bsh example, except this uses a gmail address to log in.
 
@@ -47,7 +47,7 @@ init-cockroach-client.bsh - install a cockroach client for testing with init-coc
 
 ## Tested Environments
 
-1)  digitalocean droplets (cent0s7)
-2)  google.cloud.google.com (centos7)  
-3)  amazon-ec2 (RHEL)
+1)  [Digital Ocean](https://digitalocean.com) droplets (cent0s7)
+2)  [Google Cloud](google.cloud.google.com) (centos7)  
+3)  [Amazon Ec2](https://console.aws.amazon.com/ec2) (RHEL)
 
