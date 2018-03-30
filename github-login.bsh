@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##   github-login.bsh   last update: 2018-03-27
+##   github-login.bsh   last update: 2018-03-30
 
 ##  Bash-shell script to create the github 'simple' login example entirely from scratch.
 
@@ -24,7 +24,7 @@ FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
