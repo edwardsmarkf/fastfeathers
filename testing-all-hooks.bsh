@@ -7,7 +7,7 @@
 ## also creates all the application-wide hooks, for a total of FOURTH-TWO (42) hooks.
 
 
-SERVICE_NAME='testservice';
+export SERVICE_NAME='testservice';
 FEATHERS_PORT=3030;
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
