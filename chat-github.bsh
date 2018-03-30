@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	chat-github.bsh   last update: 2018-03-27
+##	chat-github.bsh   last update: 2018-03-30
 
 ##  Bash-shell script to create the Github-feathers chat application with github login entirely from scratch.
 
@@ -20,7 +20,7 @@
 ##  Be sure to run the gist build feathers first!
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
