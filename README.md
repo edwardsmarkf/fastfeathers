@@ -30,7 +30,9 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 9) **custom-service.bsh** - a very simple example of a custom service which reverses strings.
 
-10) **jsgrid-sequelize** - Uses Js-grid.com as a front end example. Options include either [MariaDb](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
+10) **jsgrid-sequelize.bsh** - Uses Js-grid.com as a front end example. Options include either [MariaDb](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
+
+11) **test-all-hooks.bsh**   - used to test each and every possible hook to determine execution order.
 
 
 ### Databases
