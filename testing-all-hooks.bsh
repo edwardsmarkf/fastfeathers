@@ -1,0 +1,190 @@
+#! /bin/bash
+
+## test-all-hooks.bsh     2018-03-30
+
+## this "extraordinarly redundant" script creates a logger.info(__filename) for each and every hook, including the error hooks
+
+## also creates all the application-wide hooks, for a total of FOURTH-TWO (42) hooks.
+
+
+SERVICE_NAME='testservice';
+FEATHERS_PORT=3030;
+
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=`date "+%Y-%m-%d %r"`                      ;
+
+
+rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
+
+##     feathers generate  app;   ## taking all the defaults, except for the description
+export FileNameWithExtension;
+export TimeStamp;
+expect <(cat <<'END_OF_GENERATE_APP'
+	#	generates an application, taking ALL the defaults
+	#	written from https://docs.feathersjs.com/guides/chat/creating.html
+	 
+	set timeout -1
+	 
+	spawn feathers generate app;
+	 
+	expect -re ".*Project name.*"
+	send -- "\r"
+			## defaults to the name of the directory
+	 
+	expect -re ".*Description.*"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
+			## optional description
+	 
+	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
+	send -- "\r"
+			## defaults to 'src'
+	 
+	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
+	send -- "\r"
+			## defaults to 'npm'
+	 
+	expect -re ".*What type of API are you making\?.*"
+	send -- "\r"
+			## defaults to REST & Realtime via Socket.io
+	expect eof
+END_OF_GENERATE_APP
+)	## end of feathers generate app
+
+
+
+##		feathers generate service;   ## all defaults except for the service name - "testtable"
+expect <(cat <<'END_OF_GENERATE_SERVICE'
+	#	creates a service:	reverse  (all the defaults)
+	#	written from:	https://docs.feathersjs.com/guides/chat/service.html
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+  
+	set timeout -1
+	 
+	spawn	feathers generate service;
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "\r"
+			## defaults to NeDB
+			
+	 
+	expect	-re ".*What is the name of the service\?.*"
+	send	-- "$env(SERVICE_NAME)\r"
+	 
+	expect	-re ".*Which path should the service be registered on\?.*"
+	send	-- "\r"
+			## defaults to /reverse
+			
+	expect	-re ".*What is the database connection string.*"
+	send	-- "\r"
+			##  default
+	 
+	expect eof
+END_OF_GENERATE_SERVICE
+)	## end of feathers generate service
+
+
+#sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js  <<END_OF_SED_REVERSE_CLASS ;
+#s|id, text: \`A new message with ID: \${id}\!\`|id, text: \`ID reversed: \${id.toUpperCase()}\` // ${FileNameWithExtension}|;
+#END_OF_SED_REVERSE_CLASS
+
+sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js  <<END_OF_SED_REVERSE_CLASS ;
+s|      id, text: \`A new message with ID: \${id}\!\`|\
+//    id, text: \`A new message with ID: \${id}\!\` -- line commented out by ${FileNameWithExtension}\n\
+      id, text: \`ID reversed: \${id.split('').reverse().join('')}\` // -- line added by ${FileNameWithExtension}|;
+END_OF_SED_REVERSE_CLASS
+
+
+sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
+s/"host": "localhost",/"host": "${THIS_IPADDR}",/;
+END_OF_SED_CONFIG_DEFAULT
+
+
+
+
+# before
+# after
+# error
+
+# default returns application-wide
+# downarrow space return selects testservice
+
+# all
+# find
+# get
+# create
+# update
+# patch
+# remove
+
+set -u;
+
+declare -a hookKinds=( 'before' 'after' 'error');
+declare -a hookServices=( ${SERVICE_NAME} 'app' );
+declare -a hookMethods=( 'all' 'find' 'get' 'create' 'update' 'patch' 'remove');
+
+export downArrow=$'\x1b\x5b\x42';
+
+
+export hookKindDownArrow='';
+for hookKind in "${hookKinds[@]}"
+do
+        export hookServiceDownArrow='';         ## reset
+        for hookService in "${hookServices[@]}"
+        do
+                export hookMethodDownArrow='';  ## reset
+                for hookMethod in "${hookMethods[@]}"
+                do
+                        export ServiceName=${hookService}-${hookKind}-${hookMethod};
+
+                        expect <(cat <<'END_OF_GENERATE'
+
+                                set timeout -1
+
+                                spawn   feathers generate hook ;
+
+                                expect  -re ".*What is the name of the hook?.*"
+                                send    --  "$env(ServiceName)\r"
+
+                                expect  -re "What kind of hook should it be?"
+                                send    --  "$env(hookKindDownArrow)\r"
+
+                                expect  -re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)?"
+                                send    --  "$env(hookServiceDownArrow) \r"
+
+                                expect  -re "What methods should the hook be for \\\(select none to add it yourself\\\)?"
+                                send    --  "$env(hookMethodDownArrow) \r"
+
+                                expect eof
+END_OF_GENERATE
+                        )
+
+                        sed --in-place --file=- ./src/hooks/${ServiceName}.js   <<END_OF_SED ;
+3i\
+\\
+const logger = require('winston');\\
+
+/  return async context => {/ a\
+    logger.info(__filename);
+END_OF_SED
+
+                        export hookMethodDownArrow="${hookMethodDownArrow}${downArrow}";
+                done
+                export hookServiceDownArrow="${hookServiceDownArrow}${downArrow}";
+        done
+        export hookKindDownArrow="${hookKindDownArrow}${downArrow}";
+done
+
+
+
+
+cat <<END_OF_SCRIPT;
+Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
+END_OF_SCRIPT
+##
+##
