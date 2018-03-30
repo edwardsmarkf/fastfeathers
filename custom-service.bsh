@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	custom-service.bsh  	last update: 2018-03-27
+##	custom-service.bsh  	last update: 2018-03-30
 
 ##  Bash-shell script to create a simple ONE-LINE custom service example entirely from scratch.
 ##  the only line of code changed is in the ./src/services/SERVICENAME.class.js  file.
@@ -18,7 +18,7 @@ FEATHERS_PORT=3030;
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
