@@ -56,7 +56,7 @@ END_OF_GENERATE_APP
 )	## end of feathers generate app
 
 
-export SERVICE_NAME;
+
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
 expect <(cat <<'END_OF_GENERATE_SERVICE'
 	#	creates a service:	reverse  (all the defaults)
@@ -137,7 +137,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_ALL_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-before-all\r"
+	send	-- "$env(SERVICE_NAME)-before-all\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -172,7 +172,7 @@ expect <(cat <<'END_OF_GEN_AFTER_ALL_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-after-all\r"
+	send	-- "$env(SERVICE_NAME)-after-all\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow twice return selects 'after'
@@ -207,7 +207,7 @@ expect <(cat <<'END_OF_GEN_ERROR_ALL_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-error-all\r"
+	send	-- "$env(SERVICE_NAME)-error-all\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow twice return selects 'error'
@@ -248,7 +248,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_FIND_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-before-find\r"
+	send	-- "$env(SERVICE_NAME)-before-find\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -282,7 +282,7 @@ expect <(cat <<'END_OF_GEN_AFTER_FIND_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-after-find\r"
+	send	-- "$env(SERVICE_NAME)-after-find\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -317,7 +317,7 @@ expect <(cat <<'END_OF_GEN_ERROR_FIND_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-error-find\r"
+	send	-- "$env(SERVICE_NAME)-error-find\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (3) return selects 'error'
@@ -358,7 +358,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_GET_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-before-get\r"
+	send	-- "$env(SERVICE_NAME)-before-get\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -392,7 +392,7 @@ expect <(cat <<'END_OF_GEN_AFTER_GET_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-after-get\r"
+	send	-- "$env(SERVICE_NAME)-after-get\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -427,7 +427,7 @@ expect <(cat <<'END_OF_GEN_ERROR_GET_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-error-get\r"
+	send	-- "$env(SERVICE_NAME)-error-get\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (3) return selects 'error'
@@ -467,7 +467,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_CREATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-before-create\r"
+	send	-- "$env(SERVICE_NAME)-before-create\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -501,7 +501,7 @@ expect <(cat <<'END_OF_GEN_AFTER_CREATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-after-create\r"
+	send	-- "$env(SERVICE_NAME)-after-create\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -535,7 +535,7 @@ expect <(cat <<'END_OF_GEN_ERROR_CREATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-error-create\r"
+	send	-- "$env(SERVICE_NAME)-error-create\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'error'
@@ -577,7 +577,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_UPDATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-before-update\r"
+	send	-- "$env(SERVICE_NAME)-before-update\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -611,7 +611,7 @@ expect <(cat <<'END_OF_GEN_AFTER_UPDATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-after-update\r"
+	send	-- "$env(SERVICE_NAME)-after-update\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -646,7 +646,7 @@ expect <(cat <<'END_OF_GEN_ERROR_UPDATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-error-update\r"
+	send	-- "$env(SERVICE_NAME)-error-update\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (3) return selects 'error'
@@ -685,7 +685,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_PATCH_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-before-patch\r"
+	send	-- "$env(SERVICE_NAME)-before-patch\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -719,7 +719,7 @@ expect <(cat <<'END_OF_GEN_AFTER_PATCH_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-after-patch\r"
+	send	-- "$env(SERVICE_NAME)-after-patch\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -755,7 +755,7 @@ expect <(cat <<'END_OF_GEN_ERROR_PATCH_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-error-patch\r"
+	send	-- "$env(SERVICE_NAME)-error-patch\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'error'
@@ -796,7 +796,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_REMOVE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-before-remove\r"
+	send	-- "$env(SERVICE_NAME)-before-remove\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -830,7 +830,7 @@ expect <(cat <<'END_OF_GEN_AFTER_REMOVE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-after-remove\r"
+	send	-- "$env(SERVICE_NAME)-after-remove\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -865,7 +865,7 @@ expect <(cat <<'END_OF_GEN_ERROR_REMOVE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "${SERVICE_NAME}-error-remove\r"
+	send	-- "$env(SERVICE_NAME)-error-remove\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'error'
