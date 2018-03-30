@@ -920,7 +920,7 @@ expect <(cat <<'END_OF_GEN_APP_BEFORE_ALL_HOOK'
 END_OF_GEN_APP_BEFORE_ALL_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/app-after-all.js   <<END_OF_SED_APP_AFTER_ALL_HOOK ;
+sed --in-place --file=- ./src/hooks/app-before-all.js   <<END_OF_SED_APP_BEFORE_ALL_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -928,7 +928,7 @@ const logger = require('winston');\\
 /  return async context => {/ a\
     logger.info(__filename);
 
-END_OF_SED_APP_AFTER_ALL_HOOK
+END_OF_SED_APP_BEFORE_ALL_HOOK
 
 expect <(cat <<'END_OF_GEN_APP_AFTER_ALL_HOOK'
 	 
@@ -1026,7 +1026,7 @@ expect <(cat <<'END_OF_GEN_APP_BEFORE_FIND_HOOK'
 END_OF_GEN_APP_BEFORE_FIND_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/app-after-find.js   <<END_OF_SED_APP_AFTER_FIND_HOOK ;
+sed --in-place --file=- ./src/hooks/app-before-find.js   <<END_OF_SED_APP_BEFORE_FIND_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -1034,7 +1034,8 @@ const logger = require('winston');\\
 /  return async context => {/ a\
     logger.info(__filename);
 
-END_OF_SED_APP_AFTER_FIND_HOOK
+END_OF_SED_APP_BEFORE_FIND_HOOK
+
 
 expect <(cat <<'END_OF_GEN_APP_AFTER_FIND_HOOK'
 	 
@@ -1138,7 +1139,7 @@ expect <(cat <<'END_OF_GEN_APP_BEFORE_GET_HOOK'
 END_OF_GEN_APP_BEFORE_GET_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/app-after-get.js   <<END_OF_SED_APP_AFTER_GET_HOOK ;
+sed --in-place --file=- ./src/hooks/app-before-get.js   <<END_OF_SED_APP_BEFORE_GET_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -1146,7 +1147,7 @@ const logger = require('winston');\\
 /  return async context => {/ a\
     logger.info(__filename);
 
-END_OF_SED_APP_AFTER_GET_HOOK
+END_OF_SED_APP_BEFORE_GET_HOOK
 
 expect <(cat <<'END_OF_GEN_APP_AFTER_GET_HOOK'
 	 
@@ -1249,7 +1250,7 @@ expect <(cat <<'END_OF_GEN_APP_BEFORE_CREATE_HOOK'
 END_OF_GEN_APP_BEFORE_CREATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/app-after-create.js   <<END_OF_SED_APP_AFTER_CREATE_HOOK ;
+sed --in-place --file=- ./src/hooks/app-before-create.js   <<END_OF_SED_APP_BEFORE_CREATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -1257,7 +1258,7 @@ const logger = require('winston');\\
 /  return async context => {/ a\
     logger.info(__filename);
 
-END_OF_SED_APP_AFTER_CREATE_HOOK
+END_OF_SED_APP_BEFORE_CREATE_HOOK
 
 expect <(cat <<'END_OF_GEN_APP_AFTER_CREATE_HOOK'
 	 
@@ -1358,7 +1359,7 @@ expect <(cat <<'END_OF_GEN_APP_BEFORE_UPDATE_HOOK'
 END_OF_GEN_APP_BEFORE_UPDATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/app-after-update.js   <<END_OF_SED_APP_AFTER_UPDATE_HOOK ;
+sed --in-place --file=- ./src/hooks/app-before-update.js   <<END_OF_SED_APP_BEFORE_UPDATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -1366,7 +1367,7 @@ const logger = require('winston');\\
 /  return async context => {/ a\
     logger.info(__filename);
 
-END_OF_SED_APP_AFTER_UPDATE_HOOK
+END_OF_SED_APP_BEFORE_UPDATE_HOOK
 
 expect <(cat <<'END_OF_GEN_APP_AFTER_UPDATE_HOOK'
 	 
@@ -1466,7 +1467,7 @@ expect <(cat <<'END_OF_GEN_APP_BEFORE_PATCH_HOOK'
 END_OF_GEN_APP_BEFORE_PATCH_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/app-after-patch.js   <<END_OF_SED_APP_AFTER_PATCH_HOOK ;
+sed --in-place --file=- ./src/hooks/app-before-patch.js   <<END_OF_SED_APP_BEFORE_PATCH_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -1474,7 +1475,7 @@ const logger = require('winston');\\
 /  return async context => {/ a\
     logger.info(__filename);
 
-END_OF_SED_APP_AFTER_PATCH_HOOK
+END_OF_SED_APP_BEFORE_PATCH_HOOK
 
 expect <(cat <<'END_OF_GEN_APP_AFTER_PATCH_HOOK'
 	 
@@ -1574,7 +1575,7 @@ expect <(cat <<'END_OF_GEN_APP_BEFORE_REMOVE_HOOK'
 END_OF_GEN_APP_BEFORE_REMOVE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/app-after-remove.js   <<END_OF_SED_APP_AFTER_REMOVE_HOOK ;
+sed --in-place --file=- ./src/hooks/app-before-remove.js   <<END_OF_SED_APP_BEFORE_REMOVE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -1582,7 +1583,7 @@ const logger = require('winston');\\
 /  return async context => {/ a\
     logger.info(__filename);
 
-END_OF_SED_APP_AFTER_REMOVE_HOOK
+END_OF_SED_APP_BEFORE_REMOVE_HOOK
 
 expect <(cat <<'END_OF_GEN_APP_AFTER_REMOVE_HOOK'
 	 
