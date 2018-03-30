@@ -1,7 +1,6 @@
 #! /bin/bash
 
-##   github-hook.bsh   last update: 2018-03-27
-
+##   github-hook.bsh   last update: 2018-03-30
 ##  Bash-shell script to create the Github-feathers login example and uses a hook to save the github user information.
 
 ##  Script is written entirely from https://docs.feathersjs.com/guides/auth/recipe.oauth-basic.html
@@ -26,7 +25,7 @@ FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
