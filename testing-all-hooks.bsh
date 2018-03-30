@@ -125,13 +125,13 @@ END_OF_SED_CONFIG_DEFAULT
 set -u;
 
 declare -a hookKinds=( 'before' 'after' 'error');
-declare -a hookServices=( ${SERVICE_NAME} 'app' );
+declare -a hookServices=('app' ${SERVICE_NAME} );
 declare -a hookMethods=( 'all' 'find' 'get' 'create' 'update' 'patch' 'remove');
 
 export downArrow=$'\x1b\x5b\x42';
 
 
-export hookKindDownArrow='';
+export hookKindDownArrow=${downArrow};
 for hookKind in "${hookKinds[@]}"
 do
         export hookServiceDownArrow='';         ## reset
