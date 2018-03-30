@@ -1215,14 +1215,109 @@ const logger = require('winston');\\
 END_OF_SED_APP_ERROR_CREATE_HOOK
 
 
+expect <(cat <<'END_OF_GEN_APP_ERROR_UPDATE_HOOK'
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook?.*"
+	send	-- "app-error-update\r"
+	expect	-re "What kind of hook should it be?"
+	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+			## downarrow (3) return selects 'error'
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)?"
+	send	-- " \r"
+			##  space return selects 'application0wide'
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"	
+		##  downarrow (4) space selects 'update'
+	 
+	expect eof
+END_OF_GEN_APP_ERROR_UPDATE_HOOK
+)	
+
+sed --in-place --file=- ./src/hooks/app-error-update.js   <<END_OF_SED_APP_ERROR_UPDATE_HOOK ;
+3i\
+\\
+const logger = require('winston');\\
+
+/  return async context => {/ a\
+    logger.info(__filename);
+
+END_OF_SED_APP_ERROR_UPDATE_HOOK
 
 
+expect <(cat <<'END_OF_GEN_APP_ERROR_PATCH_HOOK'
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook?.*"
+	send	-- "app-error-patch\r"
+	expect	-re "What kind of hook should it be?"
+	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+			## downarrow (3) return selects 'error'
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)?"
+	send	-- " \r"
+			##  space return selects 'application0wide'
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"	
+		##  downarrow (5) space selects 'patch'
+	 
+	expect eof
+END_OF_GEN_APP_ERROR_PATCH_HOOK
+)	
+
+sed --in-place --file=- ./src/hooks/app-error-patch.js   <<END_OF_SED_APP_ERROR_PATCH_HOOK ;
+3i\
+\\
+const logger = require('winston');\\
+
+/  return async context => {/ a\
+    logger.info(__filename);
+
+END_OF_SED_APP_ERROR_PATCH_HOOK
 
 
+expect <(cat <<'END_OF_GEN_APP_ERROR_REMOVE_HOOK'
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook?.*"
+	send	-- "app-error-remove\r"
+	expect	-re "What kind of hook should it be?"
+	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+			## downarrow (3) return selects 'error'
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)?"
+	send	-- " \r"
+			##  space return selects 'application0wide'
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"	
+		##  downarrow (6) space selects 'remove'
+	 
+	expect eof
+END_OF_GEN_APP_ERROR_REMOVE_HOOK
+)	
 
+sed --in-place --file=- ./src/hooks/app-error-remove.js   <<END_OF_SED_APP_ERROR_REMOVE_HOOK ;
+3i\
+\\
+const logger = require('winston');\\
 
+/  return async context => {/ a\
+    logger.info(__filename);
 
-
+END_OF_SED_APP_ERROR_REMOVE_HOOK
 
 
 
