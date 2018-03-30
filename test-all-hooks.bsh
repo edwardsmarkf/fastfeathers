@@ -7,7 +7,7 @@
 ## also creates all the application-wide hooks, for a total of FOURTH-TWO (42) hooks.
 
 
-SERVICE_NAME='testservice';
+export SERVICE_NAME='testservice';
 FEATHERS_PORT=3030;
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
@@ -137,7 +137,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_ALL_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "before-all\r"
+	send	-- "${SERVICE_NAME}-before-all\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -152,7 +152,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_ALL_HOOK'
 END_OF_GEN_BEFORE_ALL_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/before-all.js   <<END_OF_SED_BEFORE_ALL_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-before-all.js   <<END_OF_SED_BEFORE_ALL_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -172,7 +172,7 @@ expect <(cat <<'END_OF_GEN_AFTER_ALL_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "after-all\r"
+	send	-- "${SERVICE_NAME}-after-all\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow twice return selects 'after'
@@ -187,7 +187,7 @@ expect <(cat <<'END_OF_GEN_AFTER_ALL_HOOK'
 END_OF_GEN_AFTER_ALL_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/after-all.js   <<END_OF_SED_AFTER_ALL_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-after-all.js   <<END_OF_SED_AFTER_ALL_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -207,7 +207,7 @@ expect <(cat <<'END_OF_GEN_ERROR_ALL_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "error-all\r"
+	send	-- "${SERVICE_NAME}-error-all\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow twice return selects 'error'
@@ -222,7 +222,7 @@ expect <(cat <<'END_OF_GEN_ERROR_ALL_HOOK'
 END_OF_GEN_ERROR_ALL_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/error-all.js   <<END_OF_SED_ERROR_ALL_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-error-all.js   <<END_OF_SED_ERROR_ALL_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -248,7 +248,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_FIND_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "before-find\r"
+	send	-- "${SERVICE_NAME}-before-find\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -263,7 +263,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_FIND_HOOK'
 END_OF_GEN_BEFORE_FIND_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/before-find.js   <<END_OF_SED_BEFORE_FIND_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-before-find.js   <<END_OF_SED_BEFORE_FIND_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -282,7 +282,7 @@ expect <(cat <<'END_OF_GEN_AFTER_FIND_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "after-find\r"
+	send	-- "${SERVICE_NAME}-after-find\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -297,7 +297,7 @@ expect <(cat <<'END_OF_GEN_AFTER_FIND_HOOK'
 END_OF_GEN_AFTER_FIND_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/after-find.js   <<END_OF_SED_AFTER_FIND_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-after-find.js   <<END_OF_SED_AFTER_FIND_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -317,7 +317,7 @@ expect <(cat <<'END_OF_GEN_ERROR_FIND_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "error-find\r"
+	send	-- "${SERVICE_NAME}-error-find\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (3) return selects 'error'
@@ -332,7 +332,7 @@ expect <(cat <<'END_OF_GEN_ERROR_FIND_HOOK'
 END_OF_GEN_ERROR_FIND_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/error-find.js   <<END_OF_SED_ERROR_FIND_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-error-find.js   <<END_OF_SED_ERROR_FIND_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -358,7 +358,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_GET_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "before-get\r"
+	send	-- "${SERVICE_NAME}-before-get\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -373,7 +373,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_GET_HOOK'
 END_OF_GEN_BEFORE_GET_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/before-get.js   <<END_OF_SED_BEFORE_GET_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-before-get.js   <<END_OF_SED_BEFORE_GET_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -392,7 +392,7 @@ expect <(cat <<'END_OF_GEN_AFTER_GET_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "after-get\r"
+	send	-- "${SERVICE_NAME}-after-get\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -407,7 +407,7 @@ expect <(cat <<'END_OF_GEN_AFTER_GET_HOOK'
 END_OF_GEN_AFTER_GET_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/after-get.js   <<END_OF_SED_AFTER_GET_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-after-get.js   <<END_OF_SED_AFTER_GET_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -427,7 +427,7 @@ expect <(cat <<'END_OF_GEN_ERROR_GET_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "error-get\r"
+	send	-- "${SERVICE_NAME}-error-get\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (3) return selects 'error'
@@ -442,7 +442,7 @@ expect <(cat <<'END_OF_GEN_ERROR_GET_HOOK'
 END_OF_GEN_ERROR_GET_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/error-get.js   <<END_OF_SED_ERROR_GET_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-error-get.js   <<END_OF_SED_ERROR_GET_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -467,7 +467,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_CREATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "before-create\r"
+	send	-- "${SERVICE_NAME}-before-create\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -482,7 +482,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_CREATE_HOOK'
 END_OF_GEN_BEFORE_CREATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/before-create.js   <<END_OF_SED_BEFORE_CREATE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-before-create.js   <<END_OF_SED_BEFORE_CREATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -501,7 +501,7 @@ expect <(cat <<'END_OF_GEN_AFTER_CREATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "after-create\r"
+	send	-- "${SERVICE_NAME}-after-create\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -516,7 +516,7 @@ expect <(cat <<'END_OF_GEN_AFTER_CREATE_HOOK'
 END_OF_GEN_AFTER_CREATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/after-create.js   <<END_OF_SED_AFTER_CREATE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-after-create.js   <<END_OF_SED_AFTER_CREATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -535,7 +535,7 @@ expect <(cat <<'END_OF_GEN_ERROR_CREATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "error-create\r"
+	send	-- "${SERVICE_NAME}-error-create\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'error'
@@ -550,7 +550,7 @@ expect <(cat <<'END_OF_GEN_ERROR_CREATE_HOOK'
 END_OF_GEN_ERROR_CREATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/error-create.js   <<END_OF_SED_ERROR_CREATE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-error-create.js   <<END_OF_SED_ERROR_CREATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -577,7 +577,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_UPDATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "before-update\r"
+	send	-- "${SERVICE_NAME}-before-update\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -592,7 +592,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_UPDATE_HOOK'
 END_OF_GEN_BEFORE_UPDATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/before-update.js   <<END_OF_SED_BEFORE_UPDATE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-before-update.js   <<END_OF_SED_BEFORE_UPDATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -611,7 +611,7 @@ expect <(cat <<'END_OF_GEN_AFTER_UPDATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "after-update\r"
+	send	-- "${SERVICE_NAME}-after-update\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -626,7 +626,7 @@ expect <(cat <<'END_OF_GEN_AFTER_UPDATE_HOOK'
 END_OF_GEN_AFTER_UPDATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/after-update.js   <<END_OF_SED_AFTER_UPDATE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-after-update.js   <<END_OF_SED_AFTER_UPDATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -646,7 +646,7 @@ expect <(cat <<'END_OF_GEN_ERROR_UPDATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "error-update\r"
+	send	-- "${SERVICE_NAME}-error-update\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (3) return selects 'error'
@@ -661,7 +661,7 @@ expect <(cat <<'END_OF_GEN_ERROR_UPDATE_HOOK'
 END_OF_GEN_ERROR_UPDATE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/error-update.js   <<END_OF_SED_ERROR_UPDATE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-error-update.js   <<END_OF_SED_ERROR_UPDATE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -685,7 +685,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_PATCH_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "before-patch\r"
+	send	-- "${SERVICE_NAME}-before-patch\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -700,7 +700,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_PATCH_HOOK'
 END_OF_GEN_BEFORE_PATCH_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/before-patch.js   <<END_OF_SED_BEFORE_PATCH_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-before-patch.js   <<END_OF_SED_BEFORE_PATCH_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -719,7 +719,7 @@ expect <(cat <<'END_OF_GEN_AFTER_PATCH_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "after-patch\r"
+	send	-- "${SERVICE_NAME}-after-patch\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -734,7 +734,7 @@ expect <(cat <<'END_OF_GEN_AFTER_PATCH_HOOK'
 END_OF_GEN_AFTER_PATCH_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/after-patch.js   <<END_OF_SED_AFTER_PATCH_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-after-patch.js   <<END_OF_SED_AFTER_PATCH_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -755,7 +755,7 @@ expect <(cat <<'END_OF_GEN_ERROR_PATCH_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "error-patch\r"
+	send	-- "${SERVICE_NAME}-error-patch\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'error'
@@ -770,7 +770,7 @@ expect <(cat <<'END_OF_GEN_ERROR_PATCH_HOOK'
 END_OF_GEN_ERROR_PATCH_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/error-patch.js   <<END_OF_SED_ERROR_PATCH_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-error-patch.js   <<END_OF_SED_ERROR_PATCH_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -796,7 +796,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_REMOVE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "before-remove\r"
+	send	-- "${SERVICE_NAME}-before-remove\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
@@ -811,7 +811,7 @@ expect <(cat <<'END_OF_GEN_BEFORE_REMOVE_HOOK'
 END_OF_GEN_BEFORE_REMOVE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/before-remove.js   <<END_OF_SED_BEFORE_REMOVE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-before-remove.js   <<END_OF_SED_BEFORE_REMOVE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -830,7 +830,7 @@ expect <(cat <<'END_OF_GEN_AFTER_REMOVE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "after-remove\r"
+	send	-- "${SERVICE_NAME}-after-remove\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'after'
@@ -845,7 +845,7 @@ expect <(cat <<'END_OF_GEN_AFTER_REMOVE_HOOK'
 END_OF_GEN_AFTER_REMOVE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/after-remove.js   <<END_OF_SED_AFTER_REMOVE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-after-remove.js   <<END_OF_SED_AFTER_REMOVE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
@@ -865,7 +865,7 @@ expect <(cat <<'END_OF_GEN_ERROR_REMOVE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook?.*"
-	send	-- "error-remove\r"
+	send	-- "${SERVICE_NAME}-error-remove\r"
 	expect	-re "What kind of hook should it be?"
 	send	--  "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
 			## downarrow (2) return selects 'error'
@@ -880,7 +880,7 @@ expect <(cat <<'END_OF_GEN_ERROR_REMOVE_HOOK'
 END_OF_GEN_ERROR_REMOVE_HOOK
 )	
 
-sed --in-place --file=- ./src/hooks/error-remove.js   <<END_OF_SED_ERROR_REMOVE_HOOK ;
+sed --in-place --file=- ./src/hooks/${SERVICE_NAME}-error-remove.js   <<END_OF_SED_ERROR_REMOVE_HOOK ;
 3i\
 \\
 const logger = require('winston');\\
