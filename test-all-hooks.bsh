@@ -2,7 +2,9 @@
 
 ## test-all-hooks.bsh     2018-03-30
 
-## this extraordinarly redundant script creates a logger.info(__filename) for each and every hook, including the error hooks
+## this "extraordinarly redundant" script creates a logger.info(__filename) for each and every hook, including the error hooks
+
+## also creates all the application-wide hooks, for a total of FOURTH-TWO (42) hooks.
 
 
 SERVICE_NAME='testservice';
