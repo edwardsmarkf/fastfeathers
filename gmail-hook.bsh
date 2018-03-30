@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	gmail-hook.bsh   -- 2018-03-27
+##	gmail-hook.bsh   -- 2018-03-30
 
 ##  Bash-shell script to create the Google-feathers login example with a hook entirely from scratch in
 ##	order to extract out the email address, google user information, etc.
@@ -21,7 +21,7 @@ GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleuserc
 GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                                 ;
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
