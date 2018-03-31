@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	chat-github.bsh   last update: 2018-03-30
+##	chat-github.bsh   last update: 2018-03-31
 
 ##  Bash-shell script to create the Github-feathers chat application with github login entirely from scratch.
 
