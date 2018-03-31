@@ -1,6 +1,6 @@
 # FastFeathers
 
-A collection of bash-shell scripts to run various [Feathers](https://feathersjs.com/) examples very quickly.
+A collection of bash-shell scripts to install and run various [Feathers](https://feathersjs.com/) examples very quickly.
 
 **Note**:  Please do not simply run these scripts without carefully reviewing this [excellent Feathers tutorial](https://docs.feathersjs.com/guides/readme.html).
 
