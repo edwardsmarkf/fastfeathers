@@ -59,10 +59,9 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 2) (Gmail login examples only, suggested but not required for Github login) Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing Gmail login and point the "A" record of the IP of the VPS from the previous step.
 
-3)
-    -- Gmail login:  Visit the [Google Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page to create your credentials and get your **Client ID** and **Client secret** values. You will need to fill in **Authorized Javascript origins** (example: http://fastfeathers.website:3030) and **Authorized redirect URIs** (example: http://fastfeathers.website:3030/auth/google/callback) using your own domain name in the [Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page.
+3a) Gmail login:  Visit the [Google Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page to create your credentials and get your **Client ID** and **Client secret** values. You will need to fill in **Authorized Javascript origins** (example: http://fastfeathers.website:3030) and **Authorized redirect URIs** (example: http://fastfeathers.website:3030/auth/google/callback) using your own domain name in the [Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page.
 
-     Github login:  Visit the [Oauth Apps](https://github.com/settings/developers) page to create your credentials to get your **Client ID** and **Client secret** values.  You will need to fill in your **Authorized callback URL** (example: http://123.123.123.123:3030/auth/github/callback) using your own page in the[Oauth Apps](https://github.com/settings/developers) page.
+3b) Github login:  Visit the [Oauth Apps](https://github.com/settings/developers) page to create your credentials to get your **Client ID** and **Client secret** values.  You will need to fill in your **Authorized callback URL** (example: http://123.123.123.123:3030/auth/github/callback) using your own page in the[Oauth Apps](https://github.com/settings/developers) page.
 
 3) ```sudo yum --assumeyes install git;   git clone https://edwardsmarkf/fastfeathers ;```
 
@@ -70,7 +69,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 5) ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh;``` Required for the feathers server.
 
-6) (Optional) Edit your choice of examples for the following (Or edit your _./config/default.json_ file later)
+6) (Optional) Edit your choice of examples for the following (Or edit your _./config/default.json_ file after completion.)
       - HOST (Domain name required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) login)
       - Client_ID & Secret_ID  (required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) & [Github](https://github.com/settings/developers) Oath2 login)
       - IP (required for all examples that use a database)
