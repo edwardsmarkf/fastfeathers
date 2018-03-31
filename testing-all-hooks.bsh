@@ -7,7 +7,7 @@
 ## also creates all the application-wide hooks, for a total of FOURTH-TWO (42) hooks.
 
 
-export SERVICE_NAME='testservice';
+SERVICE_NAME='testservice';
 FEATHERS_PORT=3030;
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
@@ -56,7 +56,7 @@ END_OF_GENERATE_APP
 )	## end of feathers generate app
 
 
-
+export ${SERVICE_NAME};
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
 expect <(cat <<'END_OF_GENERATE_SERVICE'
 	#	creates a service:	reverse  (all the defaults)
@@ -128,19 +128,22 @@ declare -a hookKinds=( 'before' 'after' 'error');
 declare -a hookServices=('app' ${SERVICE_NAME} );
 declare -a hookMethods=( 'all' 'find' 'get' 'create' 'update' 'patch' 'remove');
 
-export downArrow=$'\x1b\x5b\x42';
+downArrow=$'\x1b\x5b\x42';
 
 
-export hookKindDownArrow=${downArrow};
+hookKindDownArrow=${downArrow};
 for hookKind in "${hookKinds[@]}"
 do
-        export hookServiceDownArrow='';         ## reset
+        hookServiceDownArrow='';         ## reset
         for hookService in "${hookServices[@]}"
         do
-                export hookMethodDownArrow='';  ## reset
+                hookMethodDownArrow='';  ## reset
                 for hookMethod in "${hookMethods[@]}"
                 do
                         export ServiceName=${hookService}-${hookKind}-${hookMethod};
+			export ${hookKindDownArrow};
+			export ${hookServiceDownArrow};
+			export ${hookMethodDownArrow};
 
                         expect <(cat <<'END_OF_GENERATE'
 
@@ -173,11 +176,11 @@ const logger = require('winston');\\
     logger.info(__filename);
 END_OF_SED
 
-                        export hookMethodDownArrow="${hookMethodDownArrow}${downArrow}";
+                        hookMethodDownArrow="${hookMethodDownArrow}${downArrow}";
                 done
-                export hookServiceDownArrow="${hookServiceDownArrow}${downArrow}";
+                hookServiceDownArrow="${hookServiceDownArrow}${downArrow}";
         done
-        export hookKindDownArrow="${hookKindDownArrow}${downArrow}";
+        hookKindDownArrow="${hookKindDownArrow}${downArrow}";
 done
 
 
