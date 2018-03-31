@@ -16,9 +16,9 @@
 
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-HOST='fastfeathers.website'                                                                         ;
-GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleusercontent.com'     ;
-GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                                 ;
+HOST='fastfeathers.website'                                                                      ;
+GOOGLE_CLIENT_ID='119068144580-gpeiuXXXXXXXXXXXXXXXXXXXXXXXXk5asgs.apps.googleusercontent.com'   ;
+GOOGLE_CLIENT_SECRET='m-RsXXXXXXXXXXJIajwpN'                                                     ;
 
 
 echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
