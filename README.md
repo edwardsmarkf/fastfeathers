@@ -72,7 +72,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 8) (Optional) Edit your choice of examples for the following (Or edit your _./config/default.json_ file after completion.)
       - HOST (Domain name required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) login)
       - Client_ID & Secret_ID  (required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) & [Github](https://github.com/settings/developers) Oath2 login)
-      - DB_USER, DB_PASS, DB_NAME, SERVER_IP (required for all examples that use a database, displayed after DB installation)
+      - DB_USER, DB_PASS, DB_NAME, SERVER_IP (required for all examples that use a database, values are displayed after DB installation)
       
 9) ```bash  -vx  ./fastfeathers/XXXXXXX.bsh ;```   substitute XXXXXXX.bsh for your choice of examples.
 
