@@ -27,8 +27,8 @@ echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-GITHUB_CLIENT_ID='dccac33a9360323fe2af'                         ;
-GITHUB_CLIENT_SECRET='960393c181f10a44527c7dc6e4196317939f3c59' ;
+GITHUB_CLIENT_ID='dccac3XXXXXXX23fe2af'                         ;
+GITHUB_CLIENT_SECRET='960393c181XXXXXXXXXXXXX6e4196317939f3c59' ;
 ##  get credentials here:  https://github.com/settings/developers
 
 FileNameWithExtension=${0##*/}                       ;
