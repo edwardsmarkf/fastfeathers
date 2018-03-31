@@ -59,10 +59,9 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 2) (Gmail login examples only, not required for Github login)
 
-    --Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing Gmail login and point the "A" record of the IP of the VPS from the previous step.
+    -- Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing Gmail login and point the "A" record of the IP of the VPS from the previous step.
 
-    --The examples which use Gmail will require [Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) **Client ID** and **Client secret**, and you will need to fill in **Authorized Javascript origins** (example: http://fastfeathers.website:3030) and **Authorized redirect URIs** (example: http://fastfeathers.website:3030/auth/google/callback) using your own domain name in the [Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page.
-
+    -- Visit the [Google Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page to create your credentials and get your **Client ID** and **Client secret** values. You will need to fill in **Authorized Javascript origins** (example: http://fastfeathers.website:3030) and **Authorized redirect URIs** (example: http://fastfeathers.website:3030/auth/google/callback) using your own domain name in the [Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page.
 
 3) ```sudo yum --assumeyes install git;   git clone https://edwardsmarkf/fastfeathers ;```
 
