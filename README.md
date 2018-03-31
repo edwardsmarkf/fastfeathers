@@ -22,7 +22,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 5) **gmail-hook.bsh** - simple example of using **gmail-login.bsh**, but includes a hook to capture gmail information such as first name, etc
 
-6) **gmail-service.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save Gmail information such as first name.  This one has a very crude user-interface using the console.
+6) **gmail-service.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save Gmail information such as first name.  This one has a very crude user-interface using the browser-console.
 
 7) **github-login.bsh** - example of using Github to log in rather than the default authentication (Local Storage NeDB).
 
@@ -32,7 +32,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 10) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDb](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
 
-11) **test-all-hooks.bsh**   - used to test each and every possible hook to determine execution order.
+11) **test-all-hooks.bsh**   - used to test each and every possible hook to help determine execution order.  Creates 42 hooks.
 
 
 ### Databases
