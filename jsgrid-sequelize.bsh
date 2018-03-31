@@ -20,8 +20,8 @@ TYPE=CockroachDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 ##   vars for ./config/default.json changes  --  you may need to double-check the values here.
 
 HOST='fastfeathers.website'                                                                    ;
-GOOGLE_CLIENT_ID='81362834256-dit8bqg32qn66qbqhlge2f2aii7rjqp9.apps.googleusercontent.com'     ;
-GOOGLE_CLIENT_SECRET='BLeuOr4P95mO7paFnahiHu7g'                                                ;
+GOOGLE_CLIENT_ID='81362834256-dXXXXXXXXXXXXXXXXXXXXXXaii7rjqp9.apps.googleusercontent.com'     ;
+GOOGLE_CLIENT_SECRET='BLeuOXXXXXXXXXXXXXXXXu7g'                                                ;
 ###  get credentials here:  https://console.developers.google.com/apis/credentials/
 
 DB_USER='feathersuser'                                                                         ;
