@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##   gmail-login.bsh   last update: 2018-03-30
+##   gmail-login.bsh   last update: 2018-03-31
 
 ##  Bash-shell script to create the feathers-gmail 'simple' login example entirely from scratch.
 
@@ -13,9 +13,9 @@
 
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-HOST='yourdomain.com'                                                                           ;
-GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleusercontent.com'     ;
-GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                                 ;
+HOST='fastfeathers.website'                                                                   ;
+GOOGLE_CLIENT_ID='119068144580-gpeiuqub1u6573bat944dgf3rpk5asgs.apps.googleusercontent.com'   ;
+GOOGLE_CLIENT_SECRET='m-RsnAG3rleC49_YpJIajwpN'                                               ;
 ###  get credentials here:  https://console.developers.google.com/apis/credentials/
 
 
