@@ -56,21 +56,19 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 1) Create a [VPS](https://en.wikipedia.org/wiki/Virtual_private_server), and optionally a second one for database usage.
 
-2) Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing Gmail login (Gmail login only, not required for Github login)
+2) (Gmail login examples only, not required for Github login) Obtain a [Namecheap](https://namecheap.com) 99-cent domain name for testing Gmail login and point the "A" record of the IP of the VPS from the previous step.
 
-3) Point the "A" record of the VPS from step one to the IP address in the second step (Gmail login only, not required for Github login)
+3) ```sudo yum --assumeyes install git;   git clone https://edwardsmarkf/fastfeathers ;```
 
-4) ```sudo yum --assumeyes install git;   git clone https://edwardsmarkf/fastfeathers ;```
+4)  ```bash -vx  ./fastfeathers/init-XXXXX-server.bsh;```  Required for the database server for all examples requiring database access.
 
-5)  ```bash -vx  ./fastfeathers/init-XXXXX-server.bsh;```  Required for the database server for all examples requiring database access.
+5) ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh;``` Required for the feathers server.
 
-6) ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh;``` Required for the feathers server.
-
-7) (Optional) Edit your choice of examples for the following (Or edit your _./config/default.json_ file later)
+6) (Optional) Edit your choice of examples for the following (Or edit your _./config/default.json_ file later)
       - HOST (Domain name required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) login)
       - Client_ID & Secret_ID  (required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) & [Github](https://github.com/settings/developers) Oath2 login)
       - IP (required for all examples that use a database)
       
-8) ```bash  -vx  ./fastfeathers/XXXXXXX.bsh ;```   substitute XXXXXXX.bsh for your choice of examples.
+7) ```bash  -vx  ./fastfeathers/XXXXXXX.bsh ;```   substitute XXXXXXX.bsh for your choice of examples.
 
-9) Instructions to run the feathers example should now display on your terminal window.
+8) Instructions to run the feathers example should now display on your terminal window.
