@@ -61,7 +61,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 3) Gmail login:  Visit the [Google Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page to create your credentials and get your _**Client ID**_ and _**Client secret**_ values. You will need to fill in _**Authorized Javascript origins**_ (example: http;//fastfeathers.com:3030) and _**Authorized redirect URIs**_ (example: http;//fastfeathers.com:3030/auth/google/callback) using your own domain name in the [Oauth2 credentials](https://console.developers.google.com/apis/credentials/oauthclient/) page.
 
-4) Github login:  Visit the [Oauth Apps](https://github.com/settings/developers) page to create your credentials to get your _**Client ID**_ and _**Client secret**_ values.  You will need to fill in your _**Authorized callback URL**_ (example: http;//123.123.123.123:3030/auth/github/callback) using your own page in the[Oauth Apps](https://github.com/settings/developers) page.
+4) Github login:  Visit the [Oauth Apps](https://github.com/settings/developers) page to create your credentials to get your _**Client ID**_ and _**Client secret**_ values.  You will need to fill in your _**Authorized callback URL**_ (example: http;//123.123.123.123:3030/auth/github/callback) using your own IP number (or domain name) in the[Oauth Apps](https://github.com/settings/developers) page.
 
 5) ```sudo yum --assumeyes install git;   git clone https://edwardsmarkf/fastfeathers ;```
 
