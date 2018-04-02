@@ -20,6 +20,12 @@
 ##  Be sure to run the gist build feathers first!
 
 
+##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
+GITHUB_CLIENT_ID='dccac3XXXXXXX23fe2af'                         ;
+GITHUB_CLIENT_SECRET='960393c181XXXXXXXXXXXXX6e4196317939f3c59' ;
+##  get credentials here:  https://github.com/settings/developers
+
+
 echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
@@ -36,14 +42,7 @@ if  [ $? -ne 0 ]; then
         exit 1;
 fi
 
-
-
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
-
-##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-GITHUB_CLIENT_ID='dccac3XXXXXXX23fe2af'                         ;
-GITHUB_CLIENT_SECRET='960393c181XXXXXXXXXXXXX6e4196317939f3c59' ;
-##  get credentials here:  https://github.com/settings/developers
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
