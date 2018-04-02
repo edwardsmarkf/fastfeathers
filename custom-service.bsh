@@ -16,11 +16,25 @@
 SERVICE_NAME='flipflop';
 FEATHERS_PORT=3030;
 
-THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Node has not yet been installed!';
+        exit 1;
+fi
 echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'NPM has not yet been installed!';
+        exit 1;
+fi
 echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Feathers has not yet been installed!';
+        exit 1;
+fi
+
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
