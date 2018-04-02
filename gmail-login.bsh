@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##   gmail-login.bsh   last update: 2018-03-31
+##   gmail-login.bsh   last update: 2018-04-02
 
 ##  Bash-shell script to create the feathers-gmail 'simple' login example entirely from scratch.
 
@@ -19,13 +19,26 @@ GOOGLE_CLIENT_SECRET='m-RsXXXXXXXXXXXXXXIajwpN'                                 
 ###  get credentials here:  https://console.developers.google.com/apis/credentials/
 
 
+
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Node has not yet been installed!';
+        exit 1;
+fi
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'NPM has not yet been installed!';
+        exit 1;
+fi
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Feathers has not yet been installed!';
+        exit 1;
+fi
+
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
-
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
 
 
 rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
