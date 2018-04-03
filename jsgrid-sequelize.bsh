@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	jsgrid-sequelize.bsh  	last update: 2018-03-31
+##	jsgrid-sequelize.bsh  	last update: 2018-04-03
 
 ##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
 
@@ -493,7 +493,9 @@ cat > ./public/index.html << END_OF_CAT_INDEX_HTML ;
 <div id="jsGrid"></div>
 <script src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
 <script src="//unpkg.com/socket.io-client@1.7.3/dist/socket.io.js"></script>
+<script src="app.js"></script>
 <script>
+     'use strict'
   // Socket.io is exposed as the \`io\` global.
   var socket = io(':3030', {transports: ['websocket']});
   // feathers-client is exposed as the \`feathers\` global.
