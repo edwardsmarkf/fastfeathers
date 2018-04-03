@@ -510,7 +510,6 @@ END_OF_CAT_DEMOS_CSS
 
 
 
-
 cat > ./public/app.js   << END_OF_CAT_APP_JS ;
 
      'use strict'
@@ -530,7 +529,7 @@ cat > ./public/app.js   << END_OF_CAT_APP_JS ;
       console.info('Feathers Client has Authenticated with the JWT access token!');
       console.log(response);
       jQuery('span#login').hide();  jQuery('span#logout').show();
-      PopulateGrid();
+      createAndPopulateGrid();
     })
     .catch(error => {
       console.info("We have not logged in with OAuth, yet.  This means there's no cookie storing the accessToken.  As a result, feathersClient.authenticate() failed.");
