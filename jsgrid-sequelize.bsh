@@ -708,7 +708,7 @@ async function createAndPopulateGrid()	{
 	});
 }
 
-END_OF_CAT_APP_JS;
+END_OF_CAT_APP_JS
 
 
 
