@@ -399,9 +399,8 @@ cat > ./public/index.html << END_OF_CAT_INDEX_HTML ;
     <main class="container">
       <h2 class="center-text">A REST and realtime API layer for modern applications. - using ${TYPE}</h2>
 <p class="center-text"><br/>
-  <a href="/auth/google">Login With Google</a>
-  &nbsp;
-  <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google</a>
+  <span id='login'><a href="/auth/google">Login With Google</a></span>
+  <span id='logout'><a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google</a></span>
   &nbsp;
   Adapted from <a href='http://js-grid.com/demos/' target='_blank'>js-grid</a>
 </p>
@@ -523,12 +522,15 @@ cat > ./public/app.js   << END_OF_CAT_APP_JS ;
     .configure(feathers.authentication({
       cookie: 'feathers-jwt'
     }));
+    
+  jQuery('span#login').show();  jQuery('span#logout').hide();
 
   feathersClient.authenticate()
     .then(response => {
       console.info('Feathers Client has Authenticated with the JWT access token!');
       console.log(response);
-	createAndPopulateGrid();
+      jQuery('span#login').hide();  jQuery('span#logout').show();
+      PopulateGrid();
     })
     .catch(error => {
       console.info("We have not logged in with OAuth, yet.  This means there's no cookie storing the accessToken.  As a result, feathersClient.authenticate() failed.");
@@ -616,6 +618,8 @@ feathersClient.service('testtable').on('removed', (message, context) => {
 
 
 async function createAndPopulateGrid()	{
+
+
 
    jQuery("div#jsGrid").jsGrid({
 	height: "70%",
