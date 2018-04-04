@@ -51,12 +51,12 @@ fi
 if [ "${TYPE}" = "${MariaDB}" ]; then
     SERVER_PORT='3306'                                                                                            ;
     CONNECT_STRING="mysql://${DB_USER}:${DB_PASS}@${SERVER_IP}:${SERVER_PORT}/${DB_NAME}"                         ;
-    DB_URL="https://cockroachlabs.com/"                                                                           ;
+    DB_URL="https://mariadb.com/"                                                                                 ;
 elif [ "${TYPE}" = "${CockroachDB}" ]; then
     SERVER_PORT='26257'                                                                                           ;
     PG_SSL_FLAG='true'                                                                                            ;
     CONNECT_STRING="postgres://${DB_USER}:${DB_PASS}@${SERVER_IP}:${SERVER_PORT}/${DB_NAME}?ssl=${PG_SSL_FLAG}"   ;
-    DB_URL="https://https://mariadb.com/"                                                                         ;
+    DB_URL="https://cockroachlabs.com/"                                                                           ;
 fi
 
   ## originally:        postgres": "postgres://postgres:@localhost:5432/google_jsgrid_pgsql
