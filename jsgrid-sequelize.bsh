@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	jsgrid-sequelize.bsh  	last update: 2018-04-03
+##	jsgrid-sequelize.bsh  	last update: 2018-04-04
 
 ##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
 
@@ -51,10 +51,12 @@ fi
 if [ "${TYPE}" = "${MariaDB}" ]; then
     SERVER_PORT='3306'                                                                                            ;
     CONNECT_STRING="mysql://${DB_USER}:${DB_PASS}@${SERVER_IP}:${SERVER_PORT}/${DB_NAME}"                         ;
+    DB_URL="https://cockroachlabs.com/"                                                                           ;
 elif [ "${TYPE}" = "${CockroachDB}" ]; then
     SERVER_PORT='26257'                                                                                           ;
     PG_SSL_FLAG='true'                                                                                            ;
     CONNECT_STRING="postgres://${DB_USER}:${DB_PASS}@${SERVER_IP}:${SERVER_PORT}/${DB_NAME}?ssl=${PG_SSL_FLAG}"   ;
+    DB_URL="https://https://mariadb.com/"                                                                         ;
 fi
 
   ## originally:        postgres": "postgres://postgres:@localhost:5432/google_jsgrid_pgsql
@@ -397,7 +399,7 @@ cat > ./public/index.html << END_OF_CAT_INDEX_HTML ;
   </head>
   <body>
     <main class="container">
-      <h2 class="center-text">A REST and realtime API layer for modern applications. - using ${TYPE}</h2>
+      <h2 class="center-text">A REST and realtime API layer for modern applications. - using <a href="${DB_URL}" target="_blank">${TYPE}</a></h2>
 <p class="center-text"><br/>
   <span id='login'><a href="/auth/google">Login With Google</a></span>
   <span id='logout'><a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google</a></span>
