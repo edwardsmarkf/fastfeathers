@@ -1,7 +1,6 @@
 #! /bin/bash
 
-# init-cockroach-client.bsh     last update: 2018-03-26
-
+# init-cockroach-client.bsh     last update: 2018-04-06
 # this script builds a cockroach(pg) client from scratch for testing with init-cockroach-server.bsh
 
  dbServerIp='XXX.XXX.XXX.XXX';   ## this this from init-cockroach-server.bsh
@@ -15,6 +14,21 @@
  echo 'ipAddrInternal is: ${ipaddrInternal}';
  echo 'ipAddrExternal is: ${ipaddrExternal}';
 
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Node has not yet been installed!';
+        exit 1;
+fi
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.8.0 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'NPM has not yet been installed!';
+        exit 1;
+fi
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Feathers has not yet been installed!';
+        exit 1;
+fi
 
 if  [ '${$(groups)/sudo}' ] ;
  then   SUDO='sudo' ; 
