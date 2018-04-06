@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-cockroach-server.bsh   last update: 2018-03-26
+# init-cockroach-server.bsh   last update: 2018-04-06
 
 # script to build a cockroach server 
 
@@ -55,6 +55,7 @@ ${SUDO} cp --force --verbose  ./cockroach-v1.1.6.linux-amd64/cockroach /usr/loca
 
 which cockroach ;  ##  /usr/local/bin/cockroach
 cockroach  version ;   ## v1.1.6 at the time of this writing
+cockroach  version ;   ## v2.0.0 at the time of this writing
 
 
 mkdir  ./path-to-ca-key/;
