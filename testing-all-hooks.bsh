@@ -1,6 +1,6 @@
 #! /bin/bash
 
-## test-all-hooks.bsh     2018-04-02
+## test-all-hooks.bsh     2018-04-06
 
 ## this "extraordinarly redundant" script creates a logger.info(__filename) for each and every hook, including the error hooks
 
@@ -16,7 +16,7 @@ if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.8.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
