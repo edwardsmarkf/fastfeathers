@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	gmail-hook.bsh  	last update: 2018-04-02
+##	gmail-hook.bsh  	last update: 2018-04-06
 ##
 ##	Bash script to create a google-gmail authentication with a service,
 ##      using the default NeDB database.
@@ -20,7 +20,7 @@ if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.8.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
