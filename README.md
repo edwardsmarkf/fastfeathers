@@ -45,6 +45,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 4) **init-cockroach-client.bsh** - (Optional) install a [CockroachDB](https://cockroachlabs.com/) client for testing with **init-cockroach-server.bsh**
 
+5) **init-timeline-server.txt** - creates a timelineDB(postgresql) environment.  this is not a bash-script (yet).
 
 ### Tested Environments
 
