@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##   gmail-login.bsh   last update: 2018-04-02
+##   gmail-login.bsh   last update: 2018-04-06
 
 ##  Bash-shell script to create the feathers-gmail 'simple' login example entirely from scratch.
 
@@ -25,7 +25,7 @@ if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.8.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
