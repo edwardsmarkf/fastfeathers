@@ -48,13 +48,14 @@ rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
 
  
-${SUDO} wget -qO- https://binaries.cockroachdb.com/cockroach-v1.1.6.linux-amd64.tgz | tar  xvz ;
-## ${SUDO} wget -qO- https://binaries.cockroachdb.com/cockroach-v2.0.0.linux-amd64.tgz | tar  xvz
+##${SUDO} wget -qO- https://binaries.cockroachdb.com/cockroach-v1.1.6.linux-amd64.tgz | tar  xvz ;
+${SUDO} wget -qO- https://binaries.cockroachdb.com/cockroach-v2.0.0.linux-amd64.tgz | tar  xvz
 
-${SUDO} cp --force --verbose  ./cockroach-v1.1.6.linux-amd64/cockroach /usr/local/bin/ ;
+##${SUDO} cp --force --verbose  ./cockroach-v1.1.6.linux-amd64/cockroach /usr/local/bin/ ;
+${SUDO} cp --force --verbose  ./cockroach-v2.0.0.linux-amd64/cockroach /usr/local/bin/ ;
 
 which cockroach ;  ##  /usr/local/bin/cockroach
-cockroach  version ;   ## v1.1.6 at the time of this writing
+##cockroach  version ;   ## v1.1.6 at the time of this writing
 cockroach  version ;   ## v2.0.0 at the time of this writing
 
 
