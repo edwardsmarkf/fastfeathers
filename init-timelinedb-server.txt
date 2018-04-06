@@ -1,0 +1,169 @@
+
+##  init-timelinedb-server.txt    2018-04-06
+
+## this script is not ready to run batch yet.
+
+## Written from:   
+## https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-centos-7
+## https://devops.profitbricks.com/tutorials/install-postgresql-on-centos-7/
+
+## 2-do   https://www.postgresql.org/docs/9.1/static/ssl-tcp.html
+
+set -o vi ;                                             ## optional, but i love it
+
+sudo yum  --assumeyes  update  ;                        ## optional but always a good idea
+
+sudo yum  --assumeyes  install gcc gcc-c++  ;                   ## optional
+
+sudo yum  --assumeyes  install  bzip2  bzip2-devel  curl  git  tar   wget   yum-utils   ;
+
+sudo yum  --assumeyes  groupinstall "Development Tools"  ;   ## not sure if this is really necessary?
+
+sudo yum  --assumeyes  install firewalld;
+
+systemctl  start  firewalld;
+systemctl  enable firewalld;
+
+sudo firewall-cmd --zone=public --add-port=5432/tcp --permanent ; sudo firewall-cmd --reload ;
+sudo firewall-cmd --zone=dmz    --add-port=5432/tcp --permanent ; sudo firewall-cmd --reload ;
+
+##  only used when installing the latest yum version:
+##    sudo yum --assumeyes  install postgresql-server postgresql-contrib ;
+
+sudo yum install --assumeyes  https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm;
+sudo yum install --assumeyes  postgresql96-server ;   ## server and client combined.
+sudo yum install --assumeyes postgresql96 ;   ## client only
+
+/usr/pgsql-9.6/bin/postgresql96-setup initdb   ## initialize the database
+
+##  only used when installing from the latest yum version:  sudo postgresql-setup initdb    ;   ## initialize the database
+
+
+## modify postresql.conf file listen_address
+## sudo sed -i -e "s/#listen_addresses = 'localhost'/listen_addresses = '*'/;"   /var/lib/pgsql/data/postgresql.conf  ;
+
+sudo sed -i -e "s/#listen_addresses = 'localhost'/listen_addresses = '*'/;"  /var/lib/pgsql/9.6/data/postgresql.conf  ;
+
+##sudo vi /var/lib/pgsql/data/pg_hba.conf  ;
+sudo vi  /var/lib/pgsql/9.6/data/pg_hba.conf
+## change "ident" to "md5" near bottom:
+##   host    all             all             127.0.0.1/32            md5   (was "ident")
+##   host    all             all             ::1/128                 md5   (was "ident")
+##  also: host    all             all        0.0.0.0/0               md5 (same line as one above, match CLIENT!)
+
+
+systemctl enable postgresql-9.6  ;
+systemctl start postgresql-9.6   ;
+systemctl stop  postgresql-9.6   ;
+systemctl restart postgresql-9.6   ;  ## this one needs to be done every time a config file changes
+systemctl status postgresql-9.6   ;  
+
+##postgres  --version  ;  ## looking for 9.6 or greater
+
+/usr/pgsql-9.6/bin/postgres --version ;  ## allowed as root login
+ 
+===  UTC > FATAL:  lock file "postmaster.pid" already exist =====
+#(may have to kill the postmaster pid https://superuser.com/questions/553045/fatal-lock-file-postmaster-pid-already-exists )
+##    cat   /usr/local/var/postgres/postmaster.pid ;
+      cat   /var/lib/pgsql/9.6/data/postmaster.pid ;
+## remember to delete the pid id found in  /var/lib/pgsql/9.6/data/postmaster.pid  (first line or so) --  kill  12345
+
+su -  postgres ;   ## switch user to postgres, since postgresql does not allow root access for security reasons
+
+## https://www.postgresql.org/docs/9.6/static/tutorial-start.html
+ 
+## MIGHT BE UNNEEDED:
+##  /usr/pgsql-9.6/bin/postgres  -D   /var/lib/pgsql/9.6/data  &     ## note ampersand on end to run in background
+ 
+createdb  mydb  ;  ## check for errors
+dropdb    mydb  ;  ## optional
+psql  mydb ; 
+     help
+     SELECT version();
+     
+## =========================
+## ##https://docs.timescale.com/v0.9/getting-started/installation/linux/installation-yum
+## timescale:
+
+##wget https://timescalereleases.blob.core.windows.net/rpm/timescaledb-0.9.1-postgresql-9.6-0.x86_64.rpm ;
+##sudo yum --assumeyes install timescaledb  ;
+yum  --assumeyes install   https://timescalereleases.blob.core.windows.net/rpm/timescaledb-0.9.1-postgresql-9.6-0.x86_64.rpm ;
+ 
+sed --in-place --file=-   /var/lib/pgsql/9.6/data/postgresql.conf <<END_OF_SED_POSTGRESQL_CONF ;
+s/^#shared_preload_libraries = ''/shared_preload_libraries = 'timescaledb'/;
+END_OF_SED_POSTGRESQL_CONF
+ 
+## to use timescale on any specific database:
+
+createdb  mytimescaledb ;
+psql  --dbname=mytimescaledb ;                    ## logged in as postgres
+       CREATE EXTENSION  timescaledb ;
+       \dx  timescaledb                           ## verify timescale is there
+
+ 
+ 
+ 
+ ## =============================
+ ## remote connection:
+ 
+ telnet  167.99.105.198  5432   ;   ## connectivity test (sits there until  "systemctl restart postgresql-9.6   ;")
+ 
+##  https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
+ 
+sudo  --user=  postgres createuser  feathersuser ;
+sudo  --user=  postgres createdb    bank ;
+sudo  --user=  postgres  psql ;
+       ALTER USER feathersuser WITH ENCRYPTED PASSWORD 'aaaaaa' ;   ## responds back ALTER ROLE
+       GRANT ALL PRIVILEGES ON DATABASE bank TO feathersuser;
+       
+psql  --dbname=bank ;                    ## logged in as postgres
+       CREATE EXTENSION  timescaledb ;
+
+###  https://docs.timescale.com/v0.9/getting-started/setup
+sudo useradd   feathersuser; 
+sudo passwd    feathersuser;
+sudo su  -  feathersuser ;   # switch user to feathersuser
+whoami;                      ## feathersuser   
+psql  --dbname=bank  --username=feathersuser ;
+ 
+   SELECT * FROM pg_catalog.pg_tables;
+   SELECT  * FROM  pg_catalog.pg_tables WHERE  schemaname != 'pg_catalog' AND schemaname != 'information_schema';
+   \dt
+
+\dx  timescaledb    ## verifys timescaledb has been installed
+\dx                 ## shows all postgresql extensions
+
+==== postgresql ssl connections ===============================
+
+### https://www.howtoforge.com/postgresql-ssl-certificates
+
+cd /var/lib/pgsql/6.6/data ;
+
+openssl genrsa -des3 -out server.key 1024 ;  ## will be prompted for temporary passphrase
+
+openssl rsa -in server.key -out server.key ;  ## will be asked for temporary passphrase
+
+chmod 400 server.key ;
+
+chown   postgres.postgres   server.key ;   ## notice the other two keys might need to have owners changed as well.
+
+openssl req -new -key server.key -days 3650 -out server.crt -x509 -subj '/C=CA/ST=British Columbia/L=Comox/O=TheBrain.ca/CN=thebrain.ca/emailAddress=info@gmail.com' ;
+
+cp --verbose server.crt root.crt ;
+
+vi  /var/lib/pgsql/9.6/data/pg_hba.conf
+## 1) change "md5" to "trust" from earlier step
+## 2( append this to bottom of file:
+            # IPv4 remote connections for authenticated users
+            hostssl all         www-data    0.0.0.0/0             md5 clientcert=1
+            hostssl all         postgres    0.0.0.0/0             md5 clientcert=1
+
+
+vi   /var/lib/pgsql/9.6/data/postgresql.conf  ;
+
+## change these values:
+
+ssl = on                      ## was commented out and set to 'off'
+ssl_cert_file = 'server.crt'  ## was commented out  
+ssl_key_file = 'server.key'   ## was commented out
+ssl_ca_file = 'root.crt'      ## was commented out and set to '' (null)
