@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-cockroach-server.bsh   last update: 2018-04-06
+# init-cockroach-server.bsh  upgraded to 2.0  last update: 2018-04-06 
 
 # script to build a cockroach server 
 
