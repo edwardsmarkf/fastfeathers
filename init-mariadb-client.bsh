@@ -30,11 +30,6 @@ if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
 fi
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
-if  [ $? -ne 0 ]; then
-        echo 'Feathers has not yet been installed!';
-        exit 1;
-fi
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
