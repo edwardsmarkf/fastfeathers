@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-mariadb-client.bsh     last update: 2018-03-26
+# init-mariadb-client.bsh     last update: 2018-04-06
 
 # this script builds a mariadb client from scratch for testing with init-mariadb-server.bsh
 
@@ -19,6 +19,22 @@ if  [ '${$(groups)/sudo}' ] ;
       echo 'you either need to be have sudo or be logged in as root!';
       exit;
  fi;
+
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Node has not yet been installed!';
+        exit 1;
+fi
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.8.0 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'NPM has not yet been installed!';
+        exit 1;
+fi
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.6.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Feathers has not yet been installed!';
+        exit 1;
+fi
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
