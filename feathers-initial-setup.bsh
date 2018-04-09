@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#   feathers-initial-setup.bsh   last update: 2018-04-06
+#   feathers-initial-setup.bsh   last update: 2018-04-09
 
 # script to initally build your feathers environment
 #
@@ -28,6 +28,9 @@ ${SUDO}  firewall-cmd --reload;           ## make the new port opening permanent
 ##	https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora
 ${SUDO} curl --silent --location https://rpm.nodesource.com/setup_8.x | ${SUDO} bash -  ;
 ${SUDO} yum  --assumeyes  install nodejs ;
+
+${SUDO} npm  -g  update  npm ;    ## update to latest version
+
 
 ##		feathers-cli installation:
 sudo npm install -g @feathersjs/cli ;  ## https://google.com/feathersjs/cli
