@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-cockroach-server.bsh  upgraded to 2.0  last update: 2018-04-06 
+# init-cockroach-server.bsh  upgraded to 2.0  last update: 2018-04-18
 
 # script to build a cockroach server 
 
@@ -100,6 +100,9 @@ END_OF_EXPECT_CR_SET_USER
 
 cat >./nodePgTest.js  <<END_OF_NODE_SCRIPT;
 // Connect to the "${dbName}" database.
+
+var pg = require('pg');
+
 var config = {
   user: '${dbUser}',
   password: '${dbPass}',
@@ -112,10 +115,12 @@ var config = {
 const pool = new pg.Pool(config);
 
 // or connect with just one line
+/*
 const connectionString = 'postgresql://${dbUser}:${dbPass}@${ipaddrExternal}:${dbPort}/${dbName}?ssl=true';
 const pool = new pg.Pool({
   connectionString: connectionString,
 })
+*/
 END_OF_NODE_SCRIPT
 
 cat <<END_OF_SCRIPT
