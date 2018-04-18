@@ -14,16 +14,7 @@
  echo 'ipAddrInternal is: ${ipaddrInternal}';
  echo 'ipAddrExternal is: ${ipaddrExternal}';
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
-if  [ $? -ne 0 ]; then
-        echo 'Node has not yet been installed!';
-        exit 1;
-fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.8.0 at the time of this writing
-if  [ $? -ne 0 ]; then
-        echo 'NPM has not yet been installed!';
-        exit 1;
-fi
+
 
 if  [ '${$(groups)/sudo}' ] ;
  then   SUDO='sudo' ; 
@@ -57,8 +48,8 @@ sleep 10 ;  ## installing node appeared to work async in one test.
 
 ${SUDO} npm  -g  update  npm ;    ## update to latest version
 
- echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 used in this writing
- echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 used in this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 
 export FileNameWithExtension;
 expect <(cat <<'END_OF_NPM_INIT'
