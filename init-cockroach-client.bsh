@@ -107,7 +107,7 @@ var pg = require('pg');
 var config = {
   user: '${dbUser}',
   password: '${dbPass}',
-  host: '${dbServerIp}',   // CHANGE THIS!
+  host: '${dbServerIp}',   // CHECK THIS!
   database: '${dbName}',
   ssl: ${sslFlag},
   port: ${dbPort}
