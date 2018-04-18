@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	chat-default.bsh	last update: 2018-04-06
+##	chat-default.bsh	last update: 2018-04-18
 
 ##  Bash-shell script to create the Github-feathers chat application entirely from scratch.
 
