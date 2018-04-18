@@ -337,7 +337,7 @@ sed --in-place --file=- ./src/hooks/populate-user.js	<< END_OF_SED_POPULATE_USER
     \/\/ Asynchronously get user object from each message's \`userId\`\\
     \/\/ and add it to the message\\
     await Promise.all(messages.map(async message => {\\
-      \/\/ We'll also pass the original \`params\` to the service call\\
+      \/\/ Also pass the original \`params\` to the service call\\
       \/\/ so that it has the same information available (e.g. who is requesting it)\\
       const user = await app.service('users').get(message.userId, params);\\
 \\
