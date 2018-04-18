@@ -85,7 +85,7 @@ expect <(cat <<'END_OF_NPM_INIT'
     expect -re ".*license:.*"
     send -- "\r"
     
-    expect -re ".*Is this ok?.*"
+    expect -re ".*Is this OK?.*"
     send -- "\r"
     
     expect eof
