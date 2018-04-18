@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-cockroach-client.bsh     last update: 2018-04-06
+# init-cockroach-client.bsh     last update: 2018-04-18
 # this script builds a cockroach(pg) client from scratch for testing with init-cockroach-server.bsh
 
  dbServerIp='XXX.XXX.XXX.XXX';   ## this this from init-cockroach-server.bsh
@@ -54,6 +54,8 @@ curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash - ;
 ${SUDO} yum --assumeyes install nodejs ;
 
 sleep 10 ;  ## installing node appeared to work async in one test.
+
+${SUDO} npm  -g  update  npm ;    ## update to latest version
 
  echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 used in this writing
  echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
