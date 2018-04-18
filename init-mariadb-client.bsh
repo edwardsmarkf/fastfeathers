@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-mariadb-client.bsh     last update: 2018-04-06
+# init-mariadb-client.bsh     last update: 2018-04-18
 
 # this script builds a mariadb client from scratch for testing with init-mariadb-server.bsh
 
@@ -68,8 +68,10 @@ ${SUDO} yum --assumeyes install nodejs ;
 
 sleep 10 ;  ## installing node appeared to work async in one test.
 
- echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 used in this writing
- echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
+${SUDO} npm  -g  update  npm ;    ## update to latest version
+
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.10.0 used in this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.6.0 at the time of this writing
 
 export FileNameWithExtension;
 expect <(cat <<'END_OF_NPM_INIT'
