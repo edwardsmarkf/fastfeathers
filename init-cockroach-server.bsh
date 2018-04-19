@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# init-cockroach-server.bsh  upgraded to 2.0  last update: 2018-04-18
+# init-cockroach-server.bsh  upgraded to 2.0  last update: 2018-04-19
 
 # script to build a cockroach server 
 
@@ -108,7 +108,9 @@ var config = {
   password: '${dbPass}',
   host: '${ipaddrExternal}',  
   database: '${dbName}',
-  ssl: true,
+  dialectOptions: {    // dialectOptions required for postgres/cockroach ssh
+      ssl: true    
+  },
   port: ${dbPort}
 };
 // Create a pool.
