@@ -59,29 +59,29 @@ ${SUDO} cp --force --verbose  ./cockroach-v2.0.3.linux-amd64/cockroach /usr/loca
 
 which cockroach ;  ##  /usr/local/bin/cockroach  -- NOTE THAT this may need to go into your PATH variable!
 
-/usr/bin/local/cockroach  version ;   ## v2.0.3 at the time of this writing
+/usr/local/bin/cockroach  version ;   ## v2.0.3 at the time of this writing
 
 
 mkdir  ./path-to-ca-key/;
 
-/usr/bin/local/cockroach cert  create-ca  --certs-dir=./path-to-certs-directory/  --ca-key=./path-to-ca-key/ca-key  ;
+/usr/local/bin/cockroach cert  create-ca  --certs-dir=./path-to-certs-directory/  --ca-key=./path-to-ca-key/ca-key  ;
 
-/usr/bin/local/cockroach cert create-node localhost ${ipaddrInternal} ${ipaddrExternal}   \
+/usr/local/bin/cockroach cert create-node localhost ${ipaddrInternal} ${ipaddrExternal}   \
          --certs-dir=./path-to-certs-directory/     \
          --ca-key=./path-to-ca-key/ca-key    ;
 
-/usr/bin/local/cockroach cert create-client root         --certs-dir=./path-to-certs-directory/    --ca-key=./path-to-ca-key/ca-key  ;
+/usr/local/bin/cockroach cert create-client root         --certs-dir=./path-to-certs-directory/    --ca-key=./path-to-ca-key/ca-key  ;
 
-/usr/bin/local/cockroach cert create-client ${dbUser}  --certs-dir=./path-to-certs-directory/    --ca-key=./path-to-ca-key/ca-key  ;
+/usr/local/bin/cockroach cert create-client ${dbUser}  --certs-dir=./path-to-certs-directory/    --ca-key=./path-to-ca-key/ca-key  ;
 
  ## finally, start up server:
-/usr/bin/local/cockroach start --certs-dir=./path-to-certs-directory/  --port=${dbPort}  --http-host=localhost --background ;
+/usr/local/bin/cockroach start --certs-dir=./path-to-certs-directory/  --port=${dbPort}  --http-host=localhost --background ;
 
-/usr/bin/local/cockroach sql  --user=root  -e  "CREATE DATABASE ${dbName};"                          --certs-dir=./path-to-certs-directory/  ;
-/usr/bin/local/cockroach sql  --user=root  -e  "CREATE USER ${dbUser} WITH PASSWORD '${dbPass}';"    --certs-dir=./path-to-certs-directory/ ;
-/usr/bin/local/cockroach sql  --user=root  -e  "GRANT ALL ON DATABASE ${dbName} TO ${dbUser};"       --certs-dir=./path-to-certs-directory/  ;
+/usr/local/bin/cockroach sql  --user=root  -e  "CREATE DATABASE ${dbName};"                          --certs-dir=./path-to-certs-directory/  ;
+/usr/local/bin/cockroach sql  --user=root  -e  "CREATE USER ${dbUser} WITH PASSWORD '${dbPass}';"    --certs-dir=./path-to-certs-directory/ ;
+/usr/local/bin/cockroach sql  --user=root  -e  "GRANT ALL ON DATABASE ${dbName} TO ${dbUser};"       --certs-dir=./path-to-certs-directory/  ;
  
-/usr/bin/local/cockroach node status --certs-dir=./path-to-certs-directory/   ;
+/usr/local/bin/cockroach node status --certs-dir=./path-to-certs-directory/   ;
  
 export dbUser;
 export dbPass;
@@ -129,11 +129,11 @@ const pool = new pg.Pool({
 END_OF_NODE_SCRIPT
 
 cat <<END_OF_SCRIPT
-/usr/bin/local/cockroach   version ;
-to start:         /usr/bin/local/cockroach  start  --port=${dbPort} --http-host=localhost  --certs-dir=./path-to-certs-directory --background ;
-to check status:  /usr/bin/local/cockroach  node status                                    --certs-dir=./path-to-certs-directory/     ;
-to quit:          /usr/bin/local/cockroach  quit                                           --certs-dir=./path-to-certs-directory/     ;
-to log in:        /usr/bin/local/cockroach  sql --user=${dbUser} --database=${dbName}      --certs-dir=./path-to-certs-directory/     ;
+/usr/local/bin/cockroach   version ;
+to start:         /usr/local/bin/cockroach  start  --port=${dbPort} --http-host=localhost  --certs-dir=./path-to-certs-directory --background ;
+to check status:  /usr/local/bin/cockroach  node status                                    --certs-dir=./path-to-certs-directory/     ;
+to quit:          /usr/local/bin/cockroach  quit                                           --certs-dir=./path-to-certs-directory/     ;
+to log in:        /usr/local/bin/cockroach  sql --user=${dbUser} --database=${dbName}      --certs-dir=./path-to-certs-directory/     ;
 Dont forget to do:    cd  ${FileNameWithoutExtension};   cat ./nodePgTest.js ;    to see an example 
 END_OF_SCRIPT
 #
