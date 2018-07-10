@@ -66,7 +66,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 5) ```sudo yum --assumeyes install git;```
 
-   ```git clone https://github/edwardsmarkf/fastfeathers ;```
+   ```git clone https://github.com/edwardsmarkf/fastfeathers ;```
 
 6)  ```bash -vx  ./fastfeathers/init-YOUR_DB_CHOICE-server.bsh;```  Required database server installation for all examples requiring database access.  Optionally install and run the _**./feathers/init-YOUR_DB_CHOICE-client.bsh**_ on the Feathers server to make sure connectivity is working properly.
 
