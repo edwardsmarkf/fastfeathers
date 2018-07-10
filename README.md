@@ -10,7 +10,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 ### List Of Examples:
 
-**feathers-initial-setup.bsh** - Installs and Initializes the feathers enviroment.  Required for every feathers example.
+**init-feathers-setup.bsh** - Installs and Initializes the feathers enviroment.  Required for every feathers example.
 
 1) **chat-default.bsh** - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
 
