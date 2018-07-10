@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#   feathers-initial-setup.bsh   last update: 2018-04-09
+#   init-feathers-setup.bsh   last update: 2018-7-10
 
 # script to initally build your feathers environment
 #
