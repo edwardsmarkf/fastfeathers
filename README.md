@@ -64,7 +64,8 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 4) Github login:  Visit the [Oauth Apps](https://github.com/settings/developers) page to create your credentials to get your _**Client ID**_ and _**Client secret**_ values.  You will need to fill in your _**Authorized callback URL**_ (example: http;//123.123.123.123:3030/auth/github/callback) using your own IP number (or domain name) in the[Oauth Apps](https://github.com/settings/developers) page.
 
-5) ```sudo yum --assumeyes install git;   git clone https://edwardsmarkf/fastfeathers ;```
+5) ```sudo yum --assumeyes install git;
+git clone https://github/edwardsmarkf/fastfeathers ;```
 
 6)  ```bash -vx  ./fastfeathers/init-YOUR_DB_CHOICE-server.bsh;```  Required database server installation for all examples requiring database access.  Optionally install and run the _**./feathers/init-YOUR_DB_CHOICE-client.bsh**_ on the Feathers server to make sure connectivity is working properly.
 
