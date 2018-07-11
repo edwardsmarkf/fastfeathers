@@ -70,15 +70,15 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
    ```git clone https://github.com/edwardsmarkf/fastfeathers ;```
 
-5  ```bash -vx  ./fastfeathers/init-[[YOUR_DB_CHOICE]]-server.bsh;```  Required database server installation for all examples requiring database access.  Optionally install and run the _**./feathers/init-[[YOUR_DB_CHOICE]]-client.bsh**_ on the Feathers server to make sure connectivity is working properly.
+5)  ```bash -vx  ./fastfeathers/init-[[YOUR_DB_CHOICE]]-server.bsh;```  Required database server installation for all examples requiring database access.  Optionally install and run the _**./feathers/init-[[YOUR_DB_CHOICE]]-client.bsh**_ on the Feathers server to make sure connectivity is working properly.
 
-6 ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh;``` Required for the feathers server.
+6) ```bash -vx  ./fastfeathers/feathers-initial-setup.bsh;``` Required for the feathers server.
 
-7 (Optional) Edit your choice of examples for the following (Or edit your _./config/default.json_ file after completion.)
+7) (Optional) Edit your choice of examples for the following (Or edit your _./config/default.json_ file after completion.)
       - HOST -- Domain name required for [Google Oath2 login](https://console.developers.google.com/apis/credentials/oauthclient/) or IP number (or domain name) required for [Github Oath2 login](https://github.com/settings/developers).
       - Client_ID & Secret_ID  -- required for [Google](https://console.developers.google.com/apis/credentials/oauthclient/) & [Github](https://github.com/settings/developers) Oath2 login.
       - DB_USER, DB_PASS, DB_NAME, SERVER_IP -- required for all examples that use a database, values are displayed after DB installation.
       
-8 ```bash  -vx  ./fastfeathers/YOUR_CHOICE.bsh ;```   substitute YOUR_CHOICE.bsh for your choice of examples.
+8) ```bash  -vx  ./fastfeathers/YOUR_CHOICE.bsh ;```   substitute YOUR_CHOICE.bsh for your choice of examples.
 
-9 Instructions to run the feathers example will display on your terminal window.
+9) Instructions to run the feathers example will display on your terminal window.
