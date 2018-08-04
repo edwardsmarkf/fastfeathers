@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	jsgrid-sequelize.bsh  	last update: 2018-04-06
+##	jsgrid-sequelize.bsh  	last update: 2018-08-03
 
 ##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
 
