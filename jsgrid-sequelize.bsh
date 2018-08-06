@@ -81,7 +81,7 @@ fi;
 
 read -p "Enter DB_NAME or blank to use '$DB_NAME': " tmpDB_NAME;
 if  [ ! -z "$tmpDB_NAME" ]; then
-        DB_NAME=$tmpwDB_NAME;
+        DB_NAME=$tmpDB_NAME;
 fi;
 
 
