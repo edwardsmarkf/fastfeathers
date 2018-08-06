@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	jsgrid-sequelize.bsh  	last update: 2018-08-03
+##	jsgrid-sequelize.bsh  	last update: 2018-08-06
 
 ##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
 
@@ -19,16 +19,20 @@ TYPE=CockroachDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
 ##   vars for ./config/default.json changes  --  you may need to double-check the values here.
 
-HOST='fastfeathers.website'                                                                    ;
+##	google credentials
+HOST='fastfeathers.site'                                                                    ;
 GOOGLE_CLIENT_ID='81XXXXXXX56-dXXXXXXXXXXXXXXXXXXXXXXaii7rjqp9.apps.googleusercontent.com'     ;
 GOOGLE_CLIENT_SECRET='BLXXXXXXXXXXXXXXXXXXXX7g'                                                ;
 ###  get your credentials here:  https://console.developers.google.com/apis/credentials/
 
+##  database credentials
 DB_USER='database-username'                                                                    ;
 DB_PASS='database-password'                                                                    ;
 DB_NAME='database-name'                                                                        ;
 SERVER_IP='XXX.XXX.XXX.XXX'                                                                    ;
 
+
+##  check all versions
 
 echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
 if  [ $? -ne 0 ]; then
@@ -47,17 +51,17 @@ if  [ $? -ne 0 ]; then
 fi
 
 
+## prompt for any/all constant-variable changes
+
 read -p "Enter HOST or blank for $HOST" tmpHost;
 if  [ ! -z "$tmpHost" ]; then
         HOST=$tmpHost;
 fi;
 
-
 read -p "Enter GOOGLE_CLIENT_ID or blank for $GOOGLE_CLIENT_ID" newGOOGLE_CLIENT_ID;
 if  [ ! -z "$newHGOOGLE_CLIENT_ID" ]; then
         GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID;
 fi;
-
 
 read -p "Enter GOOGLE_CLIENT_SECRET or blank for $GOOGLE_CLIENT_SECRET" newGOOGLE_CLIENT_SECRET;
 if  [ ! -z "$newGOOGLE_CLIENT_SECRET" ]; then
@@ -87,6 +91,7 @@ if  [ ! -z "$newSERVER_IP" ]; then
 fi;
 
 
+# build database string
 if [ "${TYPE}" = "${MariaDB}" ]; then
     SERVER_PORT='3306'                                                                                            ;
     CONNECT_STRING="mysql://${DB_USER}:${DB_PASS}@${SERVER_IP}:${SERVER_PORT}/${DB_NAME}"                         ;
