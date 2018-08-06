@@ -47,6 +47,45 @@ if  [ $? -ne 0 ]; then
 fi
 
 
+read -p "Enter HOST or blank for $HOST" tmpHost;
+if  [ ! -z "$tmpHost" ]; then
+        HOST=$tmpHost;
+fi;
+
+
+read -p "Enter GOOGLE_CLIENT_ID or blank for $GOOGLE_CLIENT_ID" newGOOGLE_CLIENT_ID;
+if  [ ! -z "$newHGOOGLE_CLIENT_ID" ]; then
+        GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID;
+fi;
+
+
+read -p "Enter GOOGLE_CLIENT_SECRET or blank for $GOOGLE_CLIENT_SECRET" newGOOGLE_CLIENT_SECRET;
+if  [ ! -z "$newGOOGLE_CLIENT_SECRET" ]; then
+        GOOGLE_CLIENT_SECRET=$newGOOGLE_CLIENT_SECRET;
+fi;
+
+read -p "Enter DB_USER or blank for $DB_USER" newDB_USER;
+if  [ ! -z "$newDB_USER" ]; then
+        DB_USER=$newDB_USER;
+fi;
+
+read -p "Enter DB_PASS or blank for $DB_PASS" newDB_PASS;
+if  [ ! -z "$newDB_PASS" ]; then
+        DB_PASS=$newDB_PASS;
+fi;
+
+
+read -p "Enter DB_NAME or blank for $DB_NAME" newDB_NAME;
+if  [ ! -z "$newDB_NAME" ]; then
+        DB_NAME=$newDB_NAME;
+fi;
+
+
+read -p "Enter SERVER_IP or blank for $SERVER_IP" newSERVER_IP;
+if  [ ! -z "$newSERVER_IP" ]; then
+        SERVER_IP=$newSERVER_IP;
+fi;
+
 
 if [ "${TYPE}" = "${MariaDB}" ]; then
     SERVER_PORT='3306'                                                                                            ;
