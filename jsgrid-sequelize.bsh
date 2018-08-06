@@ -59,7 +59,7 @@ if  [ ! -z "$tmpHost" ]; then
 fi;
 
 read -p "Enter GOOGLE_CLIENT_ID or blank to use '$GOOGLE_CLIENT_ID': " newGOOGLE_CLIENT_ID;
-if  [ ! -z "$newHGOOGLE_CLIENT_ID" ]; then
+if  [ ! -z "$newGOOGLE_CLIENT_ID" ]; then
         GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID;
 fi;
 
