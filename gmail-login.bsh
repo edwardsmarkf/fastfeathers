@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##   gmail-login.bsh   last update: 2018-04-06
+##   gmail-login.bsh   last update: 2018-08-07
 
 ##  Bash-shell script to create the feathers-gmail 'simple' login example entirely from scratch.
 
@@ -35,6 +35,25 @@ if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
 fi
+
+
+## prompt for any/all constant-variable changes
+
+read -p "Enter HOST or blank to use '$HOST': " tmpHost;
+if  [ ! -z "$tmpHost" ]; then
+        HOST=$tmpHost;
+fi;
+
+read -p "Enter GOOGLE_CLIENT_ID or blank to use '$GOOGLE_CLIENT_ID': " tmpGOOGLE_CLIENT_ID;
+if  [ ! -z "$tmpGOOGLE_CLIENT_ID" ]; then
+        GOOGLE_CLIENT_ID=$tmpGOOGLE_CLIENT_ID;
+fi;
+
+read -p "Enter GOOGLE_CLIENT_SECRET or blank to use '$GOOGLE_CLIENT_SECRET': " tmpGOOGLE_CLIENT_SECRET;
+if  [ ! -z "$tmpGOOGLE_CLIENT_SECRET" ]; then
+        GOOGLE_CLIENT_SECRET=$tmpGOOGLE_CLIENT_SECRET;
+fi;
+
 
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
