@@ -14,7 +14,7 @@
 
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.3 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
