@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#   init-feathers-setup.bsh   last update: 2018-08-06
+#   init-feathers-setup.bsh   last update: 2018-08-24
 
 # script to initally build your feathers environment
 #
@@ -21,6 +21,10 @@ fi;
 ${SUDO}  yum  --assumeyes  update;                 ## a good idea to start out with.
 ${SUDO}  yum  --assumeyes  install bind-utils ;    ## for the 'dig' command
 ${SUDO}  yum  --assumeyes  install expect ;        ## for the six feathers generate commands.
+${SUDO}  yum  --assumeyes  install firewalld ;     ## firewall
+${SUDO}  systemctl  start firewalld ;
+${SUDO}  systemctl  enable firewalld ;             ## for next reboot
+${SUDO}  systemctl  status firewalld ;             ## double-check firewall
 ${SUDO}  firewall-cmd --zone=public --add-port=3030/tcp --permanent ;   ## open port 3030
 ${SUDO}  firewall-cmd --reload;           ## make the new port opening permanent.
 
