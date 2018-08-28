@@ -1,0 +1,106 @@
+#! /bin/bash
+#
+#   simple-feathers-example.bsh           2018-08-28
+#
+#   worlds simplest and smallest feathers example.  a webpage should display
+#   where all you have to do is to cut/paste commands into the command buffer!
+#
+#   example adapted from  https://docs.feathersjs.com/guides/basics/databases.html
+# 
+
+sudo  curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
+
+npm  --version;  5.6.0 at the time of this writing
+node --version;  v8.11.4 at the time of this writing
+
+npm  install  @feathersjs/feathers                  --save   ;
+npm  install  @feathersjs/express  feathers-memory  --save   ;
+ 
+cat  > app.js  <<<END_OF_APP_JS ;
+
+    const feathers = require('@feathersjs/feathers');
+    const express = require('@feathersjs/express');
+    const memory = require('feathers-memory');
+
+    const app = express(feathers());
+
+    // Turn on JSON body parsing for REST services
+    app.use(express.json())
+    // Turn on URL-encoded body parsing for REST services
+    app.use(express.urlencoded({ extended: true }));
+    // Set up REST transport using Express
+    app.configure(express.rest());
+    // Set up an error handler that gives us nicer errors
+    app.use(express.errorHandler()); 
+
+    app.use(express.static('public'));  // added to code to make ./public/ work
+
+    // Initialize the messages service
+    app.use('messages', memory({
+      paginate: {
+        default: 10,
+        max: 25
+      }
+    }));
+
+    // Start the server on port 3030
+    const server = app.listen(3030);
+
+    // Use the service to create a new message on the server
+    app.service('messages').create({
+      text: 'Hello from the server'
+    });
+
+    server.on('listening', () => console.log('Feathers REST API started at localhost:3030'));
+
+END_OF_APP_JS
+
+mkdir  ./public';
+
+cat >  ./public/index.html  <<< END_OF_HTML;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feathers Basics</title>
+</head>
+<body>
+  <h1>Welcome to Feathers</h1>
+  <p>Open up the console in your browser.</p>
+  <script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+  <script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
+  <script>
+
+        const app = feathers();
+
+        app.use('messages', feathers.memory({
+          paginate: {
+            default: 10,
+            max: 25
+          }
+        }));
+
+  </script>
+
+<a target='_blank' href='https://docs.feathersjs.com/api/databases/common.html'>Documentation</a>
+<pre>
+let resultCreateOne   =  await  app.service('messages').create( { colOne: 'Test One'  , colTwo:  'Test Two'  } );
+let resultCreateTwo   =  await  app.service('messages').create( { colOne: 'Test Three', colTwo:  'Test Four' } );
+let resultCreateGet   =  await  app.service('messages').get(0);        /* get the first one  */
+let resultPatch       =  await  app.service('messages').patch(0, { 'field NEW' : 'Test NEW NEW' });
+let resultPatchGet    =  await  app.service('messages').get(0);        /* show changes to the first one */
+let resultFindAll     =  await  app.service('messages').find();        /* resultFindAll.data[0], resultFindAll.data[1] */
+let resultFindSimple  =  await  app.service('messages').find( { colOne: 'Test One'});
+let resultFindComplex =  await  app.service('messages').find( { query: { colTwo: 'Test Two'}});
+let resultUpdate      =  await  app.service('messages').update(0, { 'Column Alone' : 'Eliminate all other columns!' }); 
+let resultUpdateGet   =  await  app.service('messages').get(0);        /* show changes after update */
+let resultRemove      =  await  app.service('messages').remove(0); 
+let resultRemoveGet   =  await  app.service('messages').get(0);        /* should now give an error! */
+</pre>
+</body>
+</html>
+
+END_OF_HTML
+
+node app.js   ## start the app!
