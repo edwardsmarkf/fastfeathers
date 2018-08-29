@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-#   simple-feathers-example.bsh           2018-08-29
+#   in-memory-db-example.bsh           2018-08-29
 #
 #   worlds simplest and smallest feathers example.  a webpage should display
 #   where all you have to do is to cut/paste commands into the command buffer!
