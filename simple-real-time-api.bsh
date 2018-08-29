@@ -45,6 +45,7 @@ cat  > ./app.js <<END_OF_APP_JS;
     const server = app.listen(3030);
 
     server.on('listening', () => console.log('Feathers API started at :3030'));
+    app.service('messages').on('created', data => console.log('created on server', JSON.stringify(data)));  // added by mark (daffl)
 
 END_OF_APP_JS
 
