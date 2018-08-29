@@ -18,7 +18,8 @@ node --version;  v8.11.4 at the time of this writing
 npm  install  @feathersjs/feathers                  --save   ;
 npm  install  @feathersjs/express  feathers-memory  --save   ;
  
-cat  > app.js  <<<END_OF_APP_JS ;
+##cat <<END_OF_APP_JS	>   ./public/app.js				;
+cat  > app.js  <<END_OF_APP_JS ;
 
     const feathers = require('@feathersjs/feathers');
     const express = require('@feathersjs/express');
@@ -49,7 +50,7 @@ END_OF_APP_JS
 
 mkdir  ./public';
 
-cat >  ./public/index.html  <<< END_OF_HTML;
+cat >  ./public/index.html  << END_OF_HTML;
 
 <!DOCTYPE html>
 <html lang="en">
