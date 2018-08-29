@@ -48,7 +48,7 @@ cat  > app.js  <<END_OF_APP_JS ;
 
 END_OF_APP_JS
 
-mkdir  ./public';
+mkdir  ./public/ ;
 
 cat >  ./public/index.html  <<END_OF_HTML;
 
