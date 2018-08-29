@@ -9,7 +9,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 
 ### List Of Examples:
-0) **simple-feathes-example.bsh** - Worlds simplest and smallest example to see feathers in action. No other setup required.
+0) **in-memory-db-example.bsh** - Worlds simplest and smallest example to see feathers in action. No other setup required.
 
 1)  **init-feathers-setup.bsh** - Installs and Initializes the feathers enviroment.  Required for every feathers example below.
 
