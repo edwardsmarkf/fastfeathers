@@ -50,7 +50,7 @@ END_OF_APP_JS
 
 mkdir  ./public';
 
-cat >  ./public/index.html  << END_OF_HTML;
+cat >  ./public/index.html  <<END_OF_HTML;
 
 <!DOCTYPE html>
 <html lang="en">
