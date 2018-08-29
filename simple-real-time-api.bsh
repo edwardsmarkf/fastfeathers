@@ -5,6 +5,7 @@
 
 npm install @feathersjs/feathers          --save ;
 npm install @feathersjs/express           --save ;
+npm install feathers-memory               --save ;
 npm install @feathersjs/socketio  @feathersjs/socketio-client     socket.io-client --save ;
 
 cat  > ./app.js <<END_OF_APP_JS;
