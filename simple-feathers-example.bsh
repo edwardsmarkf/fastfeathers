@@ -38,22 +38,12 @@ cat  > app.js  <<<END_OF_APP_JS ;
     app.use(express.static('public'));  // added to code to make ./public/ work
 
     // Initialize the messages service
-    app.use('messages', memory({
-      paginate: {
-        default: 10,
-        max: 25
-      }
-    }));
+    app.use('messages', memory());
 
     // Start the server on port 3030
     const server = app.listen(3030);
-
-    // Use the service to create a new message on the server
-    app.service('messages').create({
-      text: 'Hello from the server'
-    });
-
-    server.on('listening', () => console.log('Feathers REST API started at localhost:3030'));
+    
+    server.on('listening', () => console.log('Feathers REST API started at :3030'));
 
 END_OF_APP_JS
 
@@ -73,16 +63,8 @@ cat >  ./public/index.html  <<< END_OF_HTML;
   <script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
   <script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
   <script>
-
         const app = feathers();
-
-        app.use('messages', feathers.memory({
-          paginate: {
-            default: 10,
-            max: 25
-          }
-        }));
-
+        app.use('messages', feathers.memory());
   </script>
 
 <a target='_blank' href='https://docs.feathersjs.com/api/databases/common.html'>Documentation</a>
