@@ -10,8 +10,9 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 ### List Of Examples:
 0) turorial examples:  (No other setup required.)
-    -- simple-real-time-api.bsh
+
     -- **in-memory-db-example.bsh** - Worlds simplest and smallest example to see feathers in action. 
+
     -- **simple-real-time-api.bsh** - Real-time API referenced in the documenation, with a couple of extras.
 
 1)  **init-feathers-setup.bsh** - Installs and Initializes the feathers enviroment.  Required for every feathers example below.
@@ -31,6 +32,7 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 8) **github-login.bsh** - example of using Github to log in rather than the default authentication (Local Storage NeDB).
 
 9) **github-hook.bsh** - example of using Github-login.bsh, but includes a hook to capture Gmail information such as first name, etc
+
 10) **custom-service.bsh** - a very simple example of a custom service which reverses strings.
 
 11) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDB](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
