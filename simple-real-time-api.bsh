@@ -3,7 +3,9 @@
 
 ##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/real-time.html
 
-npm install @feathersjs/feathers   @feathersjs/express     @feathersjs/socketio-client     socket.io-client --save ;
+npm install @feathersjs/feathers          --save ;
+npm install @feathersjs/express           --save ;
+npm install @feathersjs/socketio  @feathersjs/socketio-client     socket.io-client --save ;
 
 cat  > ./app.js <<END_OF_APP_JS;
 
