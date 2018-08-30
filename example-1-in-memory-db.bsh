@@ -5,6 +5,9 @@
 #   worlds simplest and smallest feathers example.  a webpage should display
 #   where all you have to do is to cut/paste commands into the command buffer!
 #
+#   REMEMBER:  in-memory-db is just that, in-memory - not shared beyond either the
+#              browser or the server.  in other words, all data is "local".
+#
 #   example adapted from  https://docs.feathersjs.com/guides/basics/databases.html
 # 
 
