@@ -1,6 +1,9 @@
 #
 ##  example-2-real-time-api.bsh      2018-08-30
-
+#
+#   REMEMBER:  in-memory-db is just that, in-memory - not shared beyond either the
+#              browser or the server.  in other words, all data is "local".
+#
 ##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/real-time.html
 
 sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
@@ -52,7 +55,7 @@ cat  > ./app.js <<END_OF_APP_JS;
     const server = app.listen(3030);
 
     server.on('listening', () => console.log('Feathers API started at :3030'));
-    app.service('messages').on('created', data => console.log('created on server', JSON.stringify(data)));  // added by mark (daffl)
+    app.service('messages').on('created', data => console.log('created on server', JSON.stringify(data))); // added by mark (per daffl)
 
 END_OF_APP_JS
 
