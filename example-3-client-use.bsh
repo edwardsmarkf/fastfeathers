@@ -99,13 +99,13 @@ cat >  ./public/index.html  <<END_OF_HTML;
           });
 
           async function createAndList() {
-            await app.service('messages').create({
-              text: 'Hello from Feathers browser client'
-            });
+              await app.service('messages').create({
+                text: 'Hello from Feathers browser client'
+              });
 
-            const messages = await app.service('messages').find();
+              const messages = await app.service('messages').find();
 
-            console.log('Messages: ', messages);
+              console.log('Messages: ', messages);
           }
 
           createAndList();
