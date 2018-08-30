@@ -12,8 +12,8 @@ sudo  curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
 
 sudo yum --assumeyes  install nodejs ;
 
-npm  --version;  5.6.0 at the time of this writing
-node --version;  v8.11.4 at the time of this writing
+npm  --version;  ## 5.6.0 at the time of this writing
+node --version;  ## v8.11.4 at the time of this writing
 
 npm  install  @feathersjs/feathers                  --save   ;
 npm  install  @feathersjs/express  feathers-memory  --save   ;
