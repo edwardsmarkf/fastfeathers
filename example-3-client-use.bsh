@@ -62,6 +62,10 @@ cat > ./app.js  <<END_OF_APP_JS;
     const server = app.listen(3030);
 
     server.on('listening', () => console.log('Feathers API started at :3030'));
+    
+    app.service('messages').on('created', message => {
+          console.log('Created a new message: ', message);
+    });
 
 END_OF_APP_JS
 
@@ -91,7 +95,7 @@ cat >  ./public/index.html  <<END_OF_HTML;
           app.configure(rest.fetch(window.fetch));
 
           app.service('messages').on('created', message => {
-            console.log('Created a new message locally', message);
+            console.log('A new message has been created: ', message);
           });
 
           async function createAndList() {
@@ -101,7 +105,7 @@ cat >  ./public/index.html  <<END_OF_HTML;
 
             const messages = await app.service('messages').find();
 
-            console.log('Messages', messages);
+            console.log('Messages: ', messages);
           }
 
           createAndList();
