@@ -14,54 +14,54 @@ npm  install  @feathersjs/feathers  @feathersjs/express   @feathersjs/socketio  
 
 cat > ./app.js  <<END_OF_APP_JS;
 
-const feathers = require('@feathersjs/feathers');
-const express = require('@feathersjs/express');
-const socketio = require('@feathersjs/socketio');
-const memory = require('feathers-memory');
+    const feathers = require('@feathersjs/feathers');
+    const express = require('@feathersjs/express');
+    const socketio = require('@feathersjs/socketio');
+    const memory = require('feathers-memory');
 
-// This creates an app that's both an Express and Feathers app
-const app = express(feathers());
+    // This creates an app that's both an Express and Feathers app
+    const app = express(feathers());
 
-// Enable CORS
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+    // Enable CORS
+    app.use(function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      next();
+    });
 
-// Turn on JSON body parsing for REST services
-app.use(express.json())
-// Turn on URL-encoded body parsing for REST services
-app.use(express.urlencoded({ extended: true }));
-// Set up REST transport using Express
-app.configure(express.rest());
+    // Turn on JSON body parsing for REST services
+    app.use(express.json())
+    // Turn on URL-encoded body parsing for REST services
+    app.use(express.urlencoded({ extended: true }));
+    // Set up REST transport using Express
+    app.configure(express.rest());
 
-app.use(express.static('public'));  // added by mark 
+    app.use(express.static('public'));  // added by mark 
 
-// Configure the Socket.io transport
-app.configure(socketio());
+    // Configure the Socket.io transport
+    app.configure(socketio());
 
-// On any real-time connection, add it to the 'everybody' channel
-app.on('connection', connection => app.channel('everybody').join(connection));
+    // On any real-time connection, add it to the 'everybody' channel
+    app.on('connection', connection => app.channel('everybody').join(connection));
 
-// Publish all events to the 'everybody' channel
-app.publish(() => app.channel('everybody'));
+    // Publish all events to the 'everybody' channel
+    app.publish(() => app.channel('everybody'));
 
-// Initialize the messages service
-app.use('messages', memory({
-  paginate: {
-    default: 10,
-    max: 25
-  }
-}));
+    // Initialize the messages service
+    app.use('messages', memory({
+      paginate: {
+        default: 10,
+        max: 25
+      }
+    }));
 
-// Set up an error handler that gives us nicer errors
-app.use(express.errorHandler());
+    // Set up an error handler that gives us nicer errors
+    app.use(express.errorHandler());
 
-// Start the server on port 3030
-const server = app.listen(3030);
+    // Start the server on port 3030
+    const server = app.listen(3030);
 
-server.on('listening', () => console.log('Feathers API started at :3030'));
+    server.on('listening', () => console.log('Feathers API started at :3030'));
 
 END_OF_APP_JS
 
@@ -69,63 +69,61 @@ END_OF_APP_JS
 mkdir  ./public/ ;
 
 cat >  ./public/index.html  <<END_OF_HTML;
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Feathers Basics</title>
-</head>
-<body>
-  <h1>Welcome to Feathers</h1>
-  <p>Open up the console in your browser.</p>
-  <script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
-  <script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
-  <script>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Feathers Basics</title>
+    </head>
+    <body>
+      <h1>Welcome to Feathers</h1>
+      <p>Open up the console in your browser.</p>
+      <script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+      <script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
+      <script>
   
-        // Create a Feathers application
-        const app = feathers();
-        // Initialize a REST connection
-        const rest = feathers.rest()   //       'http://localhost:3030');
-        // Configure the REST client to use 'window.fetch'
-        app.configure(rest.fetch(window.fetch));
+          // Create a Feathers application
+          const app = feathers();
+          // Initialize a REST connection
+          const rest = feathers.rest()   //       'http://localhost:3030');
+          // Configure the REST client to use 'window.fetch'
+          app.configure(rest.fetch(window.fetch));
 
-        app.service('messages').on('created', message => {
-          console.log('Created a new message locally', message);
-        });
-
-        async function createAndList() {
-          await app.service('messages').create({
-            text: 'Hello from Feathers browser client'
+          app.service('messages').on('created', message => {
+            console.log('Created a new message locally', message);
           });
 
-          const messages = await app.service('messages').find();
+          async function createAndList() {
+            await app.service('messages').create({
+              text: 'Hello from Feathers browser client'
+            });
 
-          console.log('Messages', messages);
-        }
+            const messages = await app.service('messages').find();
 
-        createAndList();
+            console.log('Messages', messages);
+          }
 
-   </script>
+          createAndList();
 
-<a target='_blank' href='https://docs.feathersjs.com/api/databases/common.html'>Documentation</a>
-<pre>
-let resultCreateOne   =  await  app.service('messages').create( { colOne: 'Test One'  , colTwo:  'Test Two'  } );
-let resultCreateTwo   =  await  app.service('messages').create( { colOne: 'Test Three', colTwo:  'Test Four' } );
-let resultCreateGet   =  await  app.service('messages').get(0);        /* get the first one  */
-let resultPatch       =  await  app.service('messages').patch(0, { 'field NEW' : 'Test NEW NEW' });
+      </script>
+
+    <a target='_blank' href='https://docs.feathersjs.com/api/databases/common.html'>Documentation</a>
+    <pre>
+let resultCreateOne   =  await  app.service('messages').create( { 'text' : 'New Addition One'  } );
+let resultCreateTwo   =  await  app.service('messages').create( { 'text' : 'New Addition Two'  } );
+let resultCreateGet   =  await  app.service('messages').get(0);    /* get the first one  */
+let resultPatch       =  await  app.service('messages').patch(0, { 'text' : 'New Addtion One changed!' });
 let resultPatchGet    =  await  app.service('messages').get(0);        /* show changes to the first one */
 let resultFindAll     =  await  app.service('messages').find();        /* resultFindAll.data[0], resultFindAll.data[1] */
-let resultFindSimple  =  await  app.service('messages').find( { colOne: 'Test One'});
-let resultFindComplex =  await  app.service('messages').find( { query: { colTwo: 'Test Two'}});
-let resultUpdate      =  await  app.service('messages').update(0, { 'Column Alone' : 'Eliminate all other columns!' }); 
-let resultUpdateGet   =  await  app.service('messages').get(0);        /* show changes after update */
+let resultFindSimple  =  await  app.service('messages').find( {          'text' : 'New Addition Two'}   );
+let resultFindComplex =  await  app.service('messages').find( { query: { 'text' : 'New Addition Two'} } );
 let resultRemove      =  await  app.service('messages').remove(0); 
 let resultRemoveGet   =  await  app.service('messages').get(0);        /* should now give an error! */
-</pre>
-</body>
+    </pre>
+    </body>
 </html>
 END_OF_HTML
-
 
 
 
