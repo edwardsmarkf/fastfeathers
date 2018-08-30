@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	example-1-custom-service.bsh  	last update: 2018-08-30
+##	custom-service.bsh  	last update: 2018-08-30
 
 ##  Bash-shell script to create a simple ONE-LINE custom service example entirely from scratch.
 ##  the only line of code changed is in the ./src/services/SERVICENAME.class.js  file.
