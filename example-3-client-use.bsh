@@ -1,0 +1,122 @@
+#
+##  example-3-client-use-REST.bsh      2018-08-30
+
+##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/clients.html
+
+sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
+
+sudo  yum --assumeyes  install nodejs ;
+
+npm  --version;  ## 5.6.0 at the time of this writing
+node --version;  ## v8.11.4 at the time of this writing
+
+npm  install  @feathersjs/feathers  @feathersjs/express   @feathersjs/socketio   feathers-memory  --save ;
+
+cat > ./app.js  <<END_OF_APP_JS;
+
+    const feathers = require('@feathersjs/feathers');
+    const express = require('@feathersjs/express');
+    const socketio = require('@feathersjs/socketio');
+    const memory = require('feathers-memory');
+
+    // This creates an app that's both an Express and Feathers app
+    const app = express(feathers());
+
+    // Enable CORS
+    app.use(function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      next();
+    });
+
+    // Turn on JSON body parsing for REST services
+    app.use(express.json())
+    // Turn on URL-encoded body parsing for REST services
+    app.use(express.urlencoded({ extended: true }));
+    // Set up REST transport using Express
+    app.configure(express.rest());
+
+    app.use(express.static('public'));  // added by mark 
+
+    // Configure the Socket.io transport
+    app.configure(socketio());
+
+    // On any real-time connection, add it to the 'everybody' channel
+    app.on('connection', connection => app.channel('everybody').join(connection));
+
+    // Publish all events to the 'everybody' channel
+    app.publish(() => app.channel('everybody'));
+
+    // Initialize the messages service
+    app.use('messages', memory({
+      paginate: {
+        default: 10,
+        max: 25
+      }
+    }));
+
+    // Set up an error handler that gives us nicer errors
+    app.use(express.errorHandler());
+
+    // Start the server on port 3030
+    const server = app.listen(3030);
+
+    server.on('listening', () => console.log('Feathers API started at :3030'));
+    
+    app.service('messages').on('created', message => {
+          console.log('Created a new message: ', message);
+    });
+
+END_OF_APP_JS
+
+
+mkdir  ./public/ ;
+
+cat >  ./public/index.html  <<END_OF_HTML;
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Feathers Basics</title>
+    </head>
+    <body>
+      <h1>Welcome to Feathers</h1>
+      <p>Open up the console in your browser.</p>
+      <script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+      <script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
+      <script>
+  
+          // Create a websocket connecting to our Feathers server
+          const socket = io(':3030');
+          // Create a Feathers application
+          const app = feathers();
+          // Configure Socket.io client services to use that socket
+          app.configure(feathers.socketio(socket));
+
+          app.service('messages').on('created', message => {
+             console.log('Someone created a message', message);
+          });
+
+      </script>
+
+    <a target='_blank' href='https://docs.feathersjs.com/api/databases/common.html'>Documentation</a>
+    <pre>
+let resultCreateOne   =  await  app.service('messages').create( { 'text' : 'New Addition One'  } );
+let resultCreateTwo   =  await  app.service('messages').create( { 'text' : 'New Addition Two'  } );
+let resultCreateGet   =  await  app.service('messages').get(0);    /* get the first one  */
+let resultPatch       =  await  app.service('messages').patch(0, { 'text' : 'New Addtion One changed!' });
+let resultPatchGet    =  await  app.service('messages').get(0);        /* show changes to the first one */
+let resultFindAll     =  await  app.service('messages').find();        /* resultFindAll.data[0], resultFindAll.data[1] */
+let resultFindSimple  =  await  app.service('messages').find( {          'text' : 'New Addition Two'}   );
+let resultFindComplex =  await  app.service('messages').find( { query: { 'text' : 'New Addition Two'} } );
+let resultRemove      =  await  app.service('messages').remove(0); 
+let resultRemoveGet   =  await  app.service('messages').get(0);        /* should now give an error! */
+    </pre>
+    </body>
+</html>
+END_OF_HTML
+
+
+
+node app.js ;
