@@ -1,0 +1,11 @@
+#
+##  client-use.bsh      2018-08-30
+
+##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/clients.html
+
+sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
+
+sudo  yum --assumeyes  install nodejs ;
+
+npm --version ;
+node --version ;
