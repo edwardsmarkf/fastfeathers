@@ -9,35 +9,35 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 
 ### List Of Examples:
-0) turorial examples:  (No other setup required.)
+1) turorial examples:  (No other setup required.)
 
     -- **in-memory-db-example.bsh** - Worlds simplest and smallest example to see feathers in action. 
 
-    -- **simple-real-time-api.bsh** - Real-time API referenced in the documenation, with a couple of extras.
+    -- **simple-real-time-api.bsh** - Real-time API referenced in the tutorial, with a couple of extras.
 
-1)  **init-feathers-setup.bsh** - Installs and Initializes the feathers enviroment.  Required for every feathers example below.
+2)  **init-feathers-setup.bsh** - Installs and Initializes the feathers enviroment.  Required for every feathers example below.
 
-2) **chat-default.bsh** - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
+3) **chat-default.bsh** - this will quickly install the [feathers tutorial chat example](https://docs.feathersjs.com/guides/chat/readme.html). 
 
-3) **chat-gmail.bsh** - rework of the **chat-default.bsh** example, except this uses a Gmail address to log in.
+4) **chat-gmail.bsh** - rework of the **chat-default.bsh** example, except this uses a Gmail address to log in.
 
-4) **chat-github.bsh** - rework of the **chat-default.bsh** example, except this uses a Github address to log in.
+5) **chat-github.bsh** - rework of the **chat-default.bsh** example, except this uses a Github address to log in.
 
-5) **gmail-login.bsh** - simple example of using gmail to log in rather than the default authentication (Local Storage NeDB).
+6) **gmail-login.bsh** - simple example of using gmail to log in rather than the default authentication (Local Storage NeDB).
 
-6) **gmail-hook.bsh** - simple example of using **gmail-login.bsh**, but includes a hook to capture gmail information such as first name, etc
+7) **gmail-hook.bsh** - simple example of using **gmail-login.bsh**, but includes a hook to capture gmail information such as first name, etc
 
-7) **gmail-service.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save Gmail information such as first name.  This one has a very crude user-interface using the browser-console.
+8) **gmail-service.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save Gmail information such as first name.  This one has a very crude user-interface using the browser-console.
 
-8) **github-login.bsh** - example of using Github to log in rather than the default authentication (Local Storage NeDB).
+9) **github-login.bsh** - example of using Github to log in rather than the default authentication (Local Storage NeDB).
 
-9) **github-hook.bsh** - example of using Github-login.bsh, but includes a hook to capture Gmail information such as first name, etc
+10) **github-hook.bsh** - example of using Github-login.bsh, but includes a hook to capture Gmail information such as first name, etc
 
-10) **custom-service.bsh** - a very simple example of a custom service which reverses strings.
+11) **custom-service.bsh** - a very simple example of a custom service which reverses strings.
 
-11) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDB](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
+12) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDB](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
 
-12) **test-all-hooks.bsh**   - used to test each and every possible hook to help determine execution order.  Creates 42 hooks.
+13) **test-all-hooks.bsh**   - used to test each and every possible hook to help determine execution order.  Creates 42 hooks.
 
 
 ### Databases
