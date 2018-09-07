@@ -1,5 +1,5 @@
 #
-##  example-3-client-use-REST.bsh      2018-08-30
+##  example-3-client-use-REST.bsh      2018-09-07
 
 ##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/clients.html
 
@@ -83,12 +83,13 @@ cat >  ./public/index.html  <<END_OF_HTML;
     <body>
       <h1>Welcome to Feathers</h1>
       <p>Open up the console in your browser.</p>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
       <script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
       <script type="text/javascript" src="//unpkg.com/feathers-memory@^2.0.0/dist/feathers-memory.js"></script>
       <script>
   
           // Create a websocket connecting to our Feathers server
-          const socket = io(':3030');
+          const socket = io(':3030');  // or you can use:  = io()
           // Create a Feathers application
           const app = feathers();
           // Configure Socket.io client services to use that socket
