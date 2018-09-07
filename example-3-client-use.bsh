@@ -3,6 +3,8 @@
 
 ##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/clients.html
 
+##  note:  my chrome browser is doing something weird, i have to include "0 tr" in the console.log in order to get anything to appear!
+
 sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
 
 sudo  yum --assumeyes  install nodejs ;
@@ -96,7 +98,7 @@ cat >  ./public/index.html  <<END_OF_HTML;
           app.configure(feathers.socketio(socket));
 
           app.service('messages').on('created', message => {
-             console.log('Someone created a message', message);
+             console.log('0 tr Someone created a message', message);  // my chrome is doing something strange '0 tr'
           });
 
       </script>
