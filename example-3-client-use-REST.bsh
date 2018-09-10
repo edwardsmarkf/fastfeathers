@@ -1,7 +1,9 @@
 #
-##  example-3-client-use-REST.bsh      2018-08-30
+##  example-3-client-use-REST.bsh      2018-09-10
 
 ##  adapted entirely from:   https://docs.feathersjs.com/guides/basics/clients.html
+
+## the app.js server is IDENTICAL in both example-3-client examples.
 
 sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
 
