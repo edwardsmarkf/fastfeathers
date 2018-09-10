@@ -1,7 +1,7 @@
 #
 ##  example-3-client-use-REST.bsh      2018-08-30
 
-##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/clients.html
+##  adapted entirely from:   https://docs.feathersjs.com/guides/basics/clients.html
 
 sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
 
