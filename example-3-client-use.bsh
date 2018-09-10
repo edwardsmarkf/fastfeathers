@@ -3,6 +3,8 @@
 
 ##  adapted entirey from:   https://docs.feathersjs.com/guides/basics/clients.html
 
+## the app.js server is IDENTICAL in both example-3-client examples.
+
 ##  note:  my chrome browser is doing something weird, i have to include "0 tr" in the console.log in order to get anything to appear!
 
 sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
