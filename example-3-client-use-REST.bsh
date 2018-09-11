@@ -3,6 +3,9 @@
 
 ##  adapted entirely from:   https://docs.feathersjs.com/guides/basics/clients.html
 
+## this example is using a feathers-based client only to demonstrate a client-server REST example.  neither side
+## specifically needs to be REST, since this is only an example.  for instance, the client side could be jQuery.
+
 ## the app.js server is IDENTICAL in both example-3-client examples.
 
 sudo curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
