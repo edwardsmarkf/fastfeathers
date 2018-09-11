@@ -1,5 +1,5 @@
 #
-##  example-3-client-use-REST.bsh      2018-09-10
+##  example-3-client-use-REST.bsh      2018-09-11
 
 ##  adapted entirely from:   https://docs.feathersjs.com/guides/basics/clients.html
 
@@ -92,9 +92,9 @@ cat >  ./public/index.html  <<END_OF_HTML;
           // Create a Feathers application
           const app = feathers();
           // Initialize a REST connection
-          const rest = feathers.rest()   //       'http://localhost:3030');
+          const rest = feathers.rest()   //   or ('http://localhost:3030');
           // Configure the REST client to use 'window.fetch'
-          app.configure(rest.fetch(window.fetch));
+          app.configure(rest.fetch(window.fetch));  // changed from "(feathers.socketio(socket))";
 
           app.service('messages').on('created', message => {
             console.log('A new message has been created: ', message);
