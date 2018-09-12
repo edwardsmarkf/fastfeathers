@@ -1,12 +1,14 @@
 #! /bin/bash
 
-#   init-feathers-setup.bsh   last update: 2018-08-24
+#   init-feathers-setup.bsh   last update: 2018-09-12
 
 # script to initally build your feathers environment
 #
 # you may need to run "[sudo] yum --assumeyes install git;" or "[sudo] yum --assumeyes install wget;" 
 # to use github.
 #
+
+FEATHERS_PORT=3030                  ;
 
 if  [ '${$(groups)/sudo}' ] ;
 then   SUDO='sudo' ; 
@@ -25,19 +27,19 @@ ${SUDO}  yum  --assumeyes  install firewalld ;     ## firewall
 ${SUDO}  systemctl  start firewalld ;
 ${SUDO}  systemctl  enable firewalld ;             ## for next reboot
 ${SUDO}  systemctl  status firewalld ;             ## double-check firewall
-${SUDO}  firewall-cmd --zone=public --add-port=3030/tcp --permanent ;   ## open port 3030
-${SUDO}  firewall-cmd --reload;           ## make the new port opening permanent.
+${SUDO}  firewall-cmd --zone=public --add-port=${FEATHERS_PORT}/tcp --permanent ;   ## open feathers port
+${SUDO}  firewall-cmd --reload;                    ## make the new port opening permanent.
 
 ##		node/npm installation:
 ##	https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora
 ${SUDO} curl --silent --location https://rpm.nodesource.com/setup_8.x | ${SUDO} bash -  ;
 ${SUDO} yum  --assumeyes  install nodejs ;
 
-${SUDO} npm  -g  update  npm ;    ## update to latest version
+${SUDO} npm  --global  update  npm ;    ## update to latest version
 
 
 ##		feathers-cli installation:
-sudo npm install -g @feathersjs/cli ;  ## https://google.com/feathersjs/cli
+${SUDO} npm install --global  @feathersjs/cli ;  ## https://google.com/feathersjs/cli
 which feathers;		##  /usr/bin/feathers
 #
 #
