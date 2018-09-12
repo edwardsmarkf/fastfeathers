@@ -43,8 +43,8 @@ ${SUDO} npm install --global  @feathersjs/cli ;  ## https://google.com/feathersj
 which feathers;		##  /usr/bin/feathers
 #
 #
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.3 at the time of this writing
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.10.0 at the time of this writing
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.7.6  at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.12.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.4.1  at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.8.2  at the time of this writing
 #
 #
