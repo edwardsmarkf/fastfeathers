@@ -1,8 +1,8 @@
 #! /bin/bash
 
-##	sql-minimal.bsh  	last update: 2018-09-15
+##	sql-tiny.bsh  	last update: 2018-09-15
 
-##  Bash-shell script to create a TINY mariadb example entirely from scratch.
+##  Bash-shell script to create a TINY sql example entirely from scratch.
 
 
 ##  Note:  expect-tcl is used to run the feathers-cli steps.
@@ -12,7 +12,7 @@
 ##	Be sure to run the feathers install gist first!
 
 ## note:  its always best to create the table yourself, rather than relying on sequelize to do it:
-##   CREATE TABLE  testConnect 
+##   CREATE TABLE  tinyConnect 
 ##   (  name         VARCHAR(30)      NOT NULL
 ##   ,  address      VARCHAR(30)      NOT NULL
 ##   ,  createdAt    DATETIME         NOT NULL
@@ -21,11 +21,13 @@
 ##   ,  PRIMARY KEY (`id`)
 ##   );
 
-
-
 MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
 TYPE=CockroachDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
+
+TableName='tinyConnect'   ;   ## name of sql table
+ServiceName='tiny-connect';   ## service name (same one that feathers will probably convert to
+                              ## if a CAPPED letter was used.
 
 ##   vars for ./config/default.json changes  --  you may need to double-check the values here.
 
@@ -149,6 +151,7 @@ elif [ "${TYPE}" = "${CockroachDB}" ]; then
     export ARROW_DIRECTION=$'\x1b\x5b\x42'; ## down-arrow for CockroachDB
 fi
 
+export TableName;
 export CONNECT_STRING;
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
 expect <(cat <<'END_OF_GENERATE_SERVICE'
@@ -171,12 +174,12 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 			## 6 - custom service
 	 
 	expect	-re ".*What is the name of the service\?.*"
-	send	-- "testConnect\r"
+	send	-- "${TableName}\r"
 			## testtable
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
-	send	-- "\r"
-			## defaults to /minimal-connect
+	send	-- "$"ServiceName}\r"
+			## defaults to something something like /tiny-connect
 	 
 	expect	-re ".*Which database are you connecting to\?.*"
 	send    -- "$env(ARROW_DIRECTION)\r"
@@ -192,8 +195,42 @@ END_OF_GENERATE_SERVICE
 
 ##    updatedBy: { type: DataTypes.DATETIME, allowNull: false  },
 
+sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
+/<footer>/i\
+<p>        \\
+Go into console, and enter the following commands:        \\
+</p>                                                  \\
+<code>                                          \\
+document.write("<script src='\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js'><\/script>");   \\
+document.write("<script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/dist\/feathers.js'><\/script>");          \\
+                                                         \\
+\/*  or this: *\/                                          \\
+                                                          \\
+\/\*\[                                                            \\
+    '\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js',                 \\
+    '\/\/unpkg.com\/@feathersjs\/client@\^3.0.0\/dist\/feathers.js'                     \\
+   \].forEach(function(src) {                                                           \\
+     var script = document.createElement('script');                                    \\
+     script.src = src;                                                             \\
+     script.async = false;                                                          \\
+     document.head.appendChild(script);                                             \\
+   });\*\/                                                                                     \\         
+                                                                                       \\
+const app      = feathers();                                                             \\
+app.configure(feathers.socketio(io('${THIS_IPADDR}:3030')));                                     \\
+createResult = await app.service('${ServiceName}').create({     name: 'Mark Edwards', address:  '1234 Here Street'  });  \\
+findResult   = await app.service('${ServiceName}').find();                                                \\
+console.log('0 tr ' + findResult.data);                                                                       \\
+getResult    =  await app.service('${ServiceName}').get(0);                                                        \\
+console.log('0 tr ' + getResult);                                                                                  \\
+patchResult = await app.service('${ServiceName}').patch({id: 0,     address:  '5678 There Street!'  });         \\
+console.log('0 tr ' + patchResult);                                                                             \\
+</code>                                                                                                          \\
 
-sed --in-place --file=- ./src/models/test-connect.model.js  <<END_OF_SED_TESTTABLE_MODEL ;
+END_OF_SED_PUBLIC_HTML
+
+
+sed --in-place --file=- ./src/models/test-connect.model.js  <<END_OF_SED_MODEL ;
 /text: {/ {
     N; /type: DataTypes.STRING,/ {
         N; /allowNull: false/ {
@@ -211,10 +248,10 @@ sed --in-place --file=- ./src/models/test-connect.model.js  <<END_OF_SED_TESTTAB
 }
 /  }, {/a \
     \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
-          tableName       :       'testConnect'   ,                      \\
+          tableName       :       '${TableName}'   ,                  \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/
 
-END_OF_SED_TESTTABLE_MODEL
+END_OF_SED_MODEL
 
 
 
@@ -238,28 +275,9 @@ Connect string in your ./config/default.json values file:
     $CONNECT_STRING
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 
-open ${THIS_IPADDR}:3030 in your browser, go into console, and enter the following commands:
+then open ${THIS_IPADDR}:3030 in your browser!
 
-document.write("<script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>");
-document.write("<script src='//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js'></script>");
 
-/*  or this: */
-
-/*[
-    '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js',
-    '//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js'
-   ].forEach(function(src) {
-     var script = document.createElement('script');
-     script.src = src;
-     script.async = false;
-     document.head.appendChild(script);
-   });*/
-   
-const app      = feathers();
-app.configure(feathers.socketio(io('${THIS_IPADDR}:3030')));
-await app.service('test-connect').create({     name: 'Mark Edwards', address:  '1234 Here Street'  });
-result =  await app.service('test-connect').find();
-result =  await app.service('test-connect').get(1); 
 
 END_OF_SCRIPT
 ##
