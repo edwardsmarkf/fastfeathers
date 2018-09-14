@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	mariadb-minimalist.bsh  	last update: 2018-09-15
+##	sql-minimalist.bsh  	last update: 2018-09-15
 
 ##  Bash-shell script to create a TINY mariadb example entirely from scratch.
 
