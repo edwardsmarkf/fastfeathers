@@ -197,7 +197,7 @@ sed --in-place --file=- ./src/models/minimal-connect.model.js  <<END_OF_SED_TEST
         }
     }
 }
-/^  }, {$/a \
+/  }, {/a \
     \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
           tableName       :       'testConnect'   ,                      \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
