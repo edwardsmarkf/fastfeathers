@@ -192,7 +192,6 @@ sed --in-place --file=- ./src/models/minimal-connect.model.js  <<END_OF_SED_TEST
     \/* new items added by ${FileNameWithExtension} ${TimeStamp} *\/  \\
     name     : { type: DataTypes.STRING, allowNull: false  }, \\
     addr     : { type: DataTypes.STRING, allowNull: true   }, \\
-    updatedBy: { type: DataTypes.STRING, allowNull: false  }, \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
 
             }
