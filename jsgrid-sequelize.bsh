@@ -4,8 +4,6 @@
 
 ##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
 
-##  Script is written entirely from https://docs.feathersjs.com/guides/auth/recipe.oauth-basic.html
-
 ##  Note:  expect-tcl is used to run the feathers-cli steps.
 ##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
 ##  am using sudo to make the command global in nature.
