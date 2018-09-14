@@ -181,7 +181,8 @@ END_OF_GENERATE_SERVICE
 
 ##    updatedBy: { type: DataTypes.DATETIME, allowNull: false  },
 
-sed --in-place --file=- ./src/models/minimal-connect.model.js  <<END_OF_SED_TESTTABLE_MODEL ;
+
+sed --in-place --file=- ./src/models/testtable.model.js  <<END_OF_SED_TESTTABLE_MODEL ;
 /text: {/ {
     N; /type: DataTypes.STRING,/ {
         N; /allowNull: false/ {
@@ -190,18 +191,20 @@ sed --in-place --file=- ./src/models/minimal-connect.model.js  <<END_OF_SED_TEST
 \\
     \/* new items added by ${FileNameWithExtension} ${TimeStamp} *\/  \\
     name     : { type: DataTypes.STRING, allowNull: false  }, \\
-    address  : { type: DataTypes.STRING, allowNull: true   }, \\
-   
+    addr     : { type: DataTypes.STRING, allowNull: true   }, \\
+    updatedBy: { type: DataTypes.STRING, allowNull: false  }, \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
             }
         }
     }
 }
-/  }, {/a \
-    \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
-          tableName       :       'testConnect'   ,                      \\
-    \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
 END_OF_SED_TESTTABLE_MODEL
+
+## /  }, {/a \
+##     \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
+##           tableName       :       'testConnect'   ,                      \\
+##     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/
+
 
 
 ## modify the sequelize.js to logging, and add a ssl-dialect true-false flag option
