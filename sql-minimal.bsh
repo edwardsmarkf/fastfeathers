@@ -11,6 +11,17 @@
 
 ##	Be sure to run the feathers install gist first!
 
+## note:  its always best to create the table yourself, rather than relying on sequelize to do it:
+##   CREATE TABLE  testConnect 
+##   (  name         VARCHAR(30)      NOT NULL
+##   ,  address      VARCHAR(30)      NOT NULL
+##   ,  createdAt    DATETIME         NOT NULL
+##   ,  updatedAt    DATETIME         NOT NULL
+##   ,  id           TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT
+##   ,  PRIMARY KEY (`id`)
+##   );
+
+
 
 MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
