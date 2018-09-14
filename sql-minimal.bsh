@@ -171,7 +171,7 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 			## 6 - custom service
 	 
 	expect	-re ".*What is the name of the service\?.*"
-	send	-- "minimalConnect\r"
+	send	-- "testConnect\r"
 			## testtable
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
@@ -211,7 +211,7 @@ sed --in-place --file=- ./src/models/minimal-connect.model.js  <<END_OF_SED_TEST
 }
 /  }, {/a \
     \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
-          tableName       :       'testConnect'   ,                      \\
+          tableName       :       'Connect'   ,                      \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/
 
 END_OF_SED_TESTTABLE_MODEL
