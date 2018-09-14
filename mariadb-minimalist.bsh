@@ -1,0 +1,246 @@
+#! /bin/bash
+
+##	mariadb-minimalist.bsh  	last update: 2018-09-15
+
+##  Bash-shell script to create a TINY mariadb example entirely from scratch.
+
+
+##  Note:  expect-tcl is used to run the feathers-cli steps.
+##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
+##  am using sudo to make the command global in nature.
+
+##	Be sure to run the feathers install gist first!
+
+
+MariaDB='MariaDB'          ;
+CockroachDB='CockroachDB'  ;
+TYPE=CockroachDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
+
+##   vars for ./config/default.json changes  --  you may need to double-check the values here.
+
+##  database credentials
+DB_USER='database-username'                                                                    ;
+DB_PASS='database-password'                                                                    ;
+DB_NAME='database-name'                                                                        ;
+DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                                    ;
+
+
+##  check all versions
+
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.12.0 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Node has not yet been installed!';
+        exit 1;
+fi
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.4.1 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'NPM has not yet been installed!';
+        exit 1;
+fi
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.8.2 at the time of this writing
+if  [ $? -ne 0 ]; then
+        echo 'Feathers has not yet been installed!';
+        exit 1;
+fi
+
+
+## prompt for any/all constant-variable changes
+
+read -p "Enter DB_USER or blank to use '$DB_USER': " tmpDB_USER;
+if  [ ! -z "$tmpDB_USER" ]; then
+        DB_USER=$tmpDB_USER;
+fi;
+
+read -p "Enter DB_PASS or blank to use '$DB_PASS': " tmpDB_PASS;
+if  [ ! -z "$tmpDB_PASS" ]; then
+        DB_PASS=$tmpDB_PASS;
+fi;
+
+
+read -p "Enter DB_NAME or blank to use '$DB_NAME': " tmpDB_NAME;
+if  [ ! -z "$tmpDB_NAME" ]; then
+        DB_NAME=$tmpDB_NAME;
+fi;
+
+
+read -p "Enter DB_SERVER_IP or blank to use '$DB_SERVER_IP': " tmpDB_SERVER_IP;
+if  [ ! -z "$tmpDB_SERVER_IP" ]; then
+        DB_SERVER_IP=$tmpDB_SERVER_IP;
+fi;
+
+
+# build database string
+if [ "${TYPE}" = "${MariaDB}" ]; then
+    SERVER_PORT='3306'                                                                                               ;
+    CONNECT_STRING="mysql://${DB_USER}:${DB_PASS}@${DB_SERVER_IP}:${SERVER_PORT}/${DB_NAME}"                         ;
+    DB_URL="https://mariadb.com/"                                                                                    ;
+elif [ "${TYPE}" = "${CockroachDB}" ]; then
+    SERVER_PORT='26257'                                                                                              ;
+    PG_SSL_FLAG='true'                                                                                               ;
+    CONNECT_STRING="postgres://${DB_USER}:${DB_PASS}@${DB_SERVER_IP}:${SERVER_PORT}/${DB_NAME}?ssl=${PG_SSL_FLAG}"   ;
+    DB_URL="https://cockroachlabs.com/"                                                                              ;
+fi
+
+  ## originally:        postgres": "postgres://postgres:@localhost:5432/google_jsgrid_pgsql
+  ## password example:  postgres://feathersuser:aaaaaa@35.196.161.183:26257/bank
+  ## mysql example:     mysql://feathersuser:aaaaaa@167.99.13.123:3306/bank
+
+
+FileNameWithExtension=${0##*/}                       ;
+FileNameWithoutExtension=${FileNameWithExtension%.*} ;
+TimeStamp=$(date "+%Y-%m-%d %r")                     ;
+
+rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
+mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
+
+##     feathers generate  app;   ## taking all the defaults, except for the description
+export FileNameWithExtension;
+export TimeStamp;
+expect <(cat <<'END_OF_GENERATE_APP'
+	#	generates an application, taking ALL the defaults
+	#	written from https://docs.feathersjs.com/guides/chat/creating.html
+	 
+	set timeout -1
+	 
+	spawn feathers generate app;
+	 
+	expect -re ".*Project name.*"
+	send -- "\r"
+			## defaults to the name of the directory
+	 
+	expect -re ".*Description.*"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
+			## optional description
+	 
+	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
+	send -- "\r"
+			## defaults to 'src'
+	 
+	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
+	send -- "\r"
+			## defaults to 'npm'
+	 
+	expect -re ".*What type of API are you making.*"
+	send -- "\r"
+			## defaults to REST & Realtime via Socket.io
+	expect eof
+END_OF_GENERATE_APP
+)	## end of feathers generate app
+
+
+
+
+if [ "${TYPE}" = "${MariaDB}" ]; then
+    echo "Setting one uparrow for ${MariaDB}";
+    export ARROW_DIRECTION=$'\x1b\x5b\x41'; ## up-arrow for MariadbDB
+elif [ "${TYPE}" = "${CockroachDB}" ]; then
+    echo "Setting one downarrow for ${CockroachDB}";
+    export ARROW_DIRECTION=$'\x1b\x5b\x42'; ## down-arrow for CockroachDB
+fi
+
+export CONNECT_STRING;
+##		feathers generate service;   ## all defaults except for the service name - "testtable"
+expect <(cat <<'END_OF_GENERATE_SERVICE'
+	#	creates a service:	testtable  (all the defaults)
+	#	written from:	https://docs.feathersjs.com/guides/chat/service.html
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set timeout -1
+	 
+	spawn	feathers generate service;
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+			## defaults to NeDB
+			## one downarrow selects "MongoDB"
+			## 2 - Mongoose
+			## 3 - Sequelize
+			## 4 - KnexJS
+			## 5 - RethinDB
+			## 6 - custom service
+	 
+	expect	-re ".*What is the name of the service\?.*"
+	send	-- "minimalConnect\r"
+			## testtable
+	 
+	expect	-re ".*Which path should the service be registered on\?.*"
+	send	-- "\r"
+			## defaults to /minimal-connect
+	 
+	expect	-re ".*Which database are you connecting to\?.*"
+	send    -- "$env(ARROW_DIRECTION)\r"
+		## downarrow for postgres(cockroachdb), uparrow for mariadb
+		
+		expect	-re ".*What is the database connection string\?.*"
+	send	-- "$env(CONNECT_STRING)\r"
+		## default answer is nedb://../data
+
+	expect eof
+END_OF_GENERATE_SERVICE
+)	## end of feathers generate service
+
+##    updatedBy: { type: DataTypes.DATETIME, allowNull: false  },
+
+sed --in-place --file=- ./src/models/minimal-connect.model.js  <<END_OF_SED_TESTTABLE_MODEL ;
+/text: {/ {
+    N; /type: DataTypes.STRING,/ {
+        N; /allowNull: false/ {
+            N; /}/ {
+                s/text: {//; s/type: DataTypes.STRING,//; s/allowNull: false//; s/}//;a \
+\\
+    \/* new items added by ${FileNameWithExtension} ${TimeStamp} *\/  \\
+    name     : { type: DataTypes.STRING, allowNull: false  }, \\
+    address  : { type: DataTypes.STRING, allowNull: true   }, \\
+   
+    \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+            }
+        }
+    }
+}
+END_OF_SED_TESTTABLE_MODEL
+
+
+## modify the sequelize.js to logging, and add a ssl-dialect true-false flag option
+##	note that mariadb(mysql) does not require a dialect change, and will be ignored for mariadb
+sed --in-place --file=- ./src/sequelize.js   <<END_OF_SED_SEQUELIZE ;
+s?logging: false,?/*logging: false,*/  /* uncomment out 'logging:false in production -- added by ${FileNameWithExtension}  ${TimeStamp} */?;
+s?dialect: 'postgres',?dialect: 'postgres', dialectOptions: { ssl: ${PG_SSL_FLAG} }, /* added dialectOptions:{} ${FileNameWithExtension}  ${TimeStamp} */?;
+END_OF_SED_SEQUELIZE
+
+
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+
+cat <<END_OF_SCRIPT;
+
+Feathers google app should now be built.  Please confirm your ./config/default.json values.
+
+Connect string in your ./config/default.json values file:  
+    $CONNECT_STRING
+Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
+
+open ${HOST}:3030 in your browser, go into console, and enter the following commands:
+
+document.write("<script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>");
+document.write("<script src='//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js'></script>");
+
+/*  or this: */
+
+/*[
+    '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js',
+    '//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js'
+   ].forEach(function(src) {
+     var script = document.createElement('script');
+     script.src = src;
+     script.async = false;
+     document.head.appendChild(script);
+   });*/
+   
+const app      = feathers();
+app.configure(feathers.socketio(io('${HOST}:3030')));
+await app.service('test-connect').create({     name: 'Mark Edwards', address:  '1234 Here Street'  });
+result =  await app.service('test-connect').find();
+result =  await app.service('test-connect').get(1); 
+
+END_OF_SCRIPT
+##
+##
