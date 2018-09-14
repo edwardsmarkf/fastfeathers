@@ -218,7 +218,7 @@ Connect string in your ./config/default.json values file:
     $CONNECT_STRING
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 
-open ${HOST}:3030 in your browser, go into console, and enter the following commands:
+open ${THIS_IPADDR}:3030 in your browser, go into console, and enter the following commands:
 
 document.write("<script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>");
 document.write("<script src='//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js'></script>");
@@ -236,7 +236,7 @@ document.write("<script src='//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers
    });*/
    
 const app      = feathers();
-app.configure(feathers.socketio(io('${HOST}:3030')));
+app.configure(feathers.socketio(io('${THIS_IPADDR}:3030')));
 await app.service('test-connect').create({     name: 'Mark Edwards', address:  '1234 Here Street'  });
 result =  await app.service('test-connect').find();
 result =  await app.service('test-connect').get(1); 
