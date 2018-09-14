@@ -198,35 +198,32 @@ END_OF_GENERATE_SERVICE
 
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 /<footer>/i\
-<p>                                                                                                                                   \\
-Go into console, and try enter the following commands at the command prompt:                                                          \\
-</p>                                                                                                                                  \\
-<code>                                                                                                                                \\
-document.write("<script src='\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js'><\/script>");                      \\
-document.write("<script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/dist\/feathers.js'><\/script>");                            \\
-                                                                                                                                      \\
-\/*  or this: *\/                                                                                                                     \\
-                                                                                                                                      \\
-\/*\[                                                                                                                                 \\
-    '\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js',                                                           \\
-    '\/\/unpkg.com\/@feathersjs\/client@\^3.0.0\/dist\/feathers.js'                                                                   \\
-   \].forEach( (src) => {                                                                                                             \\
-       var script = document.createElement('script');                                                                                 \\
-       script.src = src;                                                                                                              \\
-       script.async = false;                                                                                                          \\
-       document.head.appendChild(script);                                                                                             \\
-    });*\/                                                                                                                            \\
-                                                                                                                                      \\
-const app      = feathers();                                                                                                          \\
-app.configure(feathers.socketio(io('${THIS_IPADDR}:3030')));  \/\/  or possibly just feathers.socketio(io())                          \\
-let createResult = await app.service('${ServiceName}').create({     name: 'Mark Edwards', address:  '1234 Here Street'  });           \\
-findResult   = await app.service('${ServiceName}').find();                                                                            \\
-console.log('0 tr ' + findResult.data);                                                                                               \\
-let getResult    =  await app.service('${ServiceName}').get(0);                                                                       \\
-console.log('0 tr ' + getResult);                                                                                                     \\
-let patchResult = await app.service('${ServiceName}').patch({id: 0,     address:  '5678 There Street!'  });                           \\
-console.log('0 tr ' + patchResult);                                                                                                   \\
-</code>                                                                                                                               \\
+<p>                                                                                                                                  \\
+Go into console, and try enter the following commands at the command prompt:                                                         \\
+</p>                                                                                                                                 \\
+<code>                                                                                                                               \\
+document.write("<script src='\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js'><\/script>");                     \\
+document.write("<script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/dist\/feathers.js'><\/script>");                           \\
+\/*  or this: *\/                                                                                                                    \\                                                                                                                            \\
+   \[                                                                                                                                \\
+    '\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js',                                                          \\
+    '\/\/unpkg.com\/@feathersjs\/client@\^3.0.0\/dist\/feathers.js'                                                                  \\
+   \].forEach( (src) => {                                                                                                            \\
+       var script = document.createElement('script');                                                                                \\
+       script.src = src;  script.async = false;                                                                                      \\
+       document.head.appendChild(script);                                                                                            \\
+    });                                                                                                                              \\
+                                                                                                                                     \\
+const app      = feathers();                                                                                                         \\
+app.configure(feathers.socketio(io('${THIS_IPADDR}:3030')));  \/\/  or possibly just feathers.socketio(io())                         \\
+let createResult = await app.service('${ServiceName}').create({     name: 'Mark Edwards', address:  '1234 Here Street'  });          \\
+findResult   = await app.service('${ServiceName}').find();                                                                           \\
+console.log('0 tr ' + findResult.data);                                                                                              \\
+let getResult    =  await app.service('${ServiceName}').get(0);                                                                      \\
+console.log('0 tr ' + getResult);                                                                                                    \\
+let patchResult = await app.service('${ServiceName}').patch({id: 0,     address:  '5678 There Street!'  });                          \\
+console.log('0 tr ' + patchResult);                                                                                                  \\
+</code>                                                                                                                              \\
 
 END_OF_SED_PUBLIC_HTML
 
