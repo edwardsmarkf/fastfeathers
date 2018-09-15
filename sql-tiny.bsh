@@ -227,11 +227,13 @@ app.service('${ServiceName}').on('created', (message) => {                      
       console.log('0 tr Someone created a message: ', JSON.stringify(message));                                                <br />\\
 });                                                                                                                            <br />\\
                                                                                                                                <br />\\
-let createResult = await app.service('${ServiceName}').create({ name: 'Mark Edwards', address: '1234 Here Street'  });         <br />\\
-\/\* POST \*\/                                                                                                                 <br />\\
+async function createAndList() {                                                                                               <br />\\
+    let createResult = await app.service('${ServiceName}').create({ name: 'Mark Edwards', address: '1234 Here Street'  });     <br />\\
+/* POST */                                                                                                                     <br />\\
                                                                                                                                <br />\\
-findResult   = await app.service('${ServiceName}').find();     /* GET (get all or by query) */                                 <br />\\
-console.log('0 tr ' + findResult.data);                                                                                        <br />\\
+     findResult   = await app.service('${ServiceName}').find();     /* GET (get all or by query) */                            <br />\\
+     console.log('0 tr ' + findResult.data);                                                                                   <br />\\
+}                                                                                                                              <br />\\
                                                                                                                                <br />\\
 let getResult    =  await app.service('${ServiceName}').get(0);  /* GET (just one by index)  */                                <br />\\
 console.log('0 tr ' + getResult);                                                                                              <br />\\
