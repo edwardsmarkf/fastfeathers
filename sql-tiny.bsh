@@ -238,7 +238,7 @@ console.log('0 tr ' + patchResult);                                             
 END_OF_SED_PUBLIC_HTML
 
 
-sed --in-place --file=- ./src/models/test-connect.model.js  <<END_OF_SED_MODEL ;
+sed --in-place --file=- ./src/models/${ServiceName}.model.js  <<END_OF_SED_MODEL ;
 /text: {/ {
     N; /type: DataTypes.STRING,/ {
         N; /allowNull: false/ {
