@@ -10,6 +10,7 @@
 ##  am using sudo to make the command global in nature.
 
 ##	Be sure to run the feathers install gist first!
+##  "0 tr" is used in my console.log statements because for some bizarre reason, my install of chrome seems to require it.
 
 ## note:  its always best to create the table yourself, rather than relying on sequelize to do it:
 ##   CREATE TABLE  tinyConnect 
@@ -201,13 +202,13 @@ sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 <p>                                                                                                                                  \\
 Go into console, and try enter the following commands at the command prompt:                                                         \\
 </p>                                                                                                                                 \\
-<div style='font-size: 11px'>                                                                                                  <br />\\
-document.write(\\"<script src='\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js'><\/script>\\");           <br />\\
-document.write(\\"<script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/dist\/feathers.js'><\/script>\\");                 <br />\\
+<div style='font-size: 12px'>                                                                                                  <br />\\
+document.write(\\"&lt;script src='\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js'>&lt;\/script>\\");     <br />\\
+document.write(\\"&lt;script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/dist\/feathers.js'>&lt;\/script>\\");           <br />\\
 \/*  or this: *\/                                                                                                              <br />\\                                                                                                                            \\
    \[                                                                                                                          <br />\\
     '\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js',                                                    <br />\\
-    '\/\/unpkg.com\/@feathersjs\/client@\^3.0.0\/dist\/feathers.js'                                                            <br /\\
+    '\/\/unpkg.com\/@feathersjs\/client@\^3.0.0\/dist\/feathers.js'                                                            <br />\\
    \].forEach( (src) => {                                                                                                      <br />\\
        var script = document.createElement('script');                                                                          <br />\\
        script.src = src;  script.async = false;                                                                                <br />\\
@@ -216,14 +217,23 @@ document.write(\\"<script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/dist
                                                                                                                                <br />\\
 const app      = feathers();                                                                                                   <br />\\
 app.configure(feathers.socketio(io('${THIS_IPADDR}:3030')));  \/\/  or possibly just feathers.socketio(io())                   <br />\\
-let createResult = await app.service('${ServiceName}').create({     name: 'Mark Edwards', address:  '1234 Here Street'  });    <br />\\
-findResult   = await app.service('${ServiceName}').find();                                                                     <br />\\
+                                                                                                                               <br />\\
+app.service('${ServiceName}').on('created', (message) => {      // optionally, establish a listener for 'create' or POST       <br />\\
+      console.log('0 tr Someone created a message: ', JSON.stringify(message));                                                <br />\\
+});                                                                                                                            <br />\\
+                                                                                                                               <br />\\
+let createResult = await app.service('${ServiceName}').create({ name: 'Mark Edwards', address: '1234 Here Street'  }); // POST <br />\\
+                                                                                                                               <br />\\
+findResult   = await app.service('${ServiceName}').find();     // GET (get all or by query)                                    <br />\\
 console.log('0 tr ' + findResult.data);                                                                                        <br />\\
-let getResult    =  await app.service('${ServiceName}').get(0);                                                                <br />\\
+                                                                                                                               <br />\\
+let getResult    =  await app.service('${ServiceName}').get(0);  // GET (just one by index)                                    <br />\\
 console.log('0 tr ' + getResult);                                                                                              <br />\\
-let patchResult = await app.service('${ServiceName}').patch({id: 0,     address:  '5678 There Street!'  });                    <br />\\
+                                                                                                                               <br />\\
+let patchResult = await app.service('${ServiceName}').patch({id: 0,     address:  '5678 There Street!'  });  //  PATCH         <br />\\
 console.log('0 tr ' + patchResult);                                                                                            <br />\\
-</div>                                                                                                                         <br /\\
+                                                                                                                               <br />\\
+</div>                                                                                                                         <br />\\
 
 END_OF_SED_PUBLIC_HTML
 
