@@ -247,7 +247,7 @@ sed --in-place --file=- ./src/models/${ServiceName}.model.js  <<END_OF_SED_MODEL
 \\
     \/* new items added by ${FileNameWithExtension} ${TimeStamp} *\/  \\
     name     : { type: DataTypes.STRING, allowNull: false  }, \\
-    addr     : { type: DataTypes.STRING, allowNull: true   }, \\
+    address  : { type: DataTypes.STRING, allowNull: true   }, \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
 
             }
