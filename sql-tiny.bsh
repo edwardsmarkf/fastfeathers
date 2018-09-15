@@ -36,7 +36,11 @@ ServiceName='tiny-connect';   ## service name (same one that feathers will proba
 DB_USER='database-username'                                                                    ;
 DB_PASS='database-password'                                                                    ;
 DB_NAME='database-name'                                                                        ;
-DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                                    ;
+DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                                 ;
+
+
+
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 
 ##  check all versions
@@ -274,7 +278,6 @@ s?dialect: 'postgres',?dialect: 'postgres', dialectOptions: { ssl: ${PG_SSL_FLAG
 END_OF_SED_SEQUELIZE
 
 
-THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 cat <<END_OF_SCRIPT;
 
