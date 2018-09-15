@@ -38,7 +38,7 @@ DB_PASS='database-password'                                                     
 DB_NAME='database-name'                                                                        ;
 DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                                 ;
 
-
+FEATHERS_PORT='3030'                                                                           ;
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
@@ -220,7 +220,7 @@ document.write(\\"&lt;script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/d
     });                                                                                                                        <br />\\
                                                                                                                                <br />\\
 const app      = feathers();                                                                                                   <br />\\
-app.configure(feathers.socketio(io('${THIS_IPADDR}:3030')));  \/\/  or possibly just feathers.socketio(io())                   <br />\\
+app.configure(feathers.socketio(io('http:\/\/${THIS_IPADDR}:${FEATHERS_PORT'))); \/\/ or possibly just feathers.socketio(io()) <br />\\
                                                                                                                                <br />\\
 app.service('${ServiceName}').on('created', (message) => {      // optionally, establish a listener for 'create' or POST       <br />\\
       console.log('0 tr Someone created a message: ', JSON.stringify(message));                                                <br />\\
@@ -287,7 +287,7 @@ Connect string in your ./config/default.json values file:
     $CONNECT_STRING
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 
-then open http://${THIS_IPADDR}:3030 in your browser!
+then open http://${THIS_IPADDR}:${FEATHERS_PORT} in your browser!
 
 END_OF_SCRIPT
 ##
