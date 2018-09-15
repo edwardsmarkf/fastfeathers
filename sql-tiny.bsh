@@ -220,7 +220,7 @@ document.write(\\"&lt;script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/d
     });                                                                                                                        <br />\\
                                                                                                                                <br />\\
 const app      = feathers();                                                                                                   <br />\\
-app.configure(feathers.socketio(io('http:\/\/${THIS_IPADDR}:${FEATHERS_PORT'))); \/\/ or possibly just feathers.socketio(io()) <br />\\
+app.configure(feathers.socketio(io('http:\/\/${THIS_IPADDR}:${FEATHERS_PORT}'))); \/\/ or just feathers.socketio(io())         <br />\\
                                                                                                                                <br />\\
 app.service('${ServiceName}').on('created', (message) => {      // optionally, establish a listener for 'create' or POST       <br />\\
       console.log('0 tr Someone created a message: ', JSON.stringify(message));                                                <br />\\
