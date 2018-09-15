@@ -209,7 +209,7 @@ Go into console, and try enter the following commands at the command prompt:    
 <div style='font-size: 12px'>                                                                                                  <br />\\
 document.write(\\"&lt;script src='\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js'>&lt;\/script>\\");     <br />\\
 document.write(\\"&lt;script src='\/\/unpkg.com\/@feathersjs\/client\@\^3.0.0\/dist\/feathers.js'>&lt;\/script>\\");           <br />\\
-\/*  or this: *\/                                                                                                              <br />\\                                                                                                                            \\
+\/*  or this: *\/                                                                                                              <br />\\
    \[                                                                                                                          <br />\\
     '\/\/cdnjs.cloudflare.com\/ajax\/libs\/socket.io\/2.0.4\/socket.io.js',                                                    <br />\\
     '\/\/unpkg.com\/@feathersjs\/client@\^3.0.0\/dist\/feathers.js'                                                            <br />\\
