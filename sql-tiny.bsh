@@ -256,6 +256,7 @@ sed --in-place --file=- ./src/models/${ServiceName}.model.js  <<END_OF_SED_MODEL
 }
 /  }, {/a \
 \\
+\\
     \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
           tableName       :       '${TableName}'   ,                  \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
