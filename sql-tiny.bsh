@@ -210,7 +210,19 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
-##    updatedBy: { type: DataTypes.DATETIME, allowNull: false  },
+
+
+## we need to modify channels.js  **ONLY** because this lazy example skips using login authentication,
+## otherwise the registered event listeners do not work!
+
+##  see difference between   https://docs.feathersjs.com/guides/basics/real-time.html#channels
+##  and                      https://docs.feathersjs.com/api/channels.html#example
+
+sed  --in-place   --file=-  ./src/channels.js   <<END_OF_SED_CHANNELS_JS ;
+s/'anonymous'/'everybody'/;
+s/'authenticated'/'everybody'/;
+END_OF_SED_CHANNELS_JS
+
 
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 /<footer>/i\
@@ -218,8 +230,9 @@ sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 Go into console, and try enter the following commands at the command prompt:                                                         \\
 </p>                                                                                                                                 \\
 <div style='font-size: 12px'>                                                                                                  <br />\\
-document.write(\\"< script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");                  <br />\\
-document.write(\\"< script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                       <br />\\
+document.write('<   meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">');                          <br />\\
+document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
+document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
 /*  or this: */                                                                                                                <br />\\
    \[    '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'                                                       <br />\\
     ,    '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'                                                             <br />\\
