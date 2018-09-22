@@ -1,16 +1,5 @@
 #! /bin/bash
 
-
-##BE SURE TO CHANGE   ./src/channels.js  to look more like this:
-
-##https://docs.feathersjs.com/guides/basics/real-time.html#channels
-##// On any real-time connection, add it to the `everybody` channel
-##app.on('connection', connection => app.channel('everybody').join(connection));
-
-##// Publish all events to the `everybody` channel
-##app.publish(() => app.channel('everybody'));
-##https://docs.feathersjs.com/api/channels.html#example
-
 ##	sql-tiny.bsh  	last update: 2018-09-15
 
 ##  Bash-shell script to create a TINY sql example entirely from scratch.
