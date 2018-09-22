@@ -212,10 +212,10 @@ s?app.channel('anonymous').join(connection);?app.channel('everybody').join(conne
 s?return app.channel('authenticated');?return app.channel('everybody');/* changed from return app.channel('authenticated'); by ${FileNameWithExtension} ${TimeStamp}*/?;
 END_OF_SED_CHANNELS_JS
 
-sed  --in-place   --file=-  ./src/channels.js   <<END_OF_SED_CHANNELS_JS ;
-s/'anonymous'/'everybody'/;
-s/'authenticated'/'everybody'/;
-END_OF_SED_CHANNELS_JS
+##	sed  --in-place   --file=-  ./src/channels.js   <<END_OF_SED_CHANNELS_JS ;
+##	s/'anonymous'/'everybody'/;
+##	s/'authenticated'/'everybody'/;
+##	END_OF_SED_CHANNELS_JS
 
 
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
