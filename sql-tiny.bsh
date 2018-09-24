@@ -1,5 +1,37 @@
 #! /bin/bash
 
+
+< const server = app.listen(port);
+---
+> const https = require('https');               // mark added this
+> const fs = require('fs');             // mark added this
+> //const server = app.listen(port);            // 1 - comment this line out
+> 
+>                                               // 3 - changed ('privatekey.pem') and ('certificate.pem')
+> const server = https.createServer({
+>   key:  fs.readFileSync('/etc/letsencrypt/live/jackyoung.site/privkey.pem'),
+>   cert: fs.readFileSync('/etc/letsencrypt/live/jackyoung.site/cert.pem'),
+>   ca:   fs.readFileSync('/etc/letsencrypt/live/jackyoung.site/chain.pem'),
+> }, app).listen(port);                         // 2- change '443' to 'port'
+> 
+> // /home/mark/testConnect6/sql-tiny/certs/selfsigned.crt
+> // /home/mark/testConnect6/sql-tiny/certs/selfsigned.key
+> 
+> // Call app.setup to initialize all services and SocketIO
+> app.setup(server);
+
+
+Change https://github.com/feathersjs/feathers-chat/blob/master/src/index.js#L5 to what is shown in the documentation:
+
+```const server = https.createServer({
+  key: fs.readFileSync('privatekey.pem'),
+  cert: fs.readFileSync('certificate.pem')
+}, app).listen(443);
+
+// Call app.setup to initialize all services and SocketIO
+app.setup(server);```
+
+
 ##	sql-tiny.bsh  	last update: 2018-09-15
 
 ##  Bash-shell script to create a TINY sql example entirely from scratch.
