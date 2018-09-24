@@ -1,6 +1,23 @@
 #! /bin/bash
 
 
+##  https://www.geocerts.com/ssl-checker  - check the cert
+
+### https://certbot.eff.org/lets-encrypt/centosrhel7-other
+sudo yum --assumeyes install yum-utils;
+sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
+sudo yum --assumeyes install certbot;
+
+## added to ./config/default.json below "port":
+## "privkey_pem": "/etc/letsencrypt/live/jackyoung.site/privkey.pem",    // mark added this
+##  "cert_pem": "/etc/letsencrypt/live/jackyoung.site/cert.pem",          // mark added this
+##  "chain_pem": "/etc/letsencrypt/live/jackyoung.site/chain.pem",                // mark added this
+
+### added to ./src/index.js:
+## const privkey_pem = app.get('privkey_pem');     // mark added this
+## const cert_pem = app.get('cert_pem');           // mark added this
+## const chain_pem = app.get('chain_pem');         // mark added this
+
 < const server = app.listen(port);
 ---
 > const https = require('https');               // mark added this
@@ -9,9 +26,9 @@
 > 
 >                                               // 3 - changed ('privatekey.pem') and ('certificate.pem')
 > const server = https.createServer({
->   key:  fs.readFileSync('/etc/letsencrypt/live/jackyoung.site/privkey.pem'),
->   cert: fs.readFileSync('/etc/letsencrypt/live/jackyoung.site/cert.pem'),
->   ca:   fs.readFileSync('/etc/letsencrypt/live/jackyoung.site/chain.pem'),
+>   key:  fs.readFileSync(privkey_pem),
+>   cert:  fs.readFileSync(cert_pem),
+>   ca:   fs.readFileSync(chain_pem),
 > }, app).listen(port);                         // 2- change '443' to 'port'
 > 
 > // /home/mark/testConnect6/sql-tiny/certs/selfsigned.crt
