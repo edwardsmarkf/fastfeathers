@@ -48,6 +48,7 @@ Change https://github.com/feathersjs/feathers-chat/blob/master/src/index.js#L5 t
 // Call app.setup to initialize all services and SocketIO
 app.setup(server);```
 
+https://docs.feathersjs.com/api/express.html#https
 
 ##	sql-tiny.bsh  	last update: 2018-09-15
 
