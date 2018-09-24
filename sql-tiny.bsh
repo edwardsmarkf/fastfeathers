@@ -256,7 +256,6 @@ sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 Go into console, and try enter the following commands at the command prompt:                                                         \\
 </p>                                                                                                                                 \\
 <div style='font-size: 12px'>                                                                                                  <br />\\
-document.write('<   meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">');                          <br />\\
 document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
 document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
 /*  or this: */                                                                                                                <br />\\
