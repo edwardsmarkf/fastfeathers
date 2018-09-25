@@ -260,7 +260,7 @@ s?const server = app.listen(port);?// &?;
 const https = require('https');                 /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
 const fs = require('fs');                       /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
                                                                                                                   \\
-        /* define these three ssl items in the ./config/default/json file  ${FileNameWithExtension} ${TimeStamp}  \\
+    /* define these three ssl items in your ./config/default.json file  ${FileNameWithExtension} ${TimeStamp} */  \\
 const privkey_pem = app.get('privkey_pem');     /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
 const cert_pem = app.get('cert_pem');           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
 const chain_pem = app.get('chain_pem');         /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
@@ -268,7 +268,7 @@ const chain_pem = app.get('chain_pem');         /* added by ${FileNameWithExtens
        // derived from:  https://docs.feathersjs.com/api/express.html#https                                       \\
 const server = https.createServer({             /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
   key:  fs.readFileSync(privkey_pem),           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
-  cert:  fs.readFileSync(cert_pem),             /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+  cert: fs.readFileSync(cert_pem),              /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
   ca:   fs.readFileSync(chain_pem),             /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
 }, app).listen(port);                           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\                                         \\
 
