@@ -3,10 +3,7 @@
 
 ##  https://www.geocerts.com/ssl-checker  - use this to check the cert
 
-### https://certbot.eff.org/lets-encrypt/centosrhel7-other
-sudo yum --assumeyes install yum-utils;
-sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
-sudo yum --assumeyes install certbot;
+
 
 ## added to ./config/default.json below "port":
 ## "privkey_pem": "/etc/letsencrypt/live/jackyoung.site/privkey.pem",    // mark added this
@@ -71,7 +68,7 @@ sudo yum --assumeyes install certbot;
 
 MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
-TYPE=CockroachDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
+TYPE=MariaDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
 TableName='tinyConnect'   ;   ## name of sql table
 ServiceName='tiny-connect';   ## service name (same one that feathers will probably convert to
@@ -154,6 +151,12 @@ fi
 FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
+
+### https://certbot.eff.org/lets-encrypt/centosrhel7-other
+sudo yum --assumeyes install yum-utils;
+sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
+sudo yum --assumeyes install certbot;
+
 
 rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
