@@ -270,7 +270,9 @@ const server = https.createServer({             /* added by ${FileNameWithExtens
   key:  fs.readFileSync(privkey_pem),           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
   cert: fs.readFileSync(cert_pem),              /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
   ca:   fs.readFileSync(chain_pem),             /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
-}, app).listen(port);                           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\                                         \\
+}, app).listen(port);                           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+                                                                                                                  \\
+app.setup(server);    				/* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
 
 END_OF_INDEX_JS
 
