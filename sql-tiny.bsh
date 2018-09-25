@@ -250,6 +250,30 @@ END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
 
+## feathers by default uses http, not https, so this will modify feathers to only use https
+##
+
+sed  --in-place   --file=-  ./src/index.js      <<END_OF_INDEX_JS ;
+s?const server = app.listen(port);?// &?;
+/const server = app.listen(port);/i\
+                                                                                                                  \\
+const https = require('https');                 /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+const fs = require('fs');                       /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+                                                                                                                  \\
+        /* define these three ssl items in the ./config/default/json file  ${FileNameWithExtension} ${TimeStamp}  \\
+const privkey_pem = app.get('privkey_pem');     /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+const cert_pem = app.get('cert_pem');           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+const chain_pem = app.get('chain_pem');         /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+                                                                                                                  \\
+       // derived from:  https://docs.feathersjs.com/api/express.html#https                                       \\
+const server = https.createServer({             /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+  key:  fs.readFileSync(privkey_pem),           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+  cert:  fs.readFileSync(cert_pem),             /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+  ca:   fs.readFileSync(chain_pem),             /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
+}, app).listen(port);                           /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\                                         \\
+
+END_OF_INDEX_JS
+
 
 ## we need to modify channels.js  **ONLY** because this lazy example skips using login authentication,
 ## otherwise the registered event listeners do not work!
@@ -267,6 +291,8 @@ END_OF_SED_CHANNELS_JS
 ##	s/'authenticated'/'everybody'/;
 ##	END_OF_SED_CHANNELS_JS
 
+##  document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
+##  document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
 
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 /<footer>/i\
@@ -274,9 +300,6 @@ sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 Go into console, and try enter the following commands at the command prompt:                                                         \\
 </p>                                                                                                                                 \\
 <div style='font-size: 12px'>                                                                                                  <br />\\
-document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
-document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
-/*  or this: */                                                                                                                <br />\\
    \[    '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'                                                       <br />\\
     ,    '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'                                                             <br />\\
    \].forEach( (src) => {                                                                                                      <br />\\
