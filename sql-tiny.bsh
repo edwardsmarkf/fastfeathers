@@ -326,7 +326,7 @@ app.service('${ServiceName}').on('created', (message) => {                      
 async function createTiny(name, address) {                                                                                      <br />\\
     let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                            <br />\\
 /* POST */                                                                                                                      <br />\\
-    console.log('0 tr ' + JSON.stringify(createResult)                                                                          <br />\\
+    console.log('0 tr ' + JSON.stringify(createResult) );                                                                       <br />\\
     return createResult;                                                                                                        <br />\\
 }                                                                                                                               <br />\\
                                                                                                                                 <br />\\
