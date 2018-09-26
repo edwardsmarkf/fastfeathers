@@ -70,6 +70,8 @@ MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
 TYPE=MariaDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
+PROTOCOL='https'		;	## either http or https
+
 TableName='tinyConnect'   ;   ## name of sql table
 ServiceName='tiny-connect';   ## service name (same one that feathers will probably convert to
                               ## if a CAPPED letter was used.
@@ -311,7 +313,7 @@ Go into console, and try enter the following commands at the command prompt:    
     });                                                                                                                        <br />\\
                                                                                                                                <br />\\
 const app      = feathers();                                                                                                   <br />\\
-const socket   = io('http://${THIS_IPADDR}:${FEATHERS_PORT}')    /* or just io() */                                            <br />\\
+const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}')    /* or just io() */                                            <br />\\
 app.configure(feathers.socketio(socket));                                                                                      <br />\\
                                                                                                                                <br />\\
         /* optionally, establish a listener for 'create' or POST */                                                            <br />\\
@@ -399,7 +401,7 @@ Connect string in your ./config/default.json values file:
     $CONNECT_STRING
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 
-then open http://${THIS_IPADDR}:${FEATHERS_PORT} in your browser!
+then open ${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT} in your browser!
 
 END_OF_SCRIPT
 ##
