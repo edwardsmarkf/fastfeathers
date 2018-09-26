@@ -307,13 +307,10 @@ sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 Go into console, and try enter the following commands at the command prompt:                                                         \\
 </p>                                                                                                                                 \\
 <div style='font-size: 12px'>                                                                                                  <br />\\
-   \[    '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'                                                       <br />\\
-    ,    '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'                                                             <br />\\
-   \].forEach( (src) => {                                                                                                      <br />\\
-       var script = document.createElement('script');                                                                          <br />\\
-       script.src = src;  script.async = false;                                                                                <br />\\
-       document.head.appendChild(script);                                                                                      <br />\\
-    });                                                                                                                        <br />\\
+\[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js' <br />\\
+\].forEach( (src) => {                                                                                                         <br />\\
+   var script = document.createElement('script'); script.src = src; script.async = false; document.head.appendChild(script);   <br />\\
+});                                                                                                                        <br />\\
                                                                                                                                <br />\\
 const app      = feathers();                                                                                                   <br />\\
 const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}')    /* or just io() */                                     <br />\\
