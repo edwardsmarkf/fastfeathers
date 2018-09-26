@@ -306,53 +306,53 @@ sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 <p>                                                                                                                                  \\
 Go into console, and try enter the following commands at the command prompt:                                                         \\
 </p>                                                                                                                                 \\
-<div style='font-size: 12px'>                                                                                                  <br />\\
-\[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js' <br />\\
-\].forEach( (src) => {                                                                                                         <br />\\
-   var script = document.createElement('script'); script.src = src; script.async = false; document.head.appendChild(script);   <br />\\
-});                                                                                                                        <br />\\
-                                                                                                                               <br />\\
-const app      = feathers();                                                                                                   <br />\\
-const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}')    /* or just io() */                                     <br />\\
-const socket   = io('${PROTOCOL}://${PROTOCOL}:${FEATHERS_PORT}')    /* or just io() */                                        <br />\\
-app.configure(feathers.socketio(socket));                                                                                      <br />\\
-                                                                                                                               <br />\\
-        /* optionally, establish a listener for 'create' or POST */                                                            <br />\\
-                                                                                                                               <br />\\
-app.service('${ServiceName}').on('created', (message) => {                                                                     <br />\\
-      console.log('0 tr Someone created a message: ', JSON.stringify(message));                                                <br />\\
-});                                                                                                                            <br />\\
-                                                                                                                               <br />\\
-async function createTiny(name, address) {                                                                                     <br />\\
-    let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                           <br />\\
-/* POST */                                                                                                                     <br />\\
-    console.log('0 tr ' + JSON.stringify(createResult)                                                                         <br />\\
-    return createResult;                                                                                                       <br />\\
-}                                                                                                                              <br />\\
-                                                                                                                               <br />\\
-async function findTiny(query) {                                                                                               <br />\\
-     let findResult   = await app.service('${ServiceName}').find(query);   /* GET (get all or by query) */                     <br />\\
-     console.log('0 tr findTiny: ' + JSON.stringify(findResult) );                                                             <br />\\
-     return findResult;                                                                                                        <br />\\
-}                                                                                                                              <br />\\
-async function getTiny(id) {                                                                                                   <br />\\
-     let getResult = await app.service('${ServiceName}').get(id);          /* GET (just one by index)  */                      <br />\\
-     console.log('o tr ' + ' getTiny: ' + JSON.stringify(getResult) );                                                         <br />\\
-}                                                                                                                              <br />\\
-                                                                                                                               <br />\\
-let returnCreateTiny = createTiny('mark edwards', '123 Swallow Lane');                                                         <br />\\
-console.log(JSON.stringify(returnCreateTiny) );                                                                                <br />\\
-                                                                                                                               <br />\\
-var returnFindTiny = findTiny();  /* no query yet */                                                                           <br />\\
-console.log(JSON.stringify(returnFindTiny) );                                                                                  <br />\\
-                                                                                                                               <br />\\
-let getResult    = getTiny(0);                                                                                                 <br />\\
-console.log('0 tr ' + JSON.stringify(getResult) );                                                                             <br />\\
-                                                                                                                               <br />\\
-let patchResult = await app.service('${ServiceName}').patch({id: 0, address:  '5678 There Street!'  }); /* PATCH */            <br />\\
-console.log('0 tr ' + patchResult);                                                                                            <br />\\
-                                                                                                                               <br />\\
-</div>                                                                                                                         <br />\\
+<div style='font-size: 12px'>                                                                                                   <br />\\
+\[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
+\].forEach( (src) => {                                                                                                          <br />\\
+   var script = document.createElement('script'); script.src = src; script.async = false; document.head.appendChild(script);    <br />\\
+});                                                                                                                             <br />\\
+                                                                                                                                <br />\\
+const app      = feathers();                                                                                                    <br />\\
+const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}')    /* or just io() */                                      <br />\\
+const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}')    /* or just io() */                                      <br />\\
+app.configure(feathers.socketio(socket));                                                                                       <br />\\
+                                                                                                                                <br />\\
+        /* optionally, establish a listener for 'create' or POST */                                                             <br />\\
+                                                                                                                                <br />\\
+app.service('${ServiceName}').on('created', (message) => {                                                                      <br />\\
+      console.log('0 tr Someone created a message: ', JSON.stringify(message));                                                 <br />\\
+});                                                                                                                             <br />\\
+                                                                                                                                <br />\\
+async function createTiny(name, address) {                                                                                      <br />\\
+    let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                            <br />\\
+/* POST */                                                                                                                      <br />\\
+    console.log('0 tr ' + JSON.stringify(createResult)                                                                          <br />\\
+    return createResult;                                                                                                        <br />\\
+}                                                                                                                               <br />\\
+                                                                                                                                <br />\\
+async function findTiny(query) {                                                                                                <br />\\
+     let findResult   = await app.service('${ServiceName}').find(query);   /* GET (get all or by query) */                      <br />\\
+     console.log('0 tr findTiny: ' + JSON.stringify(findResult) );                                                              <br />\\
+     return findResult;                                                                                                         <br />\\
+}                                                                                                                               <br />\\
+async function getTiny(id) {                                                                                                    <br />\\
+     let getResult = await app.service('${ServiceName}').get(id);          /* GET (just one by index)  */                       <br />\\
+     console.log('o tr ' + ' getTiny: ' + JSON.stringify(getResult) );                                                          <br />\\
+}                                                                                                                               <br />\\
+                                                                                                                                <br />\\
+let returnCreateTiny = createTiny('mark edwards', '123 Swallow Lane');                                                          <br />\\
+console.log(JSON.stringify(returnCreateTiny) );                                                                                 <br />\\
+                                                                                                                                <br />\\
+var returnFindTiny = findTiny();  /* no query yet */                                                                            <br />\\
+console.log(JSON.stringify(returnFindTiny) );                                                                                   <br />\\
+                                                                                                                                <br />\\
+let getResult    = getTiny(0);                                                                                                  <br />\\
+console.log('0 tr ' + JSON.stringify(getResult) );                                                                              <br />\\
+                                                                                                                                <br />\\
+let patchResult = await app.service('${ServiceName}').patch({id: 0, address:  '5678 There Street!'  }); /* PATCH */             <br />\\
+console.log('0 tr ' + patchResult);                                                                                             <br />\\
+                                                                                                                                <br />\\
+</div>                                                                                                                          <br />\\
 
 END_OF_SED_PUBLIC_HTML
 
