@@ -3,48 +3,12 @@
 
 ##  https://www.geocerts.com/ssl-checker  - use this to check the cert
 
-
-
 ## added to ./config/default.json below "port":
 ## "privkey_pem": "/etc/letsencrypt/live/jackyoung.site/privkey.pem",    // mark added this
 ##  "cert_pem": "/etc/letsencrypt/live/jackyoung.site/cert.pem",          // mark added this
 ##  "chain_pem": "/etc/letsencrypt/live/jackyoung.site/chain.pem",                // mark added this
 
-
-
-##< const server = app.listen(port);
-##---
-##> const https = require('https');               // mark added this
-##> const fs = require('fs');             // mark added this
-##> //const server = app.listen(port);            // 1 - comment this line out
-##> 
-##>                                               // 3 - changed ('privatekey.pem') and ('certificate.pem')
-##> const server = https.createServer({
-##>   key:  fs.readFileSync(privkey_pem),
-##>   cert:  fs.readFileSync(cert_pem),
-##>   ca:   fs.readFileSync(chain_pem),
-##> }, app).listen(port);                         // 2- change '443' to 'port'
-##> 
-##> // /home/mark/testConnect6/sql-tiny/certs/selfsigned.crt
-##> // /home/mark/testConnect6/sql-tiny/certs/selfsigned.key
-##> 
-##> // Call app.setup to initialize all services and SocketIO
-##> app.setup(server);
-##
-##
-##Change https://github.com/feathersjs/feathers-chat/blob/master/src/index.js#L5 to what is shown in the documentation:
-##
-##```const server = https.createServer({
-##  key: fs.readFileSync('privatekey.pem'),
-##  cert: fs.readFileSync('certificate.pem')
-##}, app).listen(443);
-##
-##// Call app.setup to initialize all services and SocketIO
-##app.setup(server);```
-##
-## https://docs.feathersjs.com/api/express.html#https
-
-##	sql-tiny.bsh  	last update: 2018-09-15
+##	sql-tiny.bsh  	last update: 2018-09-26
 
 ##  Bash-shell script to create a TINY sql example entirely from scratch.
 
@@ -420,3 +384,38 @@ then open ${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT} in your browser!
 END_OF_SCRIPT
 ##
 ##
+
+
+
+
+##< const server = app.listen(port);
+##---
+##> const https = require('https');               // mark added this
+##> const fs = require('fs');             // mark added this
+##> //const server = app.listen(port);            // 1 - comment this line out
+##> 
+##>                                               // 3 - changed ('privatekey.pem') and ('certificate.pem')
+##> const server = https.createServer({
+##>   key:  fs.readFileSync(privkey_pem),
+##>   cert:  fs.readFileSync(cert_pem),
+##>   ca:   fs.readFileSync(chain_pem),
+##> }, app).listen(port);                         // 2- change '443' to 'port'
+##> 
+##> // /home/mark/testConnect6/sql-tiny/certs/selfsigned.crt
+##> // /home/mark/testConnect6/sql-tiny/certs/selfsigned.key
+##> 
+##> // Call app.setup to initialize all services and SocketIO
+##> app.setup(server);
+##
+##
+##Change https://github.com/feathersjs/feathers-chat/blob/master/src/index.js#L5 to what is shown in the documentation:
+##
+##```const server = https.createServer({
+##  key: fs.readFileSync('privatekey.pem'),
+##  cert: fs.readFileSync('certificate.pem')
+##}, app).listen(443);
+##
+##// Call app.setup to initialize all services and SocketIO
+##app.setup(server);```
+##
+## https://docs.feathersjs.com/api/express.html#https
