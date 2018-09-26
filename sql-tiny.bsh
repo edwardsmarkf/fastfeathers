@@ -252,10 +252,12 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
+sed  --in-place   --file=-   ./config/default.json   <<END_OF_DEFAULT_JSON ;
+s?"host": "localhost",?"host": "${DOMAIN_NAME}",?
+END_OF_DEFAULT_JSON
 
 ## feathers by default uses http, not https, so this will modify feathers to only use https
 ##
-
 sed  --in-place   --file=-  ./src/index.js      <<END_OF_INDEX_JS ;
 s?const server = app.listen(port);?// &?;
 /const server = app.listen(port);/i\
