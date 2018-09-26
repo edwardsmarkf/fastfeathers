@@ -309,7 +309,7 @@ Go into console, and try enter the following commands at the command prompt:    
 <div style='font-size: 12px'>                                                                                                   <br />\\
 \[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
 \].forEach( (src) => {                                                                                                          <br />\\
-   var script = document.createElement('script'); script.src = src; script.async = false; document.head.appendChild(script);    <br />\\
+&nbsp;var script = document.createElement('script'); script.src = src; script.async = false; document.head.appendChild(script); <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 const app      = feathers();                                                                                                    <br />\\
@@ -320,34 +320,31 @@ app.configure(feathers.socketio(socket));                                       
         /* optionally, establish a listener for 'create' or POST */                                                             <br />\\
                                                                                                                                 <br />\\
 app.service('${ServiceName}').on('created', (message) => {                                                                      <br />\\
-      console.log('0 tr Someone created a message: ', JSON.stringify(message));                                                 <br />\\
+&nbsp;&nbsp;console.log('0 tr Someone created a message: ', JSON.stringify(message));                                           <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 async function createTiny(name, address) {                                                                                      <br />\\
-    let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                            <br />\\
+&nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
 /* POST */                                                                                                                      <br />\\
-    console.log('0 tr ' + JSON.stringify(createResult) );                                                                       <br />\\
-    return createResult;                                                                                                        <br />\\
+&nbsp;&nbsp;console.log('0 tr ' + JSON.stringify(createResult) );                                                               <br />\\
+&nbsp;&nbsp;return createResult;                                                                                                <br />\\
 }                                                                                                                               <br />\\
                                                                                                                                 <br />\\
 async function findTiny(query) {                                                                                                <br />\\
      let findResult   = await app.service('${ServiceName}').find(query);   /* GET (get all or by query) */                      <br />\\
-     console.log('0 tr findTiny: ' + JSON.stringify(findResult) );                                                              <br />\\
+     console.log('0 tr findTiny function: ' + JSON.stringify(findResult) );                                                     <br />\\
      return findResult;                                                                                                         <br />\\
 }                                                                                                                               <br />\\
 async function getTiny(id) {                                                                                                    <br />\\
      let getResult = await app.service('${ServiceName}').get(id);          /* GET (just one by index)  */                       <br />\\
-     console.log('o tr ' + ' getTiny: ' + JSON.stringify(getResult) );                                                          <br />\\
+     console.log('o tr ' + ' getTiny function: ' + JSON.stringify(getResult) );                                                 <br />\\
 }                                                                                                                               <br />\\
                                                                                                                                 <br />\\
-let returnCreateTiny = createTiny('mark edwards', '123 Swallow Lane');                                                          <br />\\
-console.log(JSON.stringify(returnCreateTiny) );                                                                                 <br />\\
+createTiny('mark edwards', '123 Swallow Lane').then((value) => { console.log('0 tr createTiny: ' + value); });                  <br />\\
                                                                                                                                 <br />\\
-var returnFindTiny = findTiny();  /* no query yet */                                                                            <br />\\
-console.log(JSON.stringify(returnFindTiny) );                                                                                   <br />\\
+findTiny().then((value) => { console.log('0 tr findTiny: ' + value); });                                                        <br />\\
+getTiny(0).then((value) => { console.log('0 tr getTiny(0): ' + value); });                                                      <br />\\
                                                                                                                                 <br />\\
-let getResult    = getTiny(0);                                                                                                  <br />\\
-console.log('0 tr ' + JSON.stringify(getResult) );                                                                              <br />\\
                                                                                                                                 <br />\\
 let patchResult = await app.service('${ServiceName}').patch({id: 0, address:  '5678 There Street!'  }); /* PATCH */             <br />\\
 console.log('0 tr ' + patchResult);                                                                                             <br />\\
