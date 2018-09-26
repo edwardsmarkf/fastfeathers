@@ -270,7 +270,7 @@ sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 <p>                                                                                                                                  \\
 Go into console, and try enter the following commands at the command prompt:                                                         \\
 </p>                                                                                                                                 \\
-<div style='font-size: 12px'>                                                                                                   <br />\\
+<div style='font-size: 11px'>                                                                                                   <br />\\
 \[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
 \].forEach( (src) => {                                                                                                          <br />\\
 &nbsp;&nbsp;let script = document.createElement('script'); script.src = src; script.async = false;                              <br />\\
