@@ -282,22 +282,22 @@ const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}')    /* or ju
 const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}')    /* or just io() */                                      <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
                                                                                                                                 <br />\\
-        /* optionally, establish a listener for 'create' or POST */                                                             <br />\\
+  /* optionally, establish a listener for 'create'(POST), 'patched'(PATCH), 'update'(PUT), and 'remove'(DELETE)  */             <br />\\
                                                                                                                                 <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
 &nbsp;&nbsp;.on('created', (message) => {                                                                                       <br />\\
 &nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr create(POST) Service Event: ', JSON.stringify(message));                              <br />\\
-&nbsp;&nbsp;}),                                                                                                                 <br />\\
+&nbsp;&nbsp;})                                                                                                                  <br />\\
 &nbsp;&nbsp;.on('patched', (message) => {                                                                                       <br />\\
 &nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr patch(PATCH) Service Event: ', JSON.stringify(message));                              <br />\\
-&nbsp;&nbsp;}),                                                                                                                 <br />\\
+&nbsp;&nbsp;})                                                                                                                  <br />\\
 &nbsp;&nbsp;.on('updated', (message) => {                                                                                       <br />\\
 &nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr update(PUT) Service Event: ', JSON.stringify(message));                               <br />\\
-&nbsp;&nbsp;}),                                                                                                                 <br />\\
+&nbsp;&nbsp;})                                                                                                                  <br />\\
 &nbsp;&nbsp;.on('removed', (message) => {                                                                                       <br />\\
-&nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr patched(DELETE) Service Event: ', JSON.stringify(message));                           <br />\\
-&nbsp;&nbsp;}),                                                                                                                 <br />\\
-);                                                                                                                              <br />\\
+&nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr patch(DELETE) Service Event: ', JSON.stringify(message));                             <br />\\
+&nbsp;&nbsp;})                                                                                                                  <br />\\
+;                                                                                                                               <br />\\
                                                                                                                                 <br />\\
 async function createTiny(name, address) {                                                                                      <br />\\
 &nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
