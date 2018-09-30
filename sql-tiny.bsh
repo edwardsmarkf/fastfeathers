@@ -288,8 +288,8 @@ app.service('${ServiceName}')                                                   
 app.service('tiny-connect')                                                                                                     <br />\\
 &nbsp;&nbsp;.on(                                                                                                                <br />\\
 &nbsp;&nbsp;{ 'created' : (message) => {  console.log('0 tr create(POST) Service Event:    '  , JSON.stringify(message)  ) }    <br />\\
-&nbsp;&nbsp;, 'patched' : (message) => {  console.log('0 tr patch(PATCH) Service Event:    '  , JSON.stringify(message)  ) }    <br />\\
 &nbsp;&nbsp;, 'updated' : (message) => {  console.log('0 tr update(PUT) Service Event:     '  , JSON.stringify(message)  ) }    <br />\\
+&nbsp;&nbsp;, 'patched' : (message) => {  console.log('0 tr patch(PATCH) Service Event:    '  , JSON.stringify(message)  ) }    <br />\\
 &nbsp;&nbsp;, 'removed' : (message) => {  console.log('0 tr removed(DELETE) Service Event: '  , JSON.stringify(message)  ) }    <br />\\
 &nbsp;&nbsp;}                                                                                                                   <br />\\
 );                                                                                                                              <br />\\
