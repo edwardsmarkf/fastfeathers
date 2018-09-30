@@ -286,22 +286,13 @@ app.configure(feathers.socketio(socket));                                       
                                                                                                                                 <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
 app.service('tiny-connect')                                                                                                     <br />\\
-  .on({ 'created' : (message) => {     console.log('0 tr create(POST) Service Event: ', JSON.stringify(message)) }              <br />\\
-      , 'patched' : (message) => {     console.log('0 tr patch(PATCH) Service Event: ', JSON.stringify(message)) }
-      })
-&nbsp;&nbsp;.on('created', (message) => {                                                                                       <br />\\
-&nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr create(POST) Service Event: ', JSON.stringify(message));                              <br />\\
-&nbsp;&nbsp;})                                                                                                                  <br />\\
-&nbsp;&nbsp;.on('patched', (message) => {                                                                                       <br />\\
-&nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr patch(PATCH) Service Event: ', JSON.stringify(message));                              <br />\\
-&nbsp;&nbsp;})                                                                                                                  <br />\\
-&nbsp;&nbsp;.on('updated', (message) => {                                                                                       <br />\\
-&nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr update(PUT) Service Event: ', JSON.stringify(message));                               <br />\\
-&nbsp;&nbsp;})                                                                                                                  <br />\\
-&nbsp;&nbsp;.on('removed', (message) => {                                                                                       <br />\\
-&nbsp;&nbsp;&nbsp;&nbsp;console.log('0 tr patch(DELETE) Service Event: ', JSON.stringify(message));                             <br />\\
-&nbsp;&nbsp;})                                                                                                                  <br />\\
-;                                                                                                                               <br />\\
+&nbsp;&nbsp;.on(                                                                                                                <br />\\
+&nbsp;&nbsp;{ 'created' : (message) => {  console.log('0 tr create(POST) Service Event:    '  , JSON.stringify(message)  ) }    <br />\\
+&nbsp;&nbsp;, 'patched' : (message) => {  console.log('0 tr patch(PATCH) Service Event:    '  , JSON.stringify(message)  ) }    <br />\\
+&nbsp;&nbsp;, 'updated' : (message) => {  console.log('0 tr update(PUT) Service Event:     '  , JSON.stringify(message)  ) }    <br />\\
+&nbsp;&nbsp;, 'removed' : (message) => {  console.log('0 tr removed(DELETE) Service Event: '  , JSON.stringify(message)  ) }    <br />\\
+&nbsp;&nbsp;}                                                                                                                   <br />\\
+);                                                                                                                              <br />\\
                                                                                                                                 <br />\\
 async function createTiny(name, address) {                                                                                      <br />\\
 &nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
