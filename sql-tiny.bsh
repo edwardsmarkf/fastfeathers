@@ -332,7 +332,7 @@ console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );   
                                                                                                                                 <br />\\
 /* patch */                                                                                                                     <br />\\
 let patchResult; patchTiny(key, {address:  '5678 There Street!' }).then( value  => {patchResult = value; });                    <br />\\
-console.log(patchResult);                                                                                                       <br />\\
+console.log('patchResult: ' + JSON.stringify(patchResult));                                                                     <br />\\
                                                                                                                                 <br />\\
 </div>                                                                                                                          <br />\\
 
