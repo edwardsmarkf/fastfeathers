@@ -285,7 +285,6 @@ app.configure(feathers.socketio(socket));                                       
   /* optionally, establish a listener for 'create'(POST), 'patched'(PATCH), 'update'(PUT), and 'remove'(DELETE)  */             <br />\\
                                                                                                                                 <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
-app.service('tiny-connect')                                                                                                     <br />\\
 &nbsp;&nbsp;.on(                                                                                                                <br />\\
 &nbsp;&nbsp;{ 'created' : (message) => {  console.log('0 tr create(POST) Service Event:    '  , JSON.stringify(message)  ) }    <br />\\
 &nbsp;&nbsp;, 'updated' : (message) => {  console.log('0 tr update(PUT) Service Event:     '  , JSON.stringify(message)  ) }    <br />\\
