@@ -319,7 +319,7 @@ async function patchTiny(id, data) {                                            
                                                                                                                                 <br />\\
 createTiny('mark edwards', '123 Swallow Lane').then((value) => { console.log('createTiny: ' + JSON.stringify(value)); });       <br />\\
                                                                                                                                 <br />\\
-let findTinyResultAll; findTiny().then((value) => { findTinyResultAll = value; });                                              <br />\\
+let findTinyResultAll; findTiny(null).then((value) => { findTinyResultAll = value; });                                          <br />\\
 console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                                   <br />\\
                                                                                                                                 <br />\\
 let findTinyResultOne; findTiny({query:{ id: 1}}).then((value) => { findTinyResultOne = value; });                              <br />\\
