@@ -278,8 +278,8 @@ Go into console, and try enter the following commands at the command prompt:    
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 const app      = feathers();                                                                                                    <br />\\
-const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}')    /* or just io() */                                      <br />\\
-const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}')    /* or just io() */                                      <br />\\
+const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
+const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
                                                                                                                                 <br />\\
   /* optionally, establish a listener for 'create'(POST), 'patched'(PATCH), 'update'(PUT), and 'remove'(DELETE)  */             <br />\\
