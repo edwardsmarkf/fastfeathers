@@ -317,7 +317,7 @@ async function patchTiny(id, data) {                                            
 &nbsp;&nbsp;return patchResult;                                                                                                 <br />\\
 };                                                                                                                              <br />\\
                                                                                                                                 <br />\\
-createTiny('mark edwards', '123 Swallow Lane').then((value) => { console.log('createTiny: ' + value); });                       <br />\\
+createTiny('mark edwards', '123 Swallow Lane').then((value) => { console.log('createTiny: ' + JSON.stringify(value)); });       <br />\\
                                                                                                                                 <br />\\
 let findTinyResultAll; findTiny().then((value) => { findTinyResultAll = value; });                                              <br />\\
 console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                                   <br />\\
