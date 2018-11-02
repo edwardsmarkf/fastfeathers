@@ -308,7 +308,7 @@ async function findTiny(query) {                                                
 };                                                                                                                              <br />\\
 async function getTiny(id) {                                                                                                    <br />\\
 &nbsp;&nbsp;let getResult = await app.service('${ServiceName}').get(id);          /* GET (just one by index)  */                <br />\\
-&nbsp;&nbsp;console.log('o tr ' + ' getTiny function: ' + JSON.stringify(getResult) );                                          <br />\\
+&nbsp;&nbsp;console.log('getTiny function: ' + JSON.stringify(getResult) );                                                     <br />\\
 &nbsp;&nbsp;return getResult;                                                                                                   <br />\\
 };                                                                                                                              <br />\\
                                                                                                                                 <br />\\
