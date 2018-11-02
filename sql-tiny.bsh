@@ -265,7 +265,12 @@ END_OF_SED_CHANNELS_JS
 ##  document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
 ##  document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
 
+##  reduce the size of the feathers logo to make more room for code
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
+s/class="logo"/& width='200' height='20'/;
+s/font-size: 2em;/font-size: 1em;/;
+s/margin-top: 100px;/margin-top: 10px/;
+s/padding: 20px;/padding: 2px;/;
 /<footer>/i\
 <p>                                                                                                                                  \\
 Go into console, and try enter the following commands at the command prompt:                                                         \\
