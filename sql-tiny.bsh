@@ -322,7 +322,7 @@ console.log('findTiny with query: ' + JSON.stringify(findTinyResultOne) );      
                                                                                                                                 <br />\\
 let key=0;                                                                                                                      <br />\\
 let getTinyResult; getTiny(key).then( value => { getTinyResult = value; });                                                     <br />\\
-console.log(\\`${getTiny(key)} : \\` + JSON.stringify(getTinyResult) );                                                         <br />\\
+console.log(\`${getTiny(key)} : \` + JSON.stringify(getTinyResult) );                                                           <br />\\
                                                                                                                                 <br />\\
                                                                                                                                 <br />\\
 let patchResult = await app.service('${ServiceName}').patch({id: 0, address:  '5678 There Street!'  }); /* PATCH */             <br />\\
