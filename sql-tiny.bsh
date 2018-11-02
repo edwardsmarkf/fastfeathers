@@ -311,6 +311,11 @@ async function getTiny(id) {                                                    
 &nbsp;&nbsp;console.log('getTiny function: ' + JSON.stringify(getResult) );                                                     <br />\\
 &nbsp;&nbsp;return getResult;                                                                                                   <br />\\
 };                                                                                                                              <br />\\
+async function patchTiny(id, data) {                                                                                            <br />\\
+&nbsp;&nbsp;let patchResult = await app.service('${ServiceName}').patch(id, data);                                              <br />\\
+&nbsp;&nbsp;console.log('patchTiny function: ' + JSON.stringify(patchResult) );                                                 <br />\\
+&nbsp;&nbsp;return patchResult;                                                                                                 <br />\\
+};                                                                                                                              <br />\\
                                                                                                                                 <br />\\
 createTiny('mark edwards', '123 Swallow Lane').then((value) => { console.log('createTiny: ' + value); });                       <br />\\
                                                                                                                                 <br />\\
@@ -325,8 +330,9 @@ let getTinyResult; getTiny(key).then( value => { getTinyResult = value; });     
 console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                                   <br />\\
                                                                                                                                 <br />\\
                                                                                                                                 <br />\\
-let patchResult = await app.service('${ServiceName}').patch({id: 0, address:  '5678 There Street!'  }); /* PATCH */             <br />\\
-console.log('patchResult);                                                                                                      <br />\\
+/* patch */
+let patchResult; patchTiny(key, {address:  '5678 There Street!' }).then( value  => {patchResult = value; });
+console.log(patchResult);                                                                                                       <br />\\
                                                                                                                                 <br />\\
 </div>                                                                                                                          <br />\\
 
