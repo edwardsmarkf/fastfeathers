@@ -300,34 +300,38 @@ app.service('${ServiceName}')                                                   
 &nbsp;&nbsp;}                                                                                                                   <br />\\
 );                                                                                                                              <br />\\
                                                                                                                                 <br />\\
-async function createTiny(name, address) {                                                                                      <br />\\
+async function createTiny(name, address) {           /* create (POST) */                                                        <br />\\
 &nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
-/* POST */                                                                                                                      <br />\\
 &nbsp;&nbsp;console.log(JSON.stringify(createResult) );                                                                         <br />\\
 &nbsp;&nbsp;return createResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
-                                                                                                                                <br />\\
-async function findTiny(query) {                                                                                                <br />\\
+async function findTiny(query) {             /* find (GET) (get all or by query) */                                             <br />\\
 &nbsp;&nbsp;console.log('Query function using: ' + JSON.stringify(query) );                                                     <br />\\
-&nbsp;&nbsp;let findResult   = await app.service('${ServiceName}').find(query);   /* GET (get all or by query) */               <br />\\
+&nbsp;&nbsp;let findResult   = await app.service('${ServiceName}').find(query);                                                 <br />\\
 &nbsp;&nbsp;console.log('findTiny function: ' + JSON.stringify(findResult) );                                                   <br />\\
 &nbsp;&nbsp;return findResult;                                                                                                  <br />\\
 };                                                                                                                              <br />\\
-async function getTiny(id) {                                                                                                    <br />\\
-&nbsp;&nbsp;let getResult = await app.service('${ServiceName}').get(id);          /* GET (just one by index)  */                <br />\\
+async function getTiny(id) {               /* get (GET) (just one by index)  */                                                 <br />\\
+&nbsp;&nbsp;let getResult = await app.service('${ServiceName}').get(id);                                                        <br />\\
 &nbsp;&nbsp;console.log('getTiny function: ' + JSON.stringify(getResult) );                                                     <br />\\
 &nbsp;&nbsp;return getResult;                                                                                                   <br />\\
 };                                                                                                                              <br />\\
-async function patchTiny(id, data) {                                              /* PATCH */                                   <br />\\
+async function patchTiny(id, data) {         /* patch (PATCH) */                                                                <br />\\
 &nbsp;&nbsp;let patchResult = await app.service('${ServiceName}').patch(id, data);                                              <br />\\
 &nbsp;&nbsp;console.log('patchTiny function: ' + JSON.stringify(patchResult) );                                                 <br />\\
 &nbsp;&nbsp;return patchResult;                                                                                                 <br />\\
 };                                                                                                                              <br />\\
-                                                                                                                                <br />\\
-createTiny('mark edwards', '123 Swallow Lane').then((value) => { console.log('createTiny: ' + JSON.stringify(value)); });       <br />\\
+async function removeTiny(id, data) {         /* remove (DELETE) */                                                             <br />\\
+&nbsp;&nbsp;let removeResult = await app.service('${ServiceName}').remove(id);                                                  <br />\\
+&nbsp;&nbsp;console.log('removeTiny function: ' + JSON.stringify(removeResult) );                                               <br />\\
+&nbsp;&nbsp;return removeResult;                                                                                                <br />\\
+};                                                                                                                              <br />\\
+createTiny('mark edwards', '123 Swallow Lane').then((value) => {    /* create (POST) */                                         <br />\\
+         console.log('createTiny: ' + JSON.stringify(value));                                                                   <br />\\
+});                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 let findTinyResultAll;                                                                                                          <br />\\
-findTiny(null).then((value) => {           /* FIND (all)  */                                                                    <br />\\
+findTiny(null).then((value) => {           /* find (GET) (find all)  */                                                         <br />\\
         findTinyResultAll = value;                                                                                              <br />\\
         console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                           <br />\\
 });                                                                                                                             <br />\\
