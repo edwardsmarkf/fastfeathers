@@ -271,9 +271,10 @@ s/class="logo"/& width='120' height='20'/;
 s/font-size: 2em;/font-size: 1em;/;
 s/margin-top: 100px;/margin-top: 10px/;
 s/padding: 20px;/padding: 10px;/;
+s/margin-bottom: 30px;/margin-bottom: 10px/;
 /<footer>/i\
 <hr />                                                                                                                                \\
-<p>                                                                                                                                   \\
+<p style='font-size: 13px'>                                                                                                                                   \\
 Go into console, and try enter the following commands at the command prompt:                                                          \\
 </p>                                                                                                                                  \\
 <div style='font-size: 11px'>                                                                                                   <br />\\
