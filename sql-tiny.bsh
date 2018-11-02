@@ -267,14 +267,15 @@ END_OF_SED_CHANNELS_JS
 
 ##  reduce the size of the feathers logo to make more room for code
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
-s/class="logo"/& width='200' height='20'/;
+s/class="logo"/& width='120' height='20'/;
 s/font-size: 2em;/font-size: 1em;/;
 s/margin-top: 100px;/margin-top: 10px/;
-s/padding: 20px;/padding: 2px;/;
+s/padding: 20px;/padding: 10px;/;
 /<footer>/i\
-<p>                                                                                                                                  \\
-Go into console, and try enter the following commands at the command prompt:                                                         \\
-</p>                                                                                                                                 \\
+<hr />                                                                                                                                \\
+<p>                                                                                                                                   \\
+Go into console, and try enter the following commands at the command prompt:                                                          \\
+</p>                                                                                                                                  \\
 <div style='font-size: 11px'>                                                                                                   <br />\\
 \[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
 \].forEach( (src) => {                                                                                                          <br />\\
@@ -324,21 +325,29 @@ async function patchTiny(id, data) {                                            
                                                                                                                                 <br />\\
 createTiny('mark edwards', '123 Swallow Lane').then((value) => { console.log('createTiny: ' + JSON.stringify(value)); });       <br />\\
                                                                                                                                 <br />\\
-let findTinyResultAll; findTiny(null).then((value) => { findTinyResultAll = value; });                                          <br />\\
-console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                                   <br />\\
+let findTinyResultAll;                                                                                                          <br />\\
+findTiny(null).then((value) => {           /* FIND (all)  */                                                                    <br />\\
+        findTinyResultAll = value;                                                                                              <br />\\
+        console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                           <br />\\
+});                                                                                                                             <br />\\
                                                                                                                                 <br />\\
-let findTinyResultOne; findTiny({query:{ id: 1}}).then((value) => { findTinyResultOne = value; });                              <br />\\
-console.log('findTiny with query: ' + JSON.stringify(findTinyResultOne) );                                                      <br />\\
+let findTinyResultOne; let data = {query:{ id: 1}};                                                                             <br />\\
+findTiny().then((value) => {               /* FIND (with data )                                                                 <br />\\
+        findTinyResultOne = value;                                                                                              <br />\\
+	console.log('findTiny with query: ' + JSON.stringify(findTinyResultOne) );                                              <br />\\
+});                                                                                                                             <br />\\
                                                                                                                                 <br />\\
-let key=0;                                                                                                                      <br />\\
-let getTinyResult; getTiny(key).then( value => { getTinyResult = value; });                                                     <br />\\
-console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                                   <br />\\
+let getTinyResult = null; let key = 0;                                                                                          <br />\\
+getTiny(key).then( value => {              /* GET  */                                                                           <br />\\
+            getTinyResult = value;                                                                                              <br />\\
+            console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                       <br />\\
+});                                                                                                                             <br />\\
                                                                                                                                 <br />\\
-                                                                                                                                <br />\\
-/* patch */                                                                                                                     <br />\\
-let patchResult; patchTiny(key, {address:  '5678 There Street!' }).then( value  => {patchResult = value; });                    <br />\\
-console.log('patchResult: ' + JSON.stringify(patchResult));                                                                     <br />\\
-                                                                                                                                <br />\\
+let patchResult = null;  let key = 0;  let data =  {address:  '5678 There Street!' };                                           <br />\\
+patchTiny(key, data ).then( value  => {     /* PATCH */                                                                         <br />\\
+              patchResult = value;                                                                                              <br />\\
+              console.log('patchResult: ' + JSON.stringify(patchResult));                                                       <br />\\
+});                                                                                                                             <br />\\
 </div>                                                                                                                          <br />\\
 
 END_OF_SED_PUBLIC_HTML
