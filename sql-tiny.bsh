@@ -330,8 +330,8 @@ let getTinyResult; getTiny(key).then( value => { getTinyResult = value; });     
 console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                                   <br />\\
                                                                                                                                 <br />\\
                                                                                                                                 <br />\\
-/* patch */
-let patchResult; patchTiny(key, {address:  '5678 There Street!' }).then( value  => {patchResult = value; });
+/* patch */                                                                                                                     <br />\\
+let patchResult; patchTiny(key, {address:  '5678 There Street!' }).then( value  => {patchResult = value; });                    <br />\\
 console.log(patchResult);                                                                                                       <br />\\
                                                                                                                                 <br />\\
 </div>                                                                                                                          <br />\\
