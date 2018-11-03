@@ -284,7 +284,7 @@ Go into console, and try enter the following commands at the command prompt:    
 &nbsp;&nbsp;document.head.appendChild(script);                                                                                  <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
-const app      = feathers();                                                                                                    <br />\\
+const app      = feathers();  /* dont cut-paste this line with the same "block" of code as the one above! (timing issue) */     <br />\\
 const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
