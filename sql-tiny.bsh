@@ -293,10 +293,10 @@ app.configure(feathers.socketio(socket));                                       
                                                                                                                                 <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
 &nbsp;&nbsp;.on(                                                                                                                <br />\\
-&nbsp;&nbsp;{ 'created' : (message) => {  console.log('Create(POST) Service Event:    '  , JSON.stringify(message)  ) }         <br />\\
-&nbsp;&nbsp;, 'updated' : (message) => {  console.log('Update(PUT) Service Event:     '  , JSON.stringify(message)  ) }         <br />\\
-&nbsp;&nbsp;, 'patched' : (message) => {  console.log('Patch(PATCH) Service Event:    '  , JSON.stringify(message)  ) }         <br />\\
-&nbsp;&nbsp;, 'removed' : (message) => {  console.log('Removed(DELETE) Service Event: '  , JSON.stringify(message)  ) }         <br />\\
+&nbsp;&nbsp;{ 'created' : (createMessage) => {  console.log('Create(POST) Event:    '  , JSON.stringify(createMessage)  ) }     <br />\\
+&nbsp;&nbsp;, 'updated' : (updateMessage) => {  console.log('Update(PUT) Event:     '  , JSON.stringify(updateMessage)  ) }     <br />\\
+&nbsp;&nbsp;, 'patched' : (patchMessage)  => {  console.log('Patch(PATCH) Event:    '  , JSON.stringify(patchMessage)   ) }     <br />\\
+&nbsp;&nbsp;, 'removed' : (removeMessage) => {  console.log('Removed(DELETE) Event: '  , JSON.stringify(removeMessage)  ) }     <br />\\
 &nbsp;&nbsp;}                                                                                                                   <br />\\
 );                                                                                                                              <br />\\
                                                                                                                                 <br />\\
