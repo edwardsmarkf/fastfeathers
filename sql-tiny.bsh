@@ -353,6 +353,12 @@ patchTiny(key, data ).then( value  => {     /* PATCH */                         
               patchResult = value;                                                                                              <br />\\
               console.log('patchResult: ' + JSON.stringify(patchResult));                                                       <br />\\
 });                                                                                                                             <br />\\
+                                                                                                                                <br />\\
+let removeResult = null;  let key = 0;                                                                                          <br />\\
+removeTiny(key).then( value  => {          /* remove (DELETE) */                                                                <br />\\
+              removeResult = value;                                                                                             <br />\\
+              console.log('removeResult: ' + JSON.stringify(removeResult));                                                     <br />\\
+});                                                                                                                             <br />\\
 </div>                                                                                                                          <br />\\
 
 END_OF_SED_PUBLIC_HTML
