@@ -327,37 +327,37 @@ async function removeTiny(id, data) {         /* remove (DELETE) */             
 &nbsp;&nbsp;return removeResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
 createTiny('mark edwards', '123 Swallow Lane').then((value) => {    /* create (POST) */                                         <br />\\
-         console.log('createTiny: ' + JSON.stringify(value));                                                                   <br />\\
+&nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 let findTinyResultAll;                                                                                                          <br />\\
 findTiny(null).then((value) => {           /* find (GET) (find all)  */                                                         <br />\\
-        findTinyResultAll = value;                                                                                              <br />\\
-        console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                           <br />\\
+&nbsp;&nbsp;findTinyResultAll = value;                                                                                          <br />\\
+&nbsp;&nbsp;console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                       <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 let findTinyResultOne; let data = {query:{ id: 1}};                                                                             <br />\\
 findTiny().then((value) => {               /* FIND (with data )                                                                 <br />\\
-        findTinyResultOne = value;                                                                                              <br />\\
-	console.log('findTiny with query: ' + JSON.stringify(findTinyResultOne) );                                              <br />\\
+&nbsp;&nbsp;findTinyResultOne = value;                                                                                          <br />\\
+&nbsp;&nbsp;console.log('findTiny with query: ' + JSON.stringify(findTinyResultOne) );                                          <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 let getTinyResult = null; let key = 0;                                                                                          <br />\\
-getTiny(key).then( value => {              /* GET  */                                                                           <br />\\
-            getTinyResult = value;                                                                                              <br />\\
-            console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                       <br />\\
+getTiny(key).then( value => {              /* get (GET)  */                                                                     <br />\\
+&nbsp;&nbsp;getTinyResult = value;                                                                                              <br />\\
+&nbsp;&nbsp;console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                       <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 let patchResult = null;  let key = 0;  let data =  {address:  '5678 There Street!' };                                           <br />\\
 patchTiny(key, data ).then( value  => {     /* PATCH */                                                                         <br />\\
-              patchResult = value;                                                                                              <br />\\
-              console.log('patchResult: ' + JSON.stringify(patchResult));                                                       <br />\\
+&nbsp;&nbsp;patchResult = value;                                                                                                <br />\\
+&nbsp;&nbsp;console.log('patchResult: ' + JSON.stringify(patchResult));                                                         <br />\\
 });                                                                                                                             <br />\\
                                                                                                                                 <br />\\
 let removeResult = null;  let key = 0;                                                                                          <br />\\
 removeTiny(key).then( value  => {          /* remove (DELETE) */                                                                <br />\\
-              removeResult = value;                                                                                             <br />\\
-              console.log('removeResult: ' + JSON.stringify(removeResult));                                                     <br />\\
+&nbsp;&nbsp;removeResult = value;                                                                                               <br />\\
+&nbsp;&nbsp;console.log('removeResult: ' + JSON.stringify(removeResult));                                                       <br />\\
 });                                                                                                                             <br />\\
 </div>                                                                                                                          <br />\\
 
