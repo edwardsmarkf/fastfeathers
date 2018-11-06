@@ -262,6 +262,7 @@ END_OF_SED_CHANNELS_JS
 ##	s/'authenticated'/'everybody'/;
 ##	END_OF_SED_CHANNELS_JS
 
+##  this does not work, unfortunately...  ;-(
 ##  document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
 ##  document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
 
@@ -269,7 +270,7 @@ END_OF_SED_CHANNELS_JS
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 s/class="logo"/& width='120' height='20'/;      ## shrink the logo size
 s/font-size: 2em;/font-size: 1em;/;             ## reduce the H2 tag font size at the top
-s/font-size: 1.0em;/font-size: 10px;/;          ## reduce the "p" font size 
+s/font-size: 1.0em;/font-size: 11px;/;          ## reduce the "p" font size 
 s/margin-top: 100px;/margin-top: 10px/;         ## reduce the "main" tag from 100 pixels to 10 pixels
 s/padding: 20px;/padding: 10px;/;               ## reduce the "main" tag from 20 pixels to 10 pixels
 s/footer p {/p, td {/                           ## replace the "footer p" selector with "p,td"
@@ -282,18 +283,23 @@ s/margin-bottom: 30px;/margin-bottom: 10px/;    ## reduce the "img.logo" selecto
 <span style='font-size: 13px'>                                                                                                        \\
 Go into your console, and try cut-paste entering the following commands at the command prompt:                                        \\
 </span>                                                                                                                               \\
-<div style='font-size: 11px'>                                                                                                   <br />\\
+<table border='1' cellpadding='5'>                                                                                                    \\
+<tr>                                                                                                                                  \\
+<td colspan='2'>                                                                                                                      \\
+<span style='text-align: center;'>/*  This command should be ran <strong>separately</strong> */</span>                          <br />\\
 \[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
 \].forEach( (src) => {                                                                                                          <br />\\
 &nbsp;&nbsp;let script = document.createElement('script'); script.src = src; script.async = false;                              <br />\\
 &nbsp;&nbsp;document.head.appendChild(script);                                                                                  <br />\\
 });                                                                                                                             <br />\\
-&nbsp;&nbsp;&nbsp;&nbsp;/* dont cut-paste this next line with the same "block" of code as the one above! (timing issue!) */     <br />\\
+</td>                                                                                                                                 \\
+<td>                                                                                                                                  \\
 const app      = feathers();                                                                                                    <br />\\
 const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
-                                                                                                                                <br />\\
+</td>                                                                                                                                 \\
+<td>                                                                                                                                  \\
   /* optionally, establish a listener for 'create'(POST), 'patched'(PATCH), 'update'(PUT), and 'remove'(DELETE)  */             <br />\\
                                                                                                                                 <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
@@ -304,11 +310,15 @@ app.service('${ServiceName}')                                                   
 &nbsp;&nbsp;, 'removed' : (removeMessage) => {  console.log('Removed(DELETE) Event: '  , JSON.stringify(removeMessage)  ) }     <br />\\
 &nbsp;&nbsp;}                                                                                                                   <br />\\
 );                                                                                                                              <br />\\
+</td>                                                                                                                                 \\
+</tr>                                                                                                                                 \\
+</table>                                                                                                                              \\
+                                                                                                                                <br />\\
                                                                                                                                 <br />\\
 <table border='1' cellpadding='5'>                                                                                                    \\
 <tr>                                                                                                                                  \\
 <th colspan='2' align='center'>                                                                                                       \\
-CRUD callable functions <span style='font-size: 12px'>Note: update(PUT) is not used in this example</span>                            \\
+CRUD callable functions &nbsp;&nbsp;<span style='font-size: 11px'>Note: update(PUT) is not referenced in this example</span>                            \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
