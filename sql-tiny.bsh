@@ -302,7 +302,7 @@ app.service('${ServiceName}')                                                   
                                                                                                                                 <br />\\
 <table border='1'>                                                                                                                    \\
 <tr>                                                                                                                                  \\
-<th colspan='1' align='center'>                                                                                                       \\
+<th colspan='2' align='center'>                                                                                                       \\
 CRUD callable functions                                                                                                               \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
@@ -357,10 +357,10 @@ async function removeTiny(id, data) {         /* remove (DELETE) */             
 </td>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 </table                                                                                                                               \\
-<br />                                                                                                                                \\
+<br /><br />                                                                                                                          \\
 <table border='1'>                                                                                                                    \\
 <tr>                                                                                                                                  \\
-<th>                                                                                                                                  \\
+<th colspan='2'>                                                                                                                      \\
 Database Manipulation Statements                                                                                                      \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
