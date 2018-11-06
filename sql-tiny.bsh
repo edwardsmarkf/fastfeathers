@@ -278,11 +278,11 @@ s/margin-bottom: 30px;/margin-bottom: 10px/;                       ## reduce the
 /<footer>/d;                                                       ## remove the footer tag line
 /<\/footer>/d;                 
 /For more information on Feathers/d;                               ## remove the last line
+/<\/style>/i\
+table { margin: 1px solid; }
+
 /<\/main>/i\
 <hr />                                                                                                                                \\
-<span style='font-size: 13px'>                                                                                                        \\
-                                        \\
-</span>                                                                                                                               \\
 <table border='0' cellpadding='5'>                                                                                                    \\
 <tr>                                                                                                                                  \\
 <th colspan='2'>                                                                                                                      \\
