@@ -275,7 +275,7 @@ s/footer p {/p {/
 s/padding: 20px;/padding: 10px;/;
 s/margin-bottom: 30px;/margin-bottom: 10px/;
 /<footer>/d;
-/</footer>/d;
+/<\/footer>/d;
 /For more information on Feathers/d;
 /</main>/i\
 <hr />                                                                                                                                \\
