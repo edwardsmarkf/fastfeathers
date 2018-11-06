@@ -326,9 +326,6 @@ async function removeTiny(id, data) {         /* remove (DELETE) */             
 &nbsp;&nbsp;console.log('removeTiny function: ' + JSON.stringify(removeResult) );                                               <br />\\
 &nbsp;&nbsp;return removeResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
-shit('mark edwards', '123 Swallow Lane') ( {    /* create (POST) */                                                              <br />\\
-&nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
-});                                                                                                                             <br />\\
 createTiny('mark edwards', '123 Swallow Lane').then((value) => {    /* create (POST) */                                         <br />\\
 &nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
 });                                                                                                                             <br />\\
