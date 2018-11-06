@@ -303,15 +303,15 @@ app.service('${ServiceName}')                                                   
 <table border='1'>                                                                                                                    \\
 <tr>                                                                                                                                  \\
 <th colspan='2' align='center'>                                                                                                       \\
-CRUD callable functions                                                                                                               \\
+CRUD callable functions <span style='font-size: 12px'>Note: update(PUT) is not used in this example</span>                            \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <th>                                                                                                                                  \\
-Create, Replace, and Delete                                                                                                           \\
+Create (POST), patch(PATCH), and remove(DELETE)                                                                                       \\
 </th>                                                                                                                                 \\
 <th>                                                                                                                                  \\
-Get and Find                                                                                                                          \\
+Get/Find (GET)                                                                                                                        \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
@@ -361,12 +361,16 @@ async function removeTiny(id, data) {         /* remove (DELETE) */             
 <table border='1'>                                                                                                                    \\
 <tr>                                                                                                                                  \\
 <th colspan='2'>                                                                                                                      \\
-Database Manipulation Statements                                                                                                      \\
+Database Query and Manipulation Statements                                                                                            \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <th>                                                                                                                                  \\
-Database Query Statements                                                                                                             \\
+<tr>                                                                                                                                  \\
+Manipulation Statements                                                                                                               \\
+</th>                                                                                                                                 \\
+<th>                                                                                                                                  \\
+Query Statements                                                                                                                      \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
