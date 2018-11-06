@@ -281,9 +281,14 @@ s/margin-bottom: 30px;/margin-bottom: 10px/;                       ## reduce the
 /<\/main>/i\
 <hr />                                                                                                                                \\
 <span style='font-size: 13px'>                                                                                                        \\
-Go into your console, and try cut-paste entering the following commands at the command prompt:                                        \\
+                                        \\
 </span>                                                                                                                               \\
-<table border='1' cellpadding='5'>                                                                                                    \\
+<table border='0' cellpadding='5'>                                                                                                    \\
+<tr>                                                                                                                                  \\
+<th colspan='2'>                                                                                                                      \\
+Go into your console, and try cut-paste entering the following commands at the command prompt:
+</th>                                                                                                                                 \\
+</tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td colspan='2'>                                                                                                                      \\
 <div style='text-align: center;'>/*  This command should be ran <strong>separately</strong> */</div>                            <br />\\
@@ -315,7 +320,7 @@ app.service('${ServiceName}')                                                   
 </table>                                                                                                                              \\
                                                                                                                                 <br />\\
                                                                                                                                 <br />\\
-<table border='1' cellpadding='5'>                                                                                                    \\
+<table border='0' cellpadding='5'>                                                                                                    \\
 <tr>                                                                                                                                  \\
 <th colspan='2' align='center'>                                                                                                       \\
 CRUD callable functions &nbsp;&nbsp;<span style='font-size: 11px'>Note: update(PUT) is not referenced in this example</span>                            \\
@@ -373,7 +378,7 @@ async function removeTiny(id, data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remo
 </tr>                                                                                                                                 \\
 </table>                                                                                                                              \\
 <br /><br />                                                                                                                          \\
-<table border='1' cellpadding='5'>                                                                                                    \\
+<table border='0' cellpadding='5'>                                                                                                    \\
 <tr>                                                                                                                                  \\
 <th colspan='2'>                                                                                                                      \\
 Database Manipulation and Query Statements                                                                                            \\
