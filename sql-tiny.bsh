@@ -301,15 +301,22 @@ app.service('${ServiceName}')                                                   
 );                                                                                                                              <br />\\
                                                                                                                                 <br />\\
 <table>                                                                                                                \\
+<tr>                        \\
+<th>                        \\
+Create, Replace, Delete     \\
+</th>                      \\
+<th>                        \\
+Get and Find                \\
+</th>                       \\
+</tr>                       \\
 <tr>                                                                                                                   \\
-<td>                                                                                                                   \\
-async function findTiny(query) {             /* find (GET) (get all or by query) */                                             <br />\\
-&nbsp;&nbsp;console.log('Query function using: ' + JSON.stringify(query) );                                                     <br />\\
-&nbsp;&nbsp;let findResult  = await app.service('${ServiceName}').find(query);                                                  <br />\\
-&nbsp;&nbsp;console.log('findTiny function: ' + JSON.stringify(findResult) );                                                   <br />\\
-&nbsp;&nbsp;return findResult;                                                                                                  <br />\\
+<td>      \\
+async function createTiny(name, address) {           /* create (POST) */                                                        <br />\\
+&nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
+&nbsp;&nbsp;console.log('createTiny function result: ' + JSON.stringify(createResult) );                                        <br />\\
+&nbsp;&nbsp;return createResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
-</td>                                                                                                                   \\
+</td>   \\
 <td>                                                                                                                    \\
 async function getTiny(id) {               /* get (GET) (just one by index)  */                                                 <br />\\
 &nbsp;&nbsp;let getResult = await app.service('${ServiceName}').get(id);                                                        <br />\\
@@ -320,19 +327,20 @@ async function getTiny(id) {               /* get (GET) (just one by index)  */ 
 </tr>     \\
 <tr>      \\
 <td>      \\
-async function createTiny(name, address) {           /* create (POST) */                                                        <br />\\
-&nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
-&nbsp;&nbsp;console.log('createTiny function result: ' + JSON.stringify(createResult) );                                        <br />\\
-&nbsp;&nbsp;return createResult;                                                                                                <br />\\
-};                                                                                                                              <br />\\
-</td>   \\
-<td>      \\
 async function patchTiny(id, data) {         /* patch (PATCH) */                                                                <br />\\
 &nbsp;&nbsp;let patchResult = await app.service('${ServiceName}').patch(id, data);                                              <br />\\
 &nbsp;&nbsp;console.log('patchTiny function: ' + JSON.stringify(patchResult) );                                                 <br />\\
 &nbsp;&nbsp;return patchResult;                                                                                                 <br />\\
 };                                                                                                                              <br />\\
 </td>     \\
+<td>                                                                                                                   \\
+async function findTiny(query) {             /* find (GET) (get all or by query) */                                             <br />\\
+&nbsp;&nbsp;console.log('Query function using: ' + JSON.stringify(query) );                                                     <br />\\
+&nbsp;&nbsp;let findResult  = await app.service('${ServiceName}').find(query);                                                  <br />\\
+&nbsp;&nbsp;console.log('findTiny function: ' + JSON.stringify(findResult) );                                                   <br />\\
+&nbsp;&nbsp;return findResult;                                                                                                  <br />\\
+};                                                                                                                              <br />\\
+</td>                                                                                                                   \\
 </tr>     \\
 <tr>      \\
 <td colspan='2'>      \\
@@ -344,6 +352,7 @@ async function removeTiny(id, data) {         /* remove (DELETE) */             
 </td>     \\
 </tr>     \\
 </table   \\
+                          \\
 createTiny('mark edwards', '123 Swallow Lane').then((value) => {    /* create (POST) */                                         <br />\\
 &nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
 });                                                                                                                             <br />\\
