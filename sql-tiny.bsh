@@ -275,9 +275,9 @@ s/margin-bottom: 30px;/margin-bottom: 10px/;
 /For more information on Feathers/d;
 /<footer>/i\
 <hr />                                                                                                                                \\
-<p style='font-size: 13px'>                                                                                                           \\
+<span style='font-size: 13px'>                                                                                                           \\
 Go into your console, and try cut-paste entering the following commands at the command prompt:                                        \\
-</p>                                                                                                                                  \\
+</span>                                                                                                                                  \\
 <div style='font-size: 11px'>                                                                                                   <br />\\
 \[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
 \].forEach( (src) => {                                                                                                          <br />\\
