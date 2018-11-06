@@ -270,7 +270,7 @@ END_OF_SED_CHANNELS_JS
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 s/class="logo"/& width='120' height='20'/;      ## shrink the logo size
 s/font-size: 2em;/font-size: 1em;/;             ## reduce the H2 tag font size at the top
-s/font-size: 1.0em;/font-size: 11px;/;          ## reduce the "p" font size 
+s/font-size: 1.0em;/font-size: 12px;/;          ## reduce the "p" font size 
 s/margin-top: 100px;/margin-top: 10px/;         ## reduce the "main" tag from 100 pixels to 10 pixels
 s/padding: 20px;/padding: 10px;/;               ## reduce the "main" tag from 20 pixels to 10 pixels
 s/footer p {/p, td {/                           ## replace the "footer p" selector with "p,td"
@@ -293,6 +293,8 @@ Go into your console, and try cut-paste entering the following commands at the c
 &nbsp;&nbsp;document.head.appendChild(script);                                                                                  <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
+</tr>                                                                                                                                 \\
+<tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
 const app      = feathers();                                                                                                    <br />\\
 const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
