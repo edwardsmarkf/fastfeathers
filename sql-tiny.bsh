@@ -268,16 +268,16 @@ END_OF_SED_CHANNELS_JS
 
 ##  reduce the size of the feathers logo to make more room for code
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
-s/class="logo"/& width='120' height='20'/;      ## shrink the logo size
-s/font-size: 2em;/font-size: 1em;/;             ## reduce the H2 tag font size at the top
-s/font-size: 1.0em;/font-size: 12px;/;          ## reduce the "p" font size 
-s/margin-top: 100px;/margin-top: 10px/;         ## reduce the "main" tag from 100 pixels to 10 pixels
-s/padding: 20px;/padding: 10px;/;               ## reduce the "main" tag from 20 pixels to 10 pixels
-s/footer p {/p, td {/                           ## replace the "footer p" selector with "p,td"
-s/margin-bottom: 30px;/margin-bottom: 10px/;    ## reduce the "img.logo" selector from 30 pixels to 10 pixels
-/<footer>/d;                                    ## remove the footer tag line
+s/class="logo"/& width='120' height='20'/;                         ## shrink the logo size
+s/font-size: 2em;/font-size: 1em;/;                                ## reduce the H2 tag font size at the top
+s/font-size: 1.0em;/font-size: 12px;/;                             ## reduce the "p" font size 
+s/margin-top: 100px;/margin-top: 10px; margin-left: 10px/;         ## reduce the "main" tag from 100 pixels to 10 pixels
+s/padding: 20px;/padding: 10px;/;                                  ## reduce the "main" tag from 20 pixels to 10 pixels
+s/footer p {/p, td {/                                              ## replace the "footer p" selector with "p,td"
+s/margin-bottom: 30px;/margin-bottom: 10px/;                       ## reduce the "img.logo" selector from 30 pixels to 10 pixels
+/<footer>/d;                                                       ## remove the footer tag line
 /<\/footer>/d;                 
-/For more information on Feathers/d;            ## remove the last line
+/For more information on Feathers/d;                               ## remove the last line
 /<\/main>/i\
 <hr />                                                                                                                                \\
 <span style='font-size: 13px'>                                                                                                        \\
@@ -286,7 +286,7 @@ Go into your console, and try cut-paste entering the following commands at the c
 <table border='1' cellpadding='5'>                                                                                                    \\
 <tr>                                                                                                                                  \\
 <td colspan='2'>                                                                                                                      \\
-<span style='text-align: center;'>/*  This command should be ran <strong>separately</strong> */</span>                          <br />\\
+<div style='text-align: center;'>/*  This command should be ran <strong>separately</strong> */</div>                            <br />\\
 \[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
 \].forEach( (src) => {                                                                                                          <br />\\
 &nbsp;&nbsp;let script = document.createElement('script'); script.src = src; script.async = false;                              <br />\\
@@ -300,16 +300,14 @@ const app      = feathers();                                                    
 const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
-</td>                                                                                                                                 \\
-<td>                                                                                                                                  \\
-  /* optionally, establish a listener for 'create'(POST), 'patched'(PATCH), 'update'(PUT), and 'remove'(DELETE)  */             <br />\\
-                                                                                                                                <br />\\
+t<td>                                                                                                                                  \\
+&nbsp;&nbsp;&nbsp;/* optionally, establish a listener for create(POST), patched(PATCH), update(PUT), and remove(DELETE) */      <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
 &nbsp;&nbsp;.on(                                                                                                                <br />\\
-&nbsp;&nbsp;{ 'created' : (createMessage) => {  console.log('Create(POST) Event:    '  , JSON.stringify(createMessage)  ) }     <br />\\
-&nbsp;&nbsp;, 'updated' : (updateMessage) => {  console.log('Update(PUT) Event:     '  , JSON.stringify(updateMessage)  ) }     <br />\\
-&nbsp;&nbsp;, 'patched' : (patchMessage)  => {  console.log('Patch(PATCH) Event:    '  , JSON.stringify(patchMessage)   ) }     <br />\\
-&nbsp;&nbsp;, 'removed' : (removeMessage) => {  console.log('Removed(DELETE) Event: '  , JSON.stringify(removeMessage)  ) }     <br />\\
+&nbsp;&nbsp;{ 'created' : (createMessage) => {  console.log('create(POST) Event:    '  , JSON.stringify(createMessage)  ) }     <br />\\
+&nbsp;&nbsp;, 'updated' : (updateMessage) => {  console.log('update(PUT) Event:     '  , JSON.stringify(updateMessage)  ) }     <br />\\
+&nbsp;&nbsp;, 'patched' : (patchMessage)  => {  console.log('patch(PATCH) Event:    '  , JSON.stringify(patchMessage)   ) }     <br />\\
+&nbsp;&nbsp;, 'removed' : (removeMessage) => {  console.log('removed(DELETE) Event: '  , JSON.stringify(removeMessage)  ) }     <br />\\
 &nbsp;&nbsp;}                                                                                                                   <br />\\
 );                                                                                                                              <br />\\
 </td>                                                                                                                                 \\
@@ -325,22 +323,22 @@ CRUD callable functions &nbsp;&nbsp;<span style='font-size: 11px'>Note: update(P
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <th>                                                                                                                                  \\
-Create (POST), patch(PATCH), and remove(DELETE)                                                                                       \\
+create(POST), patch(PATCH), and remove(DELETE)                                                                                       \\
 </th>                                                                                                                                 \\
 <th>                                                                                                                                  \\
-Get/Find (GET)                                                                                                                        \\
+Get/Find(GET)                                                                                                                        \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-async function createTiny(name, address) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* create (POST) */                               <br />\\
+async function createTiny(name, address) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* create(POST) */                                <br />\\
 &nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
 &nbsp;&nbsp;console.log('createTiny function result: ' + JSON.stringify(createResult) );                                        <br />\\
 &nbsp;&nbsp;return createResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
 </td>                                                                                                                                 \\
 <td>                                                                                                                                  \\
-async function getTiny(id) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get (GET) (just one by index)  */                            <br />\\
+async function getTiny(id) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get(GET) (just one by index)  */                             <br />\\
 &nbsp;&nbsp;let getResult = await app.service('${ServiceName}').get(id);                                                        <br />\\
 &nbsp;&nbsp;console.log('getTiny function: ' + JSON.stringify(getResult) );                                                     <br />\\
 &nbsp;&nbsp;return getResult;                                                                                                   <br />\\
@@ -349,14 +347,14 @@ async function getTiny(id) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get (GET) (ju
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-async function patchTiny(id, data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* patch (PATCH) */                                     <br />\\
+async function patchTiny(id, data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* patch(PATCH) */                                      <br />\\
 &nbsp;&nbsp;let patchResult = await app.service('${ServiceName}').patch(id, data);                                              <br />\\
 &nbsp;&nbsp;console.log('patchTiny function: ' + JSON.stringify(patchResult) );                                                 <br />\\
 &nbsp;&nbsp;return patchResult;                                                                                                 <br />\\
 };                                                                                                                              <br />\\
 </td>                                                                                                                                 \\
 <td>                                                                                                                                  \\
-async function findTiny(query) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find (GET) (get all or by query) */                      <br />\\
+async function findTiny(query) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find(GET) (get all or by query) */                       <br />\\
 &nbsp;&nbsp;console.log('Query function using: ' + JSON.stringify(query) );                                                     <br />\\
 &nbsp;&nbsp;let findResult  = await app.service('${ServiceName}').find(query);                                                  <br />\\
 &nbsp;&nbsp;console.log('findTiny function: ' + JSON.stringify(findResult) );                                                   <br />\\
@@ -366,14 +364,14 @@ async function findTiny(query) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find (GET
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td colspan='2'>                                                                                                                      \\
-async function removeTiny(id, data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove (DELETE) */                                  <br />\\
+async function removeTiny(id, data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove(DELETE) */                                   <br />\\
 &nbsp;&nbsp;let removeResult = await app.service('${ServiceName}').remove(id);                                                  <br />\\
 &nbsp;&nbsp;console.log('removeTiny function: ' + JSON.stringify(removeResult) );                                               <br />\\
 &nbsp;&nbsp;return removeResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
 </td>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
-</table                                                                                                                               \\
+</table>                                                                                                                              \\
 <br /><br />                                                                                                                          \\
 <table border='1' cellpadding='5'>                                                                                                    \\
 <tr>                                                                                                                                  \\
@@ -391,13 +389,13 @@ Query Statements                                                                
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-createTiny('mark edwards', '123 Swallow Lane').then((value) => {&nbsp;&nbsp;/* create (POST) */                                 <br />\\
+createTiny('mark edwards', '123 Swallow Lane').then((value) => {&nbsp;&nbsp;/* create(POST) */                                  <br />\\
 &nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 <td>                                                                                                                                  \\
 let findTinyResultAll;                                                                                                          <br />\\
-findTiny(null).then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find (GET) (find all)  */                                <br />\\
+findTiny(null).then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find(GET) (find all)  */                                 <br />\\
 &nbsp;&nbsp;findTinyResultAll = value;                                                                                          <br />\\
 &nbsp;&nbsp;console.log('findTiny without query: ' + JSON.stringify(findTinyResultAll) );                                       <br />\\
 });                                                                                                                             <br />\\
@@ -406,14 +404,14 @@ findTiny(null).then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find (GET
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
 let patchResult = null;  let key = 0;  let data =  {address:  '5678 There Street!' };                                           <br />\\
-patchTiny(key, data ).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* PATCH */                                          <br />\\
+patchTiny(key, data ).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* patch(PATCH) */                                   <br />\\
 &nbsp;&nbsp;patchResult = value;                                                                                                <br />\\
 &nbsp;&nbsp;console.log('patchResult: ' + JSON.stringify(patchResult));                                                         <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 <td>                                                                                                                                  \\
 let findTinyResultOne; let data = {query:{ id: 1}};                                                                             <br />\\
-findTiny().then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* FIND (with data )                                            <br />\\
+findTiny().then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find(GET) (with data )                                       <br />\\
 &nbsp;&nbsp;findTinyResultOne = value;                                                                                          <br />\\
 &nbsp;&nbsp;console.log('findTiny with query: ' + JSON.stringify(findTinyResultOne) );                                          <br />\\
 });                                                                                                                             <br />\\
@@ -422,14 +420,14 @@ findTiny().then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* FIND (with da
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
 let getTinyResult = null; let key = 0;                                                                                          <br />\\
-getTiny(key).then( value => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get (GET)  */                                               <br />\\
+getTiny(key).then( value => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get(GET)  */                                                <br />\\
 &nbsp;&nbsp;getTinyResult = value;                                                                                              <br />\\
 &nbsp;&nbsp;console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                       <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 <td>                                                                                                                                  \\
 let removeResult = null;  let key = 0;                                                                                          <br />\\
-removeTiny(key).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove (DELETE) */                                      <br />\\
+removeTiny(key).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove(DELETE) */                                       <br />\\
 &nbsp;&nbsp;removeResult = value;                                                                                               <br />\\
 &nbsp;&nbsp;console.log('removeResult: ' + JSON.stringify(removeResult));                                                       <br />\\
 });                                                                                                                             <br />\\
