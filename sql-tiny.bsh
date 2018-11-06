@@ -283,8 +283,8 @@ Go into your console, and try cut-paste entering the following commands at the c
 &nbsp;&nbsp;let script = document.createElement('script'); script.src = src; script.async = false;                              <br />\\
 &nbsp;&nbsp;document.head.appendChild(script);                                                                                  <br />\\
 });                                                                                                                             <br />\\
-                                                                                                                                <br />\\
-const app      = feathers();  /* dont cut-paste this line with the same "block" of code as the one above! (timing issue) */     <br />\\
+&nbsp;&nbsp;&nbsp;&nbsp;/* dont cut-paste this next line with the same "block" of code as the one above! (timing issue!) */     <br />\\
+const app      = feathers();                                                                                                    <br />\\
 const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
@@ -300,32 +300,50 @@ app.service('${ServiceName}')                                                   
 &nbsp;&nbsp;}                                                                                                                   <br />\\
 );                                                                                                                              <br />\\
                                                                                                                                 <br />\\
-async function createTiny(name, address) {           /* create (POST) */                                                        <br />\\
-&nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
-&nbsp;&nbsp;console.log('createTiny function result: ' + JSON.stringify(createResult) );                                        <br />\\
-&nbsp;&nbsp;return createResult;                                                                                                <br />\\
-};                                                                                                                              <br />\\
+<table>                                                                                                                \\
+<tr>                                                                                                                   \\
+<td>                                                                                                                   \\
 async function findTiny(query) {             /* find (GET) (get all or by query) */                                             <br />\\
 &nbsp;&nbsp;console.log('Query function using: ' + JSON.stringify(query) );                                                     <br />\\
 &nbsp;&nbsp;let findResult  = await app.service('${ServiceName}').find(query);                                                  <br />\\
 &nbsp;&nbsp;console.log('findTiny function: ' + JSON.stringify(findResult) );                                                   <br />\\
 &nbsp;&nbsp;return findResult;                                                                                                  <br />\\
 };                                                                                                                              <br />\\
+</td>                                                                                                                   \\
+<td>                                                                                                                    \\
 async function getTiny(id) {               /* get (GET) (just one by index)  */                                                 <br />\\
 &nbsp;&nbsp;let getResult = await app.service('${ServiceName}').get(id);                                                        <br />\\
 &nbsp;&nbsp;console.log('getTiny function: ' + JSON.stringify(getResult) );                                                     <br />\\
 &nbsp;&nbsp;return getResult;                                                                                                   <br />\\
 };                                                                                                                              <br />\\
+</td>     \\
+</tr>     \\
+<tr>      \\
+<td>      \\
+async function createTiny(name, address) {           /* create (POST) */                                                        <br />\\
+&nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
+&nbsp;&nbsp;console.log('createTiny function result: ' + JSON.stringify(createResult) );                                        <br />\\
+&nbsp;&nbsp;return createResult;                                                                                                <br />\\
+};                                                                                                                              <br />\\
+</td>   \\
+<td>      \\
 async function patchTiny(id, data) {         /* patch (PATCH) */                                                                <br />\\
 &nbsp;&nbsp;let patchResult = await app.service('${ServiceName}').patch(id, data);                                              <br />\\
 &nbsp;&nbsp;console.log('patchTiny function: ' + JSON.stringify(patchResult) );                                                 <br />\\
 &nbsp;&nbsp;return patchResult;                                                                                                 <br />\\
 };                                                                                                                              <br />\\
+</td>     \\
+</tr>     \\
+<tr>      \\
+<td colspan='2'>      \\
 async function removeTiny(id, data) {         /* remove (DELETE) */                                                             <br />\\
 &nbsp;&nbsp;let removeResult = await app.service('${ServiceName}').remove(id);                                                  <br />\\
 &nbsp;&nbsp;console.log('removeTiny function: ' + JSON.stringify(removeResult) );                                               <br />\\
 &nbsp;&nbsp;return removeResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
+</td>     \\
+</tr>     \\
+</table   \\
 createTiny('mark edwards', '123 Swallow Lane').then((value) => {    /* create (POST) */                                         <br />\\
 &nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
 });                                                                                                                             <br />\\
