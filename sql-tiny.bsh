@@ -269,16 +269,16 @@ END_OF_SED_CHANNELS_JS
 sed --in-place  --file=- ./public/index.html   <<END_OF_SED_PUBLIC_HTML ;
 s/class="logo"/& width='120' height='20'/;
 s/font-size: 2em;/font-size: 1em;/;
-s/font-size: 1.0em;/font-size 0.5em;/;
+s/font-size: 1.0em;/font-size: 10px;/;
 s/margin-top: 100px;/margin-top: 10px/;
 s/padding: 20px;/padding: 10px;/;
 s/margin-bottom: 30px;/margin-bottom: 10px/;
 /For more information on Feathers/d;
 /<footer>/i\
 <hr />                                                                                                                                \\
-<span style='font-size: 13px'>                                                                                                           \\
+<span style='font-size: 13px'>                                                                                                        \\
 Go into your console, and try cut-paste entering the following commands at the command prompt:                                        \\
-</span>                                                                                                                                  \\
+</span>                                                                                                                               \\
 <div style='font-size: 11px'>                                                                                                   <br />\\
 \[ '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js' , '//unpkg.com/@feathersjs/client@\^3.0.0/dist/feathers.js'  <br />\\
 \].forEach( (src) => {                                                                                                          <br />\\
