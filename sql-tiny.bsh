@@ -279,7 +279,7 @@ s/margin-bottom: 30px;/margin-bottom: 10px/;                       ## reduce the
 /<\/footer>/d;                 
 /For more information on Feathers/d;                               ## remove the last line
 /<\/style>/i\
-table { margin-left : 20px ; border: 1px solid; }  td { padding: 5px; }
+table { border-collapse: collapse; margin-left : 20px ; } table, th, td { border: 1px solid black; } td { padding: 5px; } 
 
 /<\/main>/i\
 <hr />                                                                                                                                \\
