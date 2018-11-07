@@ -323,7 +323,7 @@ app.service('${ServiceName}')                                                   
 <table border='0' cellpadding='5'>                                                                                                    \\
 <tr>                                                                                                                                  \\
 <th colspan='2' align='center'>                                                                                                       \\
-CRUD callable functions &nbsp;&nbsp;<span style='font-size: 11px'>Note: update(PUT) is not referenced in this example</span>                            \\
+CRUD callable async functions &nbsp;&nbsp;<span style='font-size: 11px'>Note: update(PUT) is not referenced in this example</span>    \\
 </th>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
