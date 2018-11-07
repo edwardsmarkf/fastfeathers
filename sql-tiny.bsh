@@ -306,7 +306,7 @@ const app      = feathers();                                                    
 const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
-t<td>                                                                                                                                  \\
+<td>                                                                                                                                  \\
 &nbsp;&nbsp;&nbsp;/* optionally, establish a listener for create(POST), patched(PATCH), update(PUT), and remove(DELETE) */      <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
 &nbsp;&nbsp;.on(                                                                                                                <br />\\
