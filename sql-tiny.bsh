@@ -426,17 +426,17 @@ findTiny().then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find(GET) (wi
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-let getTinyResult = null; let key = 0;                                                                                          <br />\\
-getTiny(key).then( value => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get(GET)  */                                                <br />\\
-&nbsp;&nbsp;getTinyResult = value;                                                                                              <br />\\
-&nbsp;&nbsp;console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                       <br />\\
-});                                                                                                                             <br />\\
-</td>                                                                                                                                 \\
-<td>                                                                                                                                  \\
 let removeResult = null;  let key = 0;                                                                                          <br />\\
 removeTiny(key).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove(DELETE) */                                       <br />\\
 &nbsp;&nbsp;removeResult = value;                                                                                               <br />\\
 &nbsp;&nbsp;console.log('removeResult: ' + JSON.stringify(removeResult));                                                       <br />\\
+});                                                                                                                             <br />\\
+</td>                                                                                                                                 \\
+<td>                                                                                                                                  \\
+let getTinyResult = null; let key = 0;                                                                                          <br />\\
+getTiny(key).then( value => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get(GET)  */                                                <br />\\
+&nbsp;&nbsp;getTinyResult = value;                                                                                              <br />\\
+&nbsp;&nbsp;console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                       <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
