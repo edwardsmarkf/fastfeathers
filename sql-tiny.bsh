@@ -336,8 +336,8 @@ Get/Find(GET)                                                                   
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-async function createTiny(name, address) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* create(POST) */                                <br />\\
-&nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create({ name: name, address: address });                    <br />\\
+async function createTiny(data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* create(POST) */                                         <br />\\
+&nbsp;&nbsp;let createResult = await app.service('${ServiceName}').create(data);                                                <br />\\
 &nbsp;&nbsp;console.log('createTiny function result: ' + JSON.stringify(createResult) );                                        <br />\\
 &nbsp;&nbsp;return createResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
@@ -394,7 +394,8 @@ Query Statements                                                                
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-createTiny('mark edwards', '123 Swallow Lane').then((value) => {&nbsp;&nbsp;/* create(POST) */                                  <br />\\
+let createTinyData = { name: 'mark edwards', address: '123 Swallow Lane' }                                                      <br />\\
+createTiny(createTinyData).then((value) => {&nbsp;&nbsp;/* create(POST) */                                                      <br />\\
 &nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
