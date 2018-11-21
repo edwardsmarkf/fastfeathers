@@ -353,8 +353,8 @@ async function getTiny(id) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get(GET) (jus
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-async function patchTiny(id, data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* patch(PATCH) */                                      <br />\\
-&nbsp;&nbsp;let patchResult = await app.service('${ServiceName}').patch(id, data);                                              <br />\\
+async function patchTiny(id, data, params) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* patch(PATCH) */                              <br />\\
+&nbsp;&nbsp;let patchResult = await app.service('${ServiceName}').patch(id, data, params);                                      <br />\\
 &nbsp;&nbsp;console.log('patchTiny function: ' + JSON.stringify(patchResult) );                                                 <br />\\
 &nbsp;&nbsp;return patchResult;                                                                                                 <br />\\
 };                                                                                                                              <br />\\
@@ -370,8 +370,8 @@ async function findTiny(query) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find(GET)
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td colspan='2'>                                                                                                                      \\
-async function removeTiny(id, data) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove(DELETE) */                                   <br />\\
-&nbsp;&nbsp;let removeResult = await app.service('${ServiceName}').remove(id);                                                  <br />\\
+async function removeTiny(id, params) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove(DELETE) */                                 <br />\\
+&nbsp;&nbsp;let removeResult = await app.service('${ServiceName}').remove(id, params);                                          <br />\\
 &nbsp;&nbsp;console.log('removeTiny function: ' + JSON.stringify(removeResult) );                                               <br />\\
 &nbsp;&nbsp;return removeResult;                                                                                                <br />\\
 };                                                                                                                              <br />\\
