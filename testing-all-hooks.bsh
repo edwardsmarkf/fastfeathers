@@ -101,8 +101,13 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 	expect	-re ".*What is the database connection string.*"
 	send	-- "\r"
 			##  default
-	 
+
+	expect -re ".*Which testing framework do you prefer?.*"		
+        send -- "\r"
+	                ## defaults to Mocha + assert
+
 	expect eof
+
 END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
