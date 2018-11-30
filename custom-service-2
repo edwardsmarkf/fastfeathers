@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	custom-service.bsh  	last update: 2018-11-30
+##	custom-service-2.bsh  	last update: 2018-11-30
 
 ##  Bash-shell script to create a more advanced custom service example entirely from scratch.
 ##  the only code changed is in the ./src/services/SERVICENAME.class.js  file.
@@ -113,37 +113,33 @@ END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
 
-
-#sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js  <<END_OF_SED_REVERSE_CLASS ;
-#s|id, text: \`A new message with ID: \${id}\!\`|id, text: \`ID reversed: \${id.split('').reverse().join('')}\` // ${FileNameWithExtension}|;
-#END_OF_SED_REVERSE_CLASS
-
 sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js  <<END_OF_SED_SERVICE_CLASS ;
-1i\
-const os = require('os');\
-const {promisify} = require('util');\
-const fs = require('fs');\
-const readFileAsync = promisify(fs.readdir);\
-const filePath = '/home/mark/customService/';\
-\
-async function returnDirectory(path) {\
-        return await readFileAsync(filePath, {encoding: 'utf8'})\
-}\
-function returnOs()     {\
-        return os.platform() + ' ' +  os.type() + ' ' + os.release() ;\
-}\
+2iconst os = require('os');                                              \\
+const {promisify} = require('util');                                     \\
+const fs = require('fs');                                                \\
+const readFileAsync = promisify(fs.readdir);                             \\
+const filePath = '/home/mark/customService/';                            \\
+                                                                         \\
+async function returnDirectory(path) {                                   \\
+        return await readFileAsync(filePath, {encoding: 'utf8'})         \\
+}                                                                        \\
+function returnOs()     {                                                \\
+        return os.platform() + ' ' +  os.type() + ' ' + os.release() ;   \\
+}                                                                        \\
 
-s| return []; | \
-               // added by mark                                     \
-        console.log('params: ' + JSON.stringify(params.query));     \
-        if  ( params.query.type === 'os' )      {                   \
-                return returnOs();                                  \
-        } else if ( params.query.type === 'dir' ){                  \
-                return returnDirectory();                           \
-        } else {                                                    \
-                return [];                                          \
-        }       // end added by mark                                \
-    //  return [];              commented out by mark               |;
+s/return \[\];/ \/\/ added by ${FileNameWithExtension}                   \\
+        console.log('params: ' + JSON.stringify(params.query));          \\
+        if  ( params.query.type === 'os' )      {                        \\
+                return returnOs();                                       \\
+        } else if ( params.query.type === 'dir' ){                       \\
+                return returnDirectory();                                \\
+        } else {                                                         \\
+                return [];                                               \\
+        }                                                                \\
+        \/\/ end added by ${FileNameWithExtension}                       \\
+        \/\/  return []; \/\/commented out by ${FileNameWithExtension}   \\
+/;
+
 END_OF_SED_SERVICE_CLASS
 
 
