@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	custom-service-2.bsh  	last update: 2018-11-30
+##	custom-service-find.bsh  	last update: 2018-11-30
 
 ##  Bash-shell script to create a more advanced custom service example entirely from scratch.
 ##  the only code changed is in the ./src/services/SERVICENAME.class.js  file.
