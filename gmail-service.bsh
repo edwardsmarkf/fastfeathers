@@ -96,7 +96,13 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	expect -re ".*What type of API are you making.*"
 	send -- "\r"
 			## defaults to REST & Realtime via Socket.io
+
+	expect -re ".*Which testing framework do you prefer?.*"		
+        send -- "\r"
+	                ## defaults to Mocha + assert
+
 	expect eof
+
 END_OF_GENERATE_APP
 )	## end of feathers generate app
 
