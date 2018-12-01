@@ -126,7 +126,7 @@ sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js 
 const {promisify} = require('util');                                     \\
 const fs = require('fs');                                                \\
 const readFileAsync = promisify(fs.readdir);                             \\
-const filePath = '/home/mark/customService/';                            \\
+const filePath = __dirname ;                                             \\
                                                                          \\
 async function returnDirectory(path) {                                   \\
         return await readFileAsync(filePath, {encoding: 'utf8'})         \\
