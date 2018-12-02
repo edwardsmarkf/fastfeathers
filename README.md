@@ -33,13 +33,11 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 10) **github-hook.bsh** - example of using Github-login.bsh, but includes a hook to capture Gmail information such as first name, etc
 
-11) **custom-service-get.bsh** - a very simple example of a custom service using 'get' which reverses strings.
+11) **custom-service-find-get.bsh** - a very simple example of a custom service using 'get' which reverses strings and using 'find' which either returns a directory (passing an object) or OS stuff (passing an id number).
 
-12) **custom-service-find.bsh** - a very simple example of a custom service using 'find' which either returns a directory or OS stuff.
+12) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDB](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
 
-13) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDB](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
-
-14) **test-all-hooks.bsh**   - used to test each and every possible hook to help determine execution order.  Creates 42 hooks.
+13) **test-all-hooks.bsh**   - used to test each and every possible hook to help determine execution order.  Creates 42 hooks.
 
 
 ### Databases
