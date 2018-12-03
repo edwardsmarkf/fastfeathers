@@ -3,11 +3,6 @@
 
 ##  https://www.geocerts.com/ssl-checker  - use this to check the cert
 
-## added to ./config/default.json below "port":
-## "privkey_pem": "/etc/letsencrypt/live/jackyoung.site/privkey.pem",    // mark added this
-##  "cert_pem": "/etc/letsencrypt/live/jackyoung.site/cert.pem",          // mark added this
-##  "chain_pem": "/etc/letsencrypt/live/jackyoung.site/chain.pem",                // mark added this
-
 ##	sql-tiny.bsh  	last update: 2018-09-26
 
 ##  Bash-shell script to create a TINY sql example entirely from scratch.
