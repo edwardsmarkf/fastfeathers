@@ -114,8 +114,10 @@ FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
+sudo yum --assumeyes install  expect    ;
+
 ### https://certbot.eff.org/lets-encrypt/centosrhel7-other
-sudo yum --assumeyes install  expect  yum-utils;
+sudo yum --assumeyes install  yum-utils  ;
 sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
 sudo yum --assumeyes install certbot;
 
