@@ -221,10 +221,12 @@ END_OF_GENERATE_SERVICE
 
 sed  --in-place   --file=-   ./config/default.json   <<END_OF_DEFAULT_JSON ;
 s?"host": "localhost",?"host": "${DOMAIN_NAME}",?
-/"port": 3030,/i\\
-  "privkey_pem" : "/etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem",\\
-  "cert_pem"    : "/etc/letsencrypt/live/${DOMAIN_NAME}/cert.pem",\\
-  "chain_pem"   : "/etc/letsencrypt/live/${DOMAIN_NAME}/chain.pem",\\
+/"port": 3030,/a\\
+             /* added by ${FileNameWithExtension} ${TimeStamp}*/        \\
+  "privkey_pem" : "/etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem",   \\
+  "cert_pem"    : "/etc/letsencrypt/live/${DOMAIN_NAME}/cert.pem",      \\
+  "chain_pem"   : "/etc/letsencrypt/live/${DOMAIN_NAME}/chain.pem",     \\
+             /* added by ${FileNameWithExtension} ${TimeStamp}*/        \\
   
 END_OF_DEFAULT_JSON
 
