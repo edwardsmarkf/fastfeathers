@@ -262,12 +262,12 @@ END_OF_INDEX_JS
 ##  see difference between   https://docs.feathersjs.com/guides/basics/real-time.html#channels
 ##  and                      https://docs.feathersjs.com/api/channels.html#example
 
-sed  --in-place   --file=-  ./src/channels.js   <<END_OF_SED_CHANNELS_JS ;
-s?app.channel('anonymous').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('anonymous').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
-s?app.channel('anonymous').leave(connection);?app.channel('everybody').leave(connection) /* changed from app.channel('anonymous').leave(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
-s?app.channel('authenticated').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('authenticated').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
-s?return app.channel('authenticated');?return app.channel('everybody');/* changed from return app.channel('authenticated'); by ${FileNameWithExtension} ${TimeStamp}*/?;
-END_OF_SED_CHANNELS_JS
+#sed  --in-place   --file=-  ./src/channels.js   <<END_OF_SED_CHANNELS_JS ;
+#s?app.channel('anonymous').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('anonymous').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
+#s?app.channel('anonymous').leave(connection);?app.channel('everybody').leave(connection) /* changed from app.channel('anonymous').leave(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
+#s?app.channel('authenticated').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('authenticated').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
+#s?return app.channel('authenticated');?return app.channel('everybody');/* changed from return app.channel('authenticated'); by ${FileNameWithExtension} ${TimeStamp}*/?;
+#END_OF_SED_CHANNELS_JS
 
 ##	sed  --in-place   --file=-  ./src/channels.js   <<END_OF_SED_CHANNELS_JS ;
 ##	s/'anonymous'/'everybody'/;
