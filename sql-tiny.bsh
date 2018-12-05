@@ -407,7 +407,7 @@ Query Statements                                                                
 </tr>                                                                                                                                 \\
 <tr>                                                                                                                                  \\
 <td>                                                                                                                                  \\
-let createTinyData = { name: 'mark edwards', address: '123 Swallow Lane' }                                                      <br />\\
+let createTinyData = { name: 'mark edwards', address: '123 Swallow Lane' } ;                                                    <br />\\
 createTiny(createTinyData).then((value) => {&nbsp;&nbsp;/* create(POST) */                                                      <br />\\
 &nbsp;&nbsp;console.log('createTiny: ' + JSON.stringify(value));                                                                <br />\\
 });                                                                                                                             <br />\\
