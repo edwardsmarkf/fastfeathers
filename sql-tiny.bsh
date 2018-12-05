@@ -315,10 +315,10 @@ const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or j
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
 <td>                                                                                                                                  \\
 &nbsp;&nbsp;&nbsp;/* optionally, establish a listener for create(POST), patched(PATCH), update(PUT), and remove(DELETE) */      <br />\\
-app.service('tiny-connect').on('created' , createMessage => { console.log('create(POST)   : ', JSON.stringify(createMessage))});<br />\\
-app.service('tiny-connect').on('updated' , updateMessage => { console.log('update(PUT)    : ', JSON.stringify(updateMessage))});<br />\\
-app.service('tiny-connect').on('patched' , patchMessage  => { console.log('patch(PATCH)   : ', JSON.stringify(patchMessage ))});<br />\\
-app.service('tiny-connect').on('removed' , removeMessage => { console.log('removed(DELETE): ', JSON.stringify(removeMessage))});<br />\\                                                                                                                     <br />\\
+app.service('${ServiceName}').on('created', createMessage => { console.log('create(POST)   : ', JSON.stringify(createMessage))});<br />\\
+app.service('${ServiceName}').on('updated', updateMessage => { console.log('update(PUT)    : ', JSON.stringify(updateMessage))});<br />\\
+app.service('${ServiceName}').on('patched', patchMessage  => { console.log('patch(PATCH)   : ', JSON.stringify(patchMessage ))});<br />\\
+app.service('${ServiceName}').on('removed', removeMessage => { console.log('removed(DELETE): ', JSON.stringify(removeMessage))});<br />\\                                                                                                                     <br />\\
 </td>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 </table>                                                                                                                              \\
