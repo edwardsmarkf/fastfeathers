@@ -315,17 +315,10 @@ const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or j
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
 <td>                                                                                                                                  \\
 &nbsp;&nbsp;&nbsp;/* optionally, establish a listener for create(POST), patched(PATCH), update(PUT), and remove(DELETE) */      <br />\\
-THIS MIGHT NOT WORK!                                                                                                            <br />\\
-app.service('tiny-connect').on( 'created' , (createMessage) => { console.log('create(POST) Event: ' , JSON.stringify(createMessage) ) } );\\ 
-                                                                                                                                <br />\\
-app.service('${ServiceName}')                                                                                                   <br />\\
-&nbsp;&nbsp;.on(                                                                                                                <br />\\
-&nbsp;&nbsp;{ 'created' : (createMessage) => {  console.log('create(POST) Event:    '  , JSON.stringify(createMessage)  ) }     <br />\\
-&nbsp;&nbsp;, 'updated' : (updateMessage) => {  console.log('update(PUT) Event:     '  , JSON.stringify(updateMessage)  ) }     <br />\\
-&nbsp;&nbsp;, 'patched' : (patchMessage)  => {  console.log('patch(PATCH) Event:    '  , JSON.stringify(patchMessage)   ) }     <br />\\
-&nbsp;&nbsp;, 'removed' : (removeMessage) => {  console.log('removed(DELETE) Event: '  , JSON.stringify(removeMessage)  ) }     <br />\\
-&nbsp;&nbsp;}                                                                                                                   <br />\\
-);                                                                                                                              <br />\\
+app.service('tiny-connect').on('created' , createMessage => { console.log('create(POST)   : ', JSON.stringify(createMessage))});<br />\\
+app.service('tiny-connect').on('updated' , updateMessage => { console.log('update(PUT)    : ', JSON.stringify(updateMessage))});<br />\\
+app.service('tiny-connect').on('patched' , patchMessage  => { console.log('patch(PATCH)   : ', JSON.stringify(patchMessage ))});<br />\\
+app.service('tiny-connect').on('removed' , removeMessage => { console.log('removed(DELETE): ', JSON.stringify(removeMessage))});<br />\\                                                                                                                     <br />\\
 </td>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
 </table>                                                                                                                              \\
