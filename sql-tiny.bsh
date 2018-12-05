@@ -320,6 +320,9 @@ const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or j
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
 <td>                                                                                                                                  \\
 &nbsp;&nbsp;&nbsp;/* optionally, establish a listener for create(POST), patched(PATCH), update(PUT), and remove(DELETE) */      <br />\\
+THIS MIGHT NOT WORK!                                                                                                            <br />\\
+app.service('tiny-connect').on( 'created' , (createMessage) => { console.log('create(POST) Event: ' , JSON.stringify(createMessage) ) } );\\ 
+                                                                                                                                <br />\\
 app.service('${ServiceName}')                                                                                                   <br />\\
 &nbsp;&nbsp;.on(                                                                                                                <br />\\
 &nbsp;&nbsp;{ 'created' : (createMessage) => {  console.log('create(POST) Event:    '  , JSON.stringify(createMessage)  ) }     <br />\\
