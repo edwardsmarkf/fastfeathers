@@ -445,7 +445,7 @@ patchTiny(patchKey, patchData ).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 let findTinyResultOne; let findTinyData = {where:{ id: 1}};                                                                     <br />\\
 findTiny(findTinyData).then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find(GET) (with data) */                         <br />\\
 &nbsp;&nbsp;findTinyResultOne = value;                                                                                          <br />\\
-&nbsp;&nbsp;console.log('findTiny with query: ' + JSON.stringify(findTinyResultOne) );                                          <br />\\
+&nbsp;&nbsp;console.log('findTiny with ' + findTinyData + ' query: ' + JSON.stringify(findTinyResultOne) );                     <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
@@ -454,7 +454,7 @@ findTiny(findTinyData).then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* f
 let removeResult = null;  let removeKey = 0;                                                                                    <br />\\
 removeTiny(removeKey).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* remove(DELETE) */                                 <br />\\
 &nbsp;&nbsp;removeResult = value;                                                                                               <br />\\
-&nbsp;&nbsp;console.log('removeResult: ' + JSON.stringify(removeResult));                                                       <br />\\
+&nbsp;&nbsp;console.log('removeResult(' + removeKey + ': ' + JSON.stringify(removeResult));                                     <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 <td>                                                                                                                                  \\
