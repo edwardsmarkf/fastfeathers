@@ -311,8 +311,8 @@ Go into your console, and try cut-paste entering the following commands at the c
 <td>                                                                                                                                  \\
 &nbsp;&nbsp;&nbsp&;&nbsp;/* be sure to run the command ABOVE before attempting to run this one */                               <br />\\
 const app      = feathers();                                                                                                    <br />\\
-const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
-const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just io() */                                     <br />\\
+const socket   = io('${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}') ;   /* or just  const socket=io(); */                      <br />\\
+const socket   = io('${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}') ;   /* or just  const socket=io(); */                      <br />\\
 app.configure(feathers.socketio(socket));                                                                                       <br />\\
 <td>                                                                                                                                  \\
 &nbsp;&nbsp;&nbsp;/* optionally, establish a listener for create(POST), patched(PATCH), update(PUT), and remove(DELETE) */      <br />\\
