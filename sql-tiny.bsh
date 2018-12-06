@@ -29,8 +29,8 @@ MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
 TYPE=MariaDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
-PROTOCOL='https'		;	## either http or https
-DOMAIN_NAME='jackyoung.site'	;	## required name for https usage
+PROTOCOL='https'			;	## either http or https
+DOMAIN_NAME='featherstester.site'	;	## required name for https usage
 
 TableName='tinyConnect'   ;   ## name of sql table
 ServiceName='tiny-connect';   ## service name (same one that feathers will probably convert to
