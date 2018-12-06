@@ -29,7 +29,7 @@ MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
 TYPE=MariaDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
-PROTOCOL='https'			;	## either http or https
+
 DOMAIN_NAME='featherstester.site'	;	## required name for https usage
 
 TableName='tinyConnect'   ;   ## name of sql table
@@ -37,6 +37,8 @@ ServiceName='tiny-connect';   ## service name (same one that feathers will proba
                               ## if a CAPPED letter was used.
 
 ##   vars for ./config/default.json changes  --  you may need to double-check the values here.
+
+EnableSSN='n';   ## default 'n'
 
 ##  database credentials
 DB_USER='database-username'                                                                    ;
@@ -66,6 +68,17 @@ if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
 fi
+
+
+	## see if this is going to be a SSL job or not
+read -p "Enable SSL? [y/n] " YN;
+if [ $YN == "Y" || $YN == "y" ]; then
+        EnableSSL="Y";
+	PROTOCOL='https';
+else
+	PROTOCOL='http';
+fi;
+
 
 
 ## prompt for any/all constant-variable changes
@@ -117,11 +130,12 @@ TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 sudo yum --assumeyes install  expect    ;
 sudo yum  --assumeyes  install bind-utils ;    ## for the 'dig' command
 
-### https://certbot.eff.org/lets-encrypt/centosrhel7-other
-sudo yum --assumeyes install  yum-utils  ;
-sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
-sudo yum --assumeyes install certbot;
-
+if [ "${EnableSSL}" = "Y" ]; then
+			### https://certbot.eff.org/lets-encrypt/centosrhel7-other
+	sudo yum --assumeyes install  yum-utils  ;
+	sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
+	sudo yum --assumeyes install certbot;
+fi
 
 rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
@@ -231,6 +245,8 @@ s?"host": "localhost",?"host": "${DOMAIN_NAME}",?
   
 END_OF_DEFAULT_JSON
 
+if [ "${EnableSSL}" = "Y" ]; then
+
 ## feathers by default uses http, not https, so this will modify feathers to only use https
 ##
 sed  --in-place   --file=-  ./src/index.js      <<END_OF_INDEX_JS ;
@@ -256,6 +272,8 @@ app.setup(server);    				/* added by ${FileNameWithExtension} ${TimeStamp}*/   
 
 END_OF_INDEX_JS
 
+fi	## skip this if we are not doing a SSL install
+
 
 ## we need to modify channels.js  **ONLY** because this lazy example skips using login authentication,
 ## otherwise the registered event listeners do not work!
@@ -265,10 +283,12 @@ END_OF_INDEX_JS
 
 sed  --in-place   --file=-  ./src/channels.js   <<END_OF_SED_CHANNELS_JS ;
 s?app.channel('anonymous').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('anonymous').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
-s?app.channel('anonymous').leave(connection);?app.channel('everybody').leave(connection) /* changed from app.channel('anonymous').leave(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
-s?app.channel('authenticated').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('authenticated').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
 s?return app.channel('authenticated');?return app.channel('everybody');/* changed from return app.channel('authenticated'); by ${FileNameWithExtension} ${TimeStamp}*/?;
 END_OF_SED_CHANNELS_JS
+
+##s?app.channel('anonymous').leave(connection);?app.channel('everybody').leave(connection) /* changed from app.channel('anonymous').leave(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
+##s?app.channel('authenticated').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('authenticated').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
+
 
 ##  this does not work, unfortunately...  ;-(
 ##  document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
