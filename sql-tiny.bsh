@@ -48,7 +48,6 @@ DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                  
 
 FEATHERS_PORT='3030'                                                                           ;
 
-THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 
 ##  check all versions
@@ -129,6 +128,8 @@ TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 sudo yum --assumeyes install  expect    ;
 sudo yum  --assumeyes  install bind-utils ;    ## for the 'dig' command
+
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 if [ "${EnableSSL}" = "Y" ]; then
 			### https://certbot.eff.org/lets-encrypt/centosrhel7-other
@@ -460,7 +461,7 @@ removeTiny(removeKey).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* re
 let getTinyResult = null; let getKey = 0;                                                                                       <br />\\
 getTiny(getKey).then( value => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* get(GET)  */                                             <br />\\
 &nbsp;&nbsp;getTinyResult = value;                                                                                              <br />\\
-&nbsp;&nbsp;console.log('getTiny('  +  key  + ') : '  +  JSON.stringify(getTinyResult) );                                       <br />\\
+&nbsp;&nbsp;console.log('getTiny('  +  getKey  + ') : '  +  JSON.stringify(getTinyResult) );                                    <br />\\
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 </tr>                                                                                                                                 \\
