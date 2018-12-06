@@ -3,7 +3,7 @@
 
 ##  https://www.geocerts.com/ssl-checker  - use this to check the cert
 
-##	sql-tiny.bsh  	last update: 2018-09-26
+##	sql-tiny.bsh  	last update: 2018-12-06
 
 ##  Bash-shell script to create a TINY sql example entirely from scratch.
 
@@ -115,6 +115,7 @@ FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 sudo yum --assumeyes install  expect    ;
+sudo yum  --assumeyes  install bind-utils ;    ## for the 'dig' command
 
 ### https://certbot.eff.org/lets-encrypt/centosrhel7-other
 sudo yum --assumeyes install  yum-utils  ;
