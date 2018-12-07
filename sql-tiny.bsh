@@ -306,9 +306,9 @@ END_OF_SED_CHANNELS_JS
 ##  document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
 
 if [ -z "${DOMAIN_NAME}" ]; then
-    THIS_DOMAIN=${DOMAIN_NAME}	;
-else
     THIS_DOMAIN=${THIS_IPADDR}	;
+else
+    THIS_DOMAIN=${DOMAIN_NAME}	;
 fi
 
 ##  reduce the size of the feathers logo to make more room for code
