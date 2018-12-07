@@ -233,16 +233,31 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
+
+if [ "${EnableSSL}" = "Y" ]; then
+	LOCALHOST_REPLACEMENT=${DOMAIN_NAME}	;
+else
+	LOCALHOST_REPLACEMENT=${THIS_IPADDR}	;
+fi
+
 sed  --in-place   --file=-   ./config/default.json   <<END_OF_DEFAULT_JSON ;
-s?"host": "localhost",?"host": "${DOMAIN_NAME}",?
-/"port": 3030,/a\\
+s?"host": "localhost",?"host": "${LOCALHOST_REPLACEMENT}",?;
+s?"port": 3030,?"port": ${FEATHERS_PORT},?;
+END_OF_DEFAULT_JSON
+
+if [ "${EnableSSL}" = "Y" ]; then
+sed  --in-place   --file=-   ./config/default.json   <<END_OF_SSL_JSON ;
+/"port": ${FEATHERS_PORT},/a\\
              /* added by ${FileNameWithExtension} ${TimeStamp}*/        \\
   "privkey_pem" : "/etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem",   \\
   "cert_pem"    : "/etc/letsencrypt/live/${DOMAIN_NAME}/cert.pem",      \\
   "chain_pem"   : "/etc/letsencrypt/live/${DOMAIN_NAME}/chain.pem",     \\
              /* added by ${FileNameWithExtension} ${TimeStamp}*/        \\
   
-END_OF_DEFAULT_JSON
+END_OF_SSL_JSON
+
+
+## modify the ./src/index.js file for SSL usage, if specified
 
 if [ "${EnableSSL}" = "Y" ]; then
 
@@ -275,7 +290,8 @@ fi	## skip this if we are not doing a SSL install
 
 
 ## we need to modify channels.js  **ONLY** because this lazy example skips using login authentication,
-## otherwise the registered event listeners do not work!
+## otherwise the registered event listeners do not work!  notice we are not changing the channel names in the login 
+## section, since login is not being used here.
 
 ##  see difference between   https://docs.feathersjs.com/guides/basics/real-time.html#channels
 ##  and                      https://docs.feathersjs.com/api/channels.html#example
@@ -285,8 +301,6 @@ s?app.channel('anonymous').join(connection);?app.channel('everybody').join(conne
 s?return app.channel('authenticated');?return app.channel('everybody');/* changed from return app.channel('authenticated'); by ${FileNameWithExtension} ${TimeStamp}*/?;
 END_OF_SED_CHANNELS_JS
 
-##s?app.channel('anonymous').leave(connection);?app.channel('everybody').leave(connection) /* changed from app.channel('anonymous').leave(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
-##s?app.channel('authenticated').join(connection);?app.channel('everybody').join(connection); /* changed from app.channel('authenticated').join(connection); by ${FileNameWithExtension} ${TimeStamp}*/?;
 
 
 ##  this does not work, unfortunately...  ;-(
