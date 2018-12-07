@@ -35,7 +35,6 @@ ServiceName='tiny-connect';   ## service name (same one that feathers will proba
 
 ##   vars for ./config/default.json changes  --  you may need to double-check the values here.
 
-EnableSSN='n';   ## default 'n'
 
 ##  database credentials
 DB_USER='database-username'                                                                    ;
@@ -76,7 +75,6 @@ if [ "${SSL_REPLY}" = "" ]; then
     PROTOCOL='http';
 else
     DOMAIN_NAME=${SSL_REPLY} ;
-    EnableSSL="Y"            ;
     PROTOCOL='https'         ;
 fi;
 
