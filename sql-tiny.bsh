@@ -69,7 +69,7 @@ fi
 
 	## see if this is going to be a SSL job or not
 read -p "Enable SSL installation? [Y/n]: " YN;
-if [ "${YN}" == "Y" || "${YN}" == "y" ]; then
+if [ "${YN}" == "Y" ] || [ "${YN}" == "y" ]; then
         EnableSSL="Y";
 	PROTOCOL='https';
 else
