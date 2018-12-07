@@ -71,7 +71,7 @@ THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 	## see if this is going to be a SSL job or not
 read -p "Enter SSL Domain Name (blank for ${THIS_IPADDR}: " DOMAIN_NAME;
-if [ -z "${SSL_REPLY}" ]; then
+if [ -z "${DOMAIN_NAME}" ]; then
     PROTOCOL='http';
 else
     PROTOCOL='https'         ;
