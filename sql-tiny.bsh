@@ -68,7 +68,7 @@ fi
 
 
 	## see if this is going to be a SSL job or not
-read -p "Enable SSL installation? [Y/n] " YN;
+read -p "Enable SSL installation? [Y/n]: " YN;
 if [ "${YN}" == "Y" || "${YN}" == "y" ]; then
         EnableSSL="Y";
 	PROTOCOL='https';
@@ -254,6 +254,7 @@ sed  --in-place   --file=-   ./config/default.json   <<END_OF_SSL_JSON ;
              /* added by ${FileNameWithExtension} ${TimeStamp}*/        \\
   
 END_OF_SSL_JSON
+fi
 
 
 ## modify the ./src/index.js file for SSL usage, if specified
