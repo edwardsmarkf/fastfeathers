@@ -1,19 +1,17 @@
 #! /bin/bash
 
-
-##  https://www.geocerts.com/ssl-checker  - use this to check the cert
-
 ##	sql-tiny.bsh  	last update: 2018-12-06
 
 ##  Bash-shell script to create a TINY sql example entirely from scratch.
+
+##  https://www.geocerts.com/ssl-checker  - use this to check the cert
 
 
 ##  Note:  expect-tcl is used to run the feathers-cli steps.
 ##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
 ##  am using sudo to make the command global in nature.
 
-##	Be sure to run the feathers install gist first!
-##  "0 tr" is used in my console.log statements because for some bizarre reason, my install of chrome seems to require it.
+##	Be sure to run init-feathers-setup.bsh first!
 
 ## note:  its always best to create the table yourself, rather than relying on sequelize to do it:
 ##   CREATE TABLE  tinyConnect 
