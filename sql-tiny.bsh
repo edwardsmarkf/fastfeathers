@@ -527,17 +527,20 @@ END_OF_SED_SEQUELIZE
 
 if [ "${EnableSSL}" = "Y" ]; then
     URL_LINK=${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}	;
+    SSL_NOTE="Please don't forget to generate your SSL by doing  `  sudo certbot  --certonly ;  `!"  ;
 else
     URL_LINK=${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}	;
+    SSL_NOTE=''		;
 fi
 
 cat <<END_OF_SCRIPT;
 
 Feathers google app should now be built.  Please confirm your ./config/default.json values.
-
+${SSL_NOTE}
 Connect string in your ./config/default.json values file:  
     $CONNECT_STRING
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
+${SSL_NOTE}
 
 then open ${URL_LINK} in your browser.
 
