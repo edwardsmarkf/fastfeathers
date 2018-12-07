@@ -265,6 +265,7 @@ if [ "${EnableSSL}" = "Y" ]; then
 ##
 sed  --in-place   --file=-  ./src/index.js      <<END_OF_INDEX_JS ;
 s?const server = app.listen(port);?// &?;
+s?'Feathers application started on http?\&s?;
 /const server = app.listen(port);/i\
                                                                                                                   \\
 const https = require('https');                 /* added by ${FileNameWithExtension} ${TimeStamp}*/               \\
