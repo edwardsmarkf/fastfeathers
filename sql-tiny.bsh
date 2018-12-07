@@ -460,7 +460,7 @@ patchTiny(patchKey, patchData ).then( value  => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 });                                                                                                                             <br />\\
 </td>                                                                                                                                 \\
 <td>                                                                                                                                  \\
-let findTinyResultOne; let findTinyData = {where:{ id: 1}};                                                                     <br />\\
+let findTinyResultOne; let findTinyData = {query:{ id: 1}};                                                                     <br />\\
 findTiny(findTinyData).then((value) => {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* find(GET) (with data) */                         <br />\\
 &nbsp;&nbsp;findTinyResultOne = value;                                                                                          <br />\\
 &nbsp;&nbsp;console.log('findTiny with ' + findTinyData + ' query: ' + JSON.stringify(findTinyResultOne) );                     <br />\\
