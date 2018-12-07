@@ -28,7 +28,6 @@ CockroachDB='CockroachDB'  ;
 TYPE=MariaDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
 
-DOMAIN_NAME='featherstester.site'	;	## required name for https usage
 
 TableName='tinyConnect'   ;   ## name of sql table
 ServiceName='tiny-connect';   ## service name (same one that feathers will probably convert to
@@ -66,16 +65,20 @@ if  [ $? -ne 0 ]; then
         exit 1;
 fi
 
+sudo yum --assumeyes install  expect    ;
+sudo yum  --assumeyes  install bind-utils ;    ## for the 'dig' command
+
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 	## see if this is going to be a SSL job or not
-read -p "Enable SSL installation? [Y/n]: " YN;
-if [ "${YN}" == "Y" ] || [ "${YN}" == "y" ]; then
-        EnableSSL="Y";
-	PROTOCOL='https';
+read -p "Enter SSL Domain Name (blank for ${THIS_IPADDR}: " SSL_REPLY;
+if [ "${SSL_REPLY}" = "" ]; then
+    PROTOCOL='http';
 else
-	PROTOCOL='http';
+    DOMAIN_NAME=${SSL_REPLY} ;
+    EnableSSL="Y"            ;
+    PROTOCOL='https'         ;
 fi;
-
 
 
 ## prompt for any/all constant-variable changes
@@ -124,12 +127,8 @@ FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
-sudo yum --assumeyes install  expect    ;
-sudo yum  --assumeyes  install bind-utils ;    ## for the 'dig' command
 
-THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
-
-if [ "${EnableSSL}" = "Y" ]; then
+if [ -z "${DOMAIN_NAME}" ]; then
 			### https://certbot.eff.org/lets-encrypt/centosrhel7-other
 	sudo yum --assumeyes install  yum-utils  ;
 	sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
@@ -233,7 +232,7 @@ END_OF_GENERATE_SERVICE
 )	## end of feathers generate service
 
 
-if [ "${EnableSSL}" = "Y" ]; then
+if [ -z "${DOMAIN_NAME}" ]; then
 	LOCALHOST_REPLACEMENT=${DOMAIN_NAME}	;
 else
 	LOCALHOST_REPLACEMENT=${THIS_IPADDR}	;
@@ -244,7 +243,7 @@ s?"host": "localhost",?"host": "${LOCALHOST_REPLACEMENT}",?;
 s?"port": 3030,?"port": ${FEATHERS_PORT},?;
 END_OF_DEFAULT_JSON
 
-if [ "${EnableSSL}" = "Y" ]; then
+if [ -z "${DOMAIN_NAME}" ]; then
 sed  --in-place   --file=-   ./config/default.json   <<END_OF_SSL_JSON ;
 /"port": ${FEATHERS_PORT},/a\\
              /* added by ${FileNameWithExtension} ${TimeStamp}*/        \\
@@ -259,7 +258,7 @@ fi
 
 ## modify the ./src/index.js file for SSL usage, if specified
 
-if [ "${EnableSSL}" = "Y" ]; then
+if [ -z "${DOMAIN_NAME}" ]; then
 
 ## feathers by default uses http, not https, so this will modify feathers to only use https
 ##
@@ -309,7 +308,7 @@ END_OF_SED_CHANNELS_JS
 ##  document.write(\\"<    script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>\\");               <br />\\
 ##  document.write(\\"<    script src='//unpkg.com/@feathersjs/client\@\^3.0.0/dist/feathers.js'></script>\\");                    <br />\\
 
-if [ "${EnableSSL}" = "Y" ]; then
+if [ -z "${DOMAIN_NAME}" ]; then
     THIS_DOMAIN=${DOMAIN_NAME}	;
 else
     THIS_DOMAIN=${THIS_IPADDR}	;
@@ -526,7 +525,7 @@ s?dialect: 'postgres',?dialect: 'postgres', dialectOptions: { ssl: ${PG_SSL_FLAG
 END_OF_SED_SEQUELIZE
 
 
-if [ "${EnableSSL}" = "Y" ]; then
+if [ -z "${DOMAIN_NAME}" ]; then
     URL_LINK=${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}	;
     SSL_NOTE="Please don't forget to generate your SSL by entering:  sudo certbot  certonly ;  for domain: ${DOMAIN_NAME} "  ;
 else
