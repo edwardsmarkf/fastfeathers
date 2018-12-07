@@ -71,7 +71,7 @@ THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
 	## see if this is going to be a SSL job or not
 read -p "Enter SSL Domain Name (blank for ${THIS_IPADDR}: " SSL_REPLY;
-if [ "${SSL_REPLY}" = "" ]; then
+if [ -z "${SSL_REPLY}" ]; then
     PROTOCOL='http';
 else
     DOMAIN_NAME=${SSL_REPLY} ;
@@ -126,7 +126,7 @@ FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 
-if [ -z "${DOMAIN_NAME}" ]; then
+if [ ! -z "${DOMAIN_NAME}" ]; then
 			### https://certbot.eff.org/lets-encrypt/centosrhel7-other
 	sudo yum --assumeyes install  yum-utils  ;
 	sudo yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional;
@@ -231,9 +231,9 @@ END_OF_GENERATE_SERVICE
 
 
 if [ -z "${DOMAIN_NAME}" ]; then
-	LOCALHOST_REPLACEMENT=${DOMAIN_NAME}	;
-else
 	LOCALHOST_REPLACEMENT=${THIS_IPADDR}	;
+else
+	LOCALHOST_REPLACEMENT=${DOMAIN_NAME}	;
 fi
 
 sed  --in-place   --file=-   ./config/default.json   <<END_OF_DEFAULT_JSON ;
@@ -241,7 +241,7 @@ s?"host": "localhost",?"host": "${LOCALHOST_REPLACEMENT}",?;
 s?"port": 3030,?"port": ${FEATHERS_PORT},?;
 END_OF_DEFAULT_JSON
 
-if [ -z "${DOMAIN_NAME}" ]; then
+if [ ! -z "${DOMAIN_NAME}" ]; then
 sed  --in-place   --file=-   ./config/default.json   <<END_OF_SSL_JSON ;
 /"port": ${FEATHERS_PORT},/a\\
              /* added by ${FileNameWithExtension} ${TimeStamp}*/        \\
@@ -256,7 +256,7 @@ fi
 
 ## modify the ./src/index.js file for SSL usage, if specified
 
-if [ -z "${DOMAIN_NAME}" ]; then
+if [ ! -z "${DOMAIN_NAME}" ]; then
 
 ## feathers by default uses http, not https, so this will modify feathers to only use https
 ##
@@ -524,11 +524,11 @@ END_OF_SED_SEQUELIZE
 
 
 if [ -z "${DOMAIN_NAME}" ]; then
-    URL_LINK=${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}	;
-    SSL_NOTE="Please don't forget to generate your SSL by entering:  sudo certbot  certonly ;  for domain: ${DOMAIN_NAME} "  ;
+	URL_LINK=${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}	;
+	SSL_NOTE=''		;
 else
-    URL_LINK=${PROTOCOL}://${THIS_IPADDR}:${FEATHERS_PORT}	;
-    SSL_NOTE=''		;
+	URL_LINK=${PROTOCOL}://${DOMAIN_NAME}:${FEATHERS_PORT}	;
+	SSL_NOTE="Please don't forget to generate your SSL by entering:  sudo certbot  certonly ;  for domain: ${DOMAIN_NAME} "  ;
 fi
 
 cat <<END_OF_SCRIPT;
