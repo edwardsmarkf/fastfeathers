@@ -98,7 +98,7 @@ cat >  ./public/index.html  <<END_OF_HTML;
           app.configure(feathers.socketio(socket));
 
           app.service('messages').on('created', message => {
-             console.log('0 tr Someone created a message', message);  // my chrome is doing something strange '0 tr'
+             console.log('Someone created a message', message);
           });
 
       </script>
