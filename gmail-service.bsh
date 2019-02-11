@@ -1,6 +1,8 @@
 #! /bin/bash
 
-##	gmail-hook.bsh  	last update: 2018-08-07
+##	gmail-hook.bsh  	last update: 2018-02-11
+##
+##	why is 'users' not a mysql table??????????
 ##
 ##	Bash script to create a google-gmail authentication with a service,
 ##      using the default NeDB database.
