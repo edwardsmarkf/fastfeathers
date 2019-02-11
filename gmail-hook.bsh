@@ -41,6 +41,8 @@ fi
 
 ## prompt for any/all constant-variable changes
 
+echo 'get your authentication information from https://console.developers.google.com/apis/credentials/oauthclient/';
+
 read -p "Enter HOST or blank to use '$HOST': " tmpHost;
 if  [ ! -z "$tmpHost" ]; then
         HOST=$tmpHost;
