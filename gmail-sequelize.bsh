@@ -180,11 +180,13 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+        set SPACE       \x20;
+		
 	spawn	feathers generate authentication ;
 	 
 	expect	-re ".*What authentication providers do you want to use\?.*"
 	##send	-- "\r"		
-	send	-- " ${DOWNARROW}${DOWNARROW} \r"	
+	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}\r"
 		## return defaults to Local Storage
 		## first space to de-select local, DOWNARROW two times, final space to select Google, and return
 	 
@@ -226,6 +228,7 @@ expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook\?.*"
@@ -237,7 +240,7 @@ expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK'
 	send	-- "${DOWNARROW} \r"
 			## downarrow space return selects 'oath2-login'
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"	
 		## downarrow (3) space downarrow space selects 'create'
 	 
 	expect eof
