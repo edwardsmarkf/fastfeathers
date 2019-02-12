@@ -27,17 +27,19 @@ All the Feathers examples utilize [Tcl-Expect](https://www.tcl.tk/man/expect5.31
 
 7) **gmail-hook.bsh** - simple example of using **gmail-login.bsh**, but includes a hook to capture gmail information such as first name, etc
 
-8) **gmail-service.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save Gmail information such as first name.  This one has a very crude user-interface using the browser-console.
+8) **gmail-service.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an NeDB service to save Gmail information such as first name.  This one has a very crude user-interface using the browser-console.
 
-9) **github-login.bsh** - example of using Github to log in rather than the default authentication (Local Storage NeDB).
+9) **gmail-sequelize.bsh** - example of using both **gmail-login.bsh** and **gmail-hook.bsh**, but also includes an SQL service to save Gmail information such as first name.  This one has a very crude user-interface using the browser-console.
 
-10) **github-hook.bsh** - example of using Github-login.bsh, but includes a hook to capture Gmail information such as first name, etc
+10) **github-login.bsh** - example of using Github to log in rather than the default authentication (Local Storage NeDB).
 
-11) **custom-service-find-get.bsh** - a very simple example of a custom service using 'get' which reverses strings and using 'find' which either returns a directory (passing an object) or OS stuff (passing an id number).
+11) **github-hook.bsh** - example of using Github-login.bsh, but includes a hook to capture Gmail information such as first name, etc
 
-12) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDB](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
+12) **custom-service-find-get.bsh** - a very simple example of a custom service using 'get' which reverses strings and using 'find' which either returns a directory (passing an object) or OS stuff (passing an id number).
 
-13) **test-all-hooks.bsh**   - used to test each and every possible hook to help determine execution order.  Creates 42 hooks.
+13) **jsgrid-sequelize.bsh** - Uses [Js-grid.com](http://js-grid.com/) as the front end user-interface. Options include either [MariaDB](https://mariadb.com/) or [CockroachDB](https://cockroachlabs.com/).  The default is [CockroachDB](https://cockroachlabs.com/).
+
+14) **test-all-hooks.bsh**   - used to test each and every possible hook to help determine execution order.  Creates 42 hooks.
 
 
 ### Databases
