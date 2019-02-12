@@ -202,8 +202,12 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
                         ## 5 - RethinDB
                         ## 6 - custom service
                         
-  expect  -re ".*What is the database connection string\?.*"
-  send    -- "$env(CONNECT_STRING)\r"
+	expect	-re ".*Which database are you connecting to\?.*"
+        send    -- "$env(ARROW_DIRECTION)\r"
+		## downarrow for postgres(cockroachdb), uparrow for mariadb
+
+        expect  -re ".*What is the database connection string\?.*"
+        send    -- "$env(CONNECT_STRING)\r"
                 ## default answer is nedb://../data
 	 
 	expect eof
