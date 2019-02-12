@@ -213,23 +213,39 @@ END_OF_GENERATE_AUTH
 
 
 
+##	feathers generate hook;  
+expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK'
+	#	generates a "BEFORE--CREATE/UPDATE" hook named "testtable-hook" for the "testtable" service for Google
+	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook\?.*"
+	send	-- "oath2-login-before-create\r"
+	expect	-re "What kind of hook should it be\?"
+	send	--  "${DOWNARROW}\r"
+			## downarrow return selects 'before'
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW} \r"
+			## downarrow space return selects 'oath2-login'
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"	
+		## downarrow (3) space downarrow space selects 'create'
+	 
+	expect eof
+END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK
+)	## end of feathers generate hook 'testtable-hook'
 
 
 
 
+## edit the oath2-login-before-create.js to extract the custom login stuff, like username, first-name, etc
 
-
-
-
-
-
-
-
-
-
-## edit the user-hook.js to extract the custom login stuff, like username, first-name, etc
-
-sed --in-place --file=- ./src/hooks/user-hook.js   <<END_OF_SED_USER_HOOK ;
+sed --in-place --file=- ./src/hooks/oath2-login-before-create   <<END_OF_SED_OAUTH_BEFORE_CREATE_HOOK ;
 3i\
  \\
  \\
@@ -259,79 +275,31 @@ const _ = require('lodash');\\
   } // end if has data.google.profile\\
   \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
   
-END_OF_SED_USER_HOOK
+END_OF_SED_OAUTH_BEFORE_CREATE_HOOK
 
 
 
-############  future use for sql based example
+sed --in-place --file=- ./src/models/oauth2-login.model.js   <<END_OF_SED_OAUTH2_LOGIN_MODEL ;
+/    googleId: { type: Sequelize.STRING },/ a\
+\\
+\\
+    \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+    email: { type: DataTypes.STRING , allowNull:  false }, \\
+    displayName: { type: DataTypes.STRING },\\
+    familyName: { type: DataTypes.STRING },\\
+    givenName: { type: DataTypes.STRING },\\
+    \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 
-###sed --in-place --file=- ./src/models/users.model.js   <<END_OF_SED_USER_MODEL ;
-###/    googleId: { type: Sequelize.STRING },/ a\
-###\\
-###\\
-###    \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
-###    email: { type: DataTypes.STRING }, \\
-###    displayName: { type: DataTypes.STRING },\\
-###    familyName: { type: DataTypes.STRING },\\
-###    givenName: { type: DataTypes.STRING },\\
-###    \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
-###END_OF_SED_USER_MODEL
-
-
-
-
-#######################################################################################################
-##
-##   THIS MAY NOT BE REQUIRED WHEN USING SEQUELIZE  (BELOW)
-##
-########################################################################################################
-
-##	feathers generate hook for service "testtable";  
-expect <(cat <<'END_OF_GENERATE_TESTTABLE_HOOK'
-	#	generates a "BEFORE--CREATE/UPDATE" hook named "testtable-hook" for the "testtable" service for Google
-	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
-	 
-	set timeout -1
-	 
-	set UPARROW	\x1B\[A;
-	set DOWNARROW	\x1B\[B;
-	spawn	feathers generate hook ;
-	 
-	expect	-re ".*What is the name of the hook\?.*"
-	send	-- "testtable-hook\r"
-	expect	-re "What kind of hook should it be\?"
-	send	--  "${DOWNARROW}\r"
-			## downarrow return selects 'before'
-	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW} \r"
-			## downarrow space return selects 'testtable', 'users' is now the third on the list!
-	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
-		## downarrow (3) space downarrow space selects BOTH 'create' AND 'update'
-		
-	expect eof
-END_OF_GENERATE_TESTTABLE_HOOK
-)	## end of feathers generate hook
-
-
-## edit testtable-hook.js
-sed --in-place --file=- ./src/hooks/testtable-hook.js   <<END_OF_SED_TESTTABLE_HOOK ;
-3s?^?\\n//const logger = require('winston'); // added by bash script \\n\\n?;
-/^  return async context => {$/a\
-\ \ \ \ context.data[options] = new Date(); \/\/ include 'createdAt' and 'updatedAt' in record on create and update.\\
-\ \ \ \ \/\/logger.info(context.data);  // uncomment out to inspect the results.
-END_OF_SED_TESTTABLE_HOOK
-
-sed --in-place --file=- ./src/services/testtable/testtable.hooks.js  <<END_OF_SED_TESTTABLE_HOOKS ;
-s?    create: \[testtableHook()],?    create: \[testtableHook('createdAt')],?;
-s?    update: \[testtableHook()],?    create: \[testtableHook('updatedAt')],?;
-END_OF_SED_TESTTABLE_HOOKS
-
-#######################################################################################################
-##
-##   THIS MAY NOT BE REQUIRED WHEN USING SEQUELIZE  (ABOVE)
-##
-########################################################################################################
+/  }, {/a \
+\\
+\\
+    \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
+          tableName       :       '${TableName}'   ,                  \\
+	  freezeTableName :       true                                \\
+    \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+\\
+  
+END_OF_SED_OAUTH2_MODEL_MODEL
 
 
 
@@ -355,65 +323,7 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
   <br /><br />\\
   Run the following commands in the console:\\
 <\/p>\\
-<div style='margin-left:50px;'>\\
-<ul>\\
-	<li>\\
-		const findResult = await feathersClient.service('testtable').find(); &nbsp; \\
-	<\/li>\\
-	<li>\\
-		console.log( JSON.stringify(findResult), { colors:true, depth: 5 });\\
-	<\/li>\\
 \\
-	<li>\\
-		var firstInsertResult = await feathersClient.service('testtable').create({ text: 'First Data Inserted' });\\
-	<\/li>\\
-\\
-	<li>\\
-		var secondInsertResult = feathersClient.service('testtable').create({ text: 'Second Data Inserted' });\\
-	<\/li>\\
-\\
-	<li>\\
-		var queryResults = feathersClient.service('testtable').find( {query: { text: 'Second Data Inserted'}})\\
-	<\/li>\\
-\\
-	<li>\\
-		await feathersClient.service('testtable').find().then( (result) => console.log( JSON.stringify(result), { colors:true, depth: 5 }))  ;\\
-	<\/li>\\
-\\
-	<li>\\
-		var getResult = feathersClient.service('testtable').get('enter key here');\\
-	<\/li>\\
-\\
-	<li>\\
-		var updateResult = feathersClient.service('testtable').update('enter key here', { moreText: 'Data added!'} );\\
-	<\/li>\\
-\\
-	<li>\\
-		var patchResult = feathersClient.service('testtable').patch('enter key here', { text: 'Data Changed!'} );\\
-	<\/li>\\
-\\
-	<li>\\
-		var removeResult = feathersClient.service('testtable').remove('enter key here');\\
-	<\/li>\\
-\\
-<\/ul>\\
-<\/div>\\
-<br \/>\\
-<br \/>\\
-<pre>\\
-await feathersClient.service('testtable').find()\\
-    .then( (pageKeyList) => {\\
-        for ( var pageKey in pageKeyList ) {\\
-            if ( pageKey === 'data' ) {\\
-                for ( var dataKey in pageKeyList.data) {\\
-                      console.log( pageKeyList.data[dataKey] );\\
-                } \/* end for *\/\\
-             } else {\\
-                console.log(pageKey, pageKeyList[pageKey]);\\
-             } \/* end if *\/\\
-          }   \/* end for *\/\\
-        })   \/* end then *\/\\
-<\/pre>\\
 <script type="text/javascript" src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>\\
 <script type="text/javascript"  src="//unpkg.com/socket.io-client@1.7.3/dist/socket.io.js"></script>\\
 <!-- added for google logout -->\\
