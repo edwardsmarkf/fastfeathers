@@ -16,6 +16,12 @@ GOOGLE_CLIENT_ID='119068144580-gpeiXXXXXXXXXXXXXXXXXXXXXXXXXXgs.apps.googleuserc
 GOOGLE_CLIENT_SECRET='m-RXXXXXXXXXXXXXpJIajwpN'                                                 ;
 ###  get credentials here:  https://console.developers.google.com/apis/credentials/
 
+##  database credentials
+DB_USER='database-username'                                                                    ;
+DB_PASS='database-password'                                                                    ;
+DB_NAME='database-name'                                                                        ;
+DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                                    ;
+
 
 MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
@@ -252,7 +258,7 @@ END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK
 
 ## edit the oath2-login-before-create.js to extract the custom login stuff, like username, first-name, etc
 
-sed --in-place --file=- ./src/hooks/oath2-login-before-create   <<END_OF_SED_OAUTH_BEFORE_CREATE_HOOK ;
+sed --in-place --file=- ./src/hooks/oauth2-login-before-create   <<END_OF_SED_OAUTH_BEFORE_CREATE_HOOK ;
 3i\
  \\
  \\
