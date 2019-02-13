@@ -324,7 +324,7 @@ sed --in-place --file=- ./src/models/oauth2-login.model.js   <<END_OF_SED_OAUTH2
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 \\
   
-END_OF_SED_OAUTH2_MODEL_MODEL
+END_OF_SED_OAUTH2_LOGIN_MODEL
 
 
 
