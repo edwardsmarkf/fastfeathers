@@ -339,7 +339,7 @@ END_OF_SED_OAUTH2_BEFORE_UPDATE_PATCH_HOOK
 
 
 
-sed --in-place --file=- ./src/models/oauth-2-logins.model.js   <<END_OF_SED_OAUTH2_LOGIN_MODEL ;
+sed --in-place --file=- ./src/models/${ServiceName}.model.js   <<END_OF_SED_OAUTH2_LOGIN_MODEL ;
 /    googleId: { type: Sequelize.STRING },/ a\
 \\
 \\
@@ -407,7 +407,7 @@ var setUserInfo = (async () => {\\
             // a special thanks to feathers-slack "freeline" for providing this code \\
         var response = await feathersClient.authenticate();\\
         var payload = await feathersClient.passport.verifyJWT(response.accessToken);\\
-        var user = await feathersClient.service('users').get(payload.userId);\\
+        var user = await feathersClient.service('${ServiceName}').get(payload.userId);\\
         feathersClient.set('user', user);  // feathersClient.get('user').email to get email address \\
 	console.log('you logged in as: ' + feathersClient.get('user').email); // display what is now in user in the console.\\
   })\\
