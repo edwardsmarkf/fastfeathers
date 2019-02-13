@@ -70,6 +70,17 @@ if  [ ! -z "$tmpGOOGLE_CLIENT_SECRET" ]; then
 fi;
 
 
+# build database string
+if [ "${TYPE}" = "${MariaDB}" ]; then
+    SERVER_PORT='3306'                                                                                               ;
+    CONNECT_STRING="mysql://${DB_USER}:${DB_PASS}@${DB_SERVER_IP}:${SERVER_PORT}/${DB_NAME}"                         ;
+    DB_URL="https://mariadb.com/"                                                                                    ;
+elif [ "${TYPE}" = "${CockroachDB}" ]; then
+    SERVER_PORT='26257'                                                                                              ;
+    PG_SSL_FLAG='true'                                                                                               ;
+    CONNECT_STRING="postgres://${DB_USER}:${DB_PASS}@${DB_SERVER_IP}:${SERVER_PORT}/${DB_NAME}?ssl=${PG_SSL_FLAG}"   ;
+    DB_URL="https://cockroachlabs.com/"                                                                              ;
+fi
 
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
