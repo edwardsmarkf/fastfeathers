@@ -365,7 +365,7 @@ const _ = require('lodash');\\
     context.scriptName = path.basename(__filename);\\
   \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 
-END_OF_SED_OAUT2H_BEFORE_UPDATE_PATCH_HOOK
+END_OF_SED_OAUTH2_BEFORE_UPDATE_PATCH_HOOK
 
 
 
