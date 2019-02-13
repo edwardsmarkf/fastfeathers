@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	gmail-sequelize.bsh  	last update: 2018-02-12
+##	gmail-sequelize.bsh  	last update: 2018-02-13
 ##
 ##	Bash script to create a google-gmail authentication with a service,
 ##      using a sequelize database.
@@ -106,30 +106,35 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	#	written from https://docs.feathersjs.com/guides/chat/creating.html
 	 
 	set timeout -1
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+        set SPACE       \x20;
+	set RETURN      \x0d;
 	 
 	spawn feathers generate app;
 	 
 	expect -re ".*Project name.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to the name of the directory
 	 
 	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!${RETURN}"
 			## optional description
 	 
 	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'src'
 	 
 	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'npm'
 	 
 	expect -re ".*What type of API are you making.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to REST & Realtime via Socket.io
 	expect -re ".*Which testing framework do you prefer?.*"		
-        send -- "\r"
+        send -- "${RETURN}"
 	                ## defaults to Mocha + assert
 	expect eof
 END_OF_GENERATE_APP
@@ -148,47 +153,6 @@ fi
 export TableName;
 export ServiceName;
 
-##              feathers generate service;   ## all defaults except for the service name - "testtable"
-##expect <(cat <<'END_OF_GENERATE_SERVICE'
-##        #       creates a service:      testtable  (all the defaults)
-##        #       written from:   https://docs.feathersjs.com/guides/chat/service.html
-##        set UPARROW     \x1B\[A;
-##        set DOWNARROW   \x1B\[B;
-##        set timeout -1
-         
-##        spawn   feathers generate service;
-         
-##        expect  -re ".*What kind of service is it\?.*"
-##        send    -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
-                        ## defaults to NeDB
-                        ## one downarrow selects "MongoDB"
-                        ## 2 - Mongoose
-                        ## 3 - Sequelize
-                        ## 4 - KnexJS
-                        ## 5 - RethinDB
-                        ## 6 - custom service
-         
-##        expect  -re ".*What is the name of the service\?.*"
-##        send    -- "$env(TableName)\r"
-                        ## testtable
-         
-##        expect  -re ".*Which path should the service be registered on\?.*"
-##        send    -- "$env(ServiceName)\r"
-                        ## defaults to something something like /tiny-connect
-         
-##        expect  -re ".*Which database are you connecting to\?.*"
-##        send    -- "$env(ARROW_DIRECTION)\r"
-                ## downarrow for postgres(cockroachdb), uparrow for mariadb
-                
-##        expect  -re ".*What is the database connection string\?.*"
-##        send    -- "$env(CONNECT_STRING)\r"
-                ## default answer is nedb://../data
-
-##        expect eof
-##END_OF_GENERATE_SERVICE
-##)       ## end of feathers generate service
-
-
 export CONNECT_STRING;
 ##	feathers generate authentication;  ## all defaults
 expect <(cat <<'END_OF_GENERATE_AUTH'
@@ -200,21 +164,22 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
         set SPACE       \x20;
+	set RETURN      \x0d;
 		
 	spawn	feathers generate authentication ;
 	 
 	expect	-re ".*What authentication providers do you want to use\?.*"
-	##send	-- "\r"		
-	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}\r"
+	##send	-- "${RETURN}"		
+	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"
 		## return defaults to Local Storage
 		## first space to de-select local, DOWNARROW two times, final space to select Google, and return
 	 
 	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
-	send	-- "$env(TableName)\r"
+	send	-- "$env(TableName)${RETURN}"
 		## default answer is 'users'
 	 
 	expect	-re ".*What kind of service is it\?.*"
-	send    -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+	send    -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${RETURN}"
                         ## defaults to NeDB
                         ## one downarrow selects "MongoDB"
                         ## 2 - Mongoose
@@ -224,11 +189,11 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
                         ## 6 - custom service
                         
 	expect	-re ".*Which database are you connecting to\?.*"
-        send    -- "$env(ARROW_DIRECTION)\r"
+        send    -- "$env(ARROW_DIRECTION)${RETURN}"
 		## downarrow for postgres(cockroachdb), uparrow for mariadb
 
         expect  -re ".*What is the database connection string\?.*"
-        send    -- "$env(CONNECT_STRING)\r"
+        send    -- "$env(CONNECT_STRING)${RETURN}"
                 ## default answer is nedb://../data
 	 
 	expect eof
@@ -244,22 +209,24 @@ expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK'
 	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
 	 
 	set timeout -1
-	 
+
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
-	set SPACE       \x20;
+        set SPACE       \x20;
+	set RETURN      \x0d;
+
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook\?.*"
-	send	-- "oauth2-login-before-create\r"
+	send	-- "oauth2-login-before-create${RETURN}"
 	expect	-re "What kind of hook should it be\?"
-	send	--  "${DOWNARROW}\r"
+	send	--  "${DOWNARROW}${RETURN}"
 			## downarrow return selects 'before'
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW} \r"
+	send	-- "${DOWNARROW} ${RETURN}"
 			## downarrow space return selects 'oauth2-login'
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
 		## downarrow (3) space downarrow space selects 'create'
 	 
 	expect eof
@@ -278,28 +245,28 @@ expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_UPDATE_PATCH_HOOK'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
-	set SPACE       \x20;
+        set SPACE       \x20;
+	set RETURN      \x0d;
+
+
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook\?.*"
-	send	-- "oauth2-login-before-update-patch\r"
+	send	-- "oauth2-login-before-update-patch${RETURN}"
+
 	expect	-re "What kind of hook should it be\?"
-	send	--  "${DOWNARROW}\r"
+	send	--  "${DOWNARROW}${RETURN}"
 			## downarrow return selects 'before'
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW} \r"
+	send	-- "${DOWNARROW} ${RETURN}"
 			## downarrow space return selects 'oauth2-login'
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}\r"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}${RETURN}"	
 		## downarrow (4) space downarrow space selects 'create'
 	 
 	expect eof
 END_OF_GENERATE_SERVICE_BEFORE_UPDATE_PATCH_HOOK
 )	## end of feathers generate hook 'testtable-hook'
-
-
-
-
 
 
 
@@ -318,7 +285,7 @@ const _ = require('lodash');\\
 
 /^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
-  context.scriptName = path.basename(__filename);\\
+  context.data.scriptName = path.basename(__filename);\\
   if  (  _.has(context, 'data.google.profile')  ){\\
     if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
       context.data.displayName = context.data.google.profile.displayName;\\
@@ -362,7 +329,7 @@ const _ = require('lodash');\\
 
 /^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
-    context.scriptName = path.basename(__filename);\\
+    context.data.scriptName = path.basename(__filename);\\
   \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 
 END_OF_SED_OAUTH2_BEFORE_UPDATE_PATCH_HOOK
