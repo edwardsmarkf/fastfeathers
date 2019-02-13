@@ -98,11 +98,12 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn	feathers generate authentication ;
 	 
 		expect	-re ".*What authentication providers do you want to use\?.*"
-	  send	-- " ${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"	
+	  send	-- " ${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"	
 		    ## return defaults to Local Storage
 		    ## first space to de-select 'local', DOWNARROW four times, final space to select 'Github', and return
 	 
