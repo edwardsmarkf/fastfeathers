@@ -250,13 +250,13 @@ expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook\?.*"
-	send	-- "oath2-login-before-create\r"
+	send	-- "oauth2-login-before-create\r"
 	expect	-re "What kind of hook should it be\?"
 	send	--  "${DOWNARROW}\r"
 			## downarrow return selects 'before'
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
 	send	-- "${DOWNARROW} \r"
-			## downarrow space return selects 'oath2-login'
+			## downarrow space return selects 'oauth2-login'
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
 	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"	
 		## downarrow (3) space downarrow space selects 'create'
@@ -268,7 +268,7 @@ END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK
 
 
 
-## edit the oath2-login-before-create.js to extract the custom login stuff, like username, first-name, etc
+## edit the oauth2-login-before-create.js to extract the custom login stuff, like username, first-name, etc
 
 sed --in-place --file=- ./src/hooks/oauth2-login-before-create.js   <<END_OF_SED_OAUTH_BEFORE_CREATE_HOOK ;
 3i\
