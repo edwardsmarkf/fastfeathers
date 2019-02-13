@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-#   example-1-in-memory-db.bsh           2018-08-30
+#   example-1-in-memory-db.bsh           2019-02-13
 #
 #   worlds simplest and smallest feathers example.  a webpage should display
 #   where all you have to do is to cut/paste commands into the command buffer!
@@ -15,8 +15,8 @@ sudo  curl -sL https://rpm.nodesource.com/setup_8.x | sudo bash -  ;
 
 sudo yum --assumeyes  install nodejs ;
 
-npm  --version;  ## 5.6.0 at the time of this writing
-node --version;  ## v8.11.4 at the time of this writing
+npm  --version;  ## 6.7.0 at the time of this writing
+node --version;  ## v8.15.0 at the time of this writing
 
 npm  install  @feathersjs/feathers                  --save   ;
 npm  install  @feathersjs/express  feathers-memory  --save   ;
