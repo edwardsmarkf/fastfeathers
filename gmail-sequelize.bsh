@@ -409,7 +409,7 @@ var setUserInfo = (async () => {\\
         var payload = await feathersClient.passport.verifyJWT(response.accessToken);\\
         var user = await feathersClient.service('${ServiceName}').get(payload.userId);\\
         feathersClient.set('user', user);  // feathersClient.get('user').email to get email address \\
-	console.log('you logged in as: ' + feathersClient.get('user').email); // display what is now in user in the console.\\
+        console.log('you logged in as: ' + feathersClient.get('user').email); // display what is now in user in the console.\\
   })\\
 \\
   feathersClient.authenticate()\\
