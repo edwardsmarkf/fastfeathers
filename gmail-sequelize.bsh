@@ -1,5 +1,7 @@
 #! /bin/bash
 
+## SAVE THE SCRIPT NAME ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?? ? ? 
+
 ##	gmail-sequelize.bsh  	last update: 2018-02-12
 ##
 ##	Bash script to create a google-gmail authentication with a service,
