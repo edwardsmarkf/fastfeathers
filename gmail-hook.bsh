@@ -120,12 +120,13 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn	feathers generate authentication ;
 	 
 	expect	-re ".*What authentication providers do you want to use?.*"
 	##send	-- "\r"		
-	send	-- " ${DOWNARROW}${DOWNARROW} \r"	
+	send	-- " ${DOWNARROW}${DOWNARROW}${SPACE}\r"	
 		## return defaults to Local Storage
 		## first space to de-select local, DOWNARROW two times, final space to select Google, and return
 	 
@@ -157,6 +158,7 @@ expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn	feathers generate hook ;
 	 
@@ -168,11 +170,11 @@ expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 			## downarrow return selects 'before'
 
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)?"
-	send	-- "${DOWNARROW} \r"
+	send	-- "${DOWNARROW}${SPACE}\r"
 			## downarrow space return selects 'users'
 
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}$SPACE}${DOWNARROW}${SPACE}\r"	
 		## downarrow (3) space downarrow(1) space selects both 'create' and 'update'
 	 
 	expect eof
