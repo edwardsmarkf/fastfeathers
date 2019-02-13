@@ -270,6 +270,41 @@ END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK
 
 
 
+##	feathers generate hook;  
+expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_UPDATE_PATCH_HOOK'
+	#	generates a "BEFORE--CREATE/UPDATE" hook named "testtable-hook" for the "testtable" service for Google
+	#	written from	https://docs.feathersjs.com/api/authentication/oauth2.html#customizing-the-oauth-response
+	 
+	set timeout -1
+	 
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
+	spawn	feathers generate hook ;
+	 
+	expect	-re ".*What is the name of the hook\?.*"
+	send	-- "oauth2-login-before-update-patch\r"
+	expect	-re "What kind of hook should it be\?"
+	send	--  "${DOWNARROW}\r"
+			## downarrow return selects 'before'
+	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW} \r"
+			## downarrow space return selects 'oauth2-login'
+	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}\r"	
+		## downarrow (4) space downarrow space selects 'create'
+	 
+	expect eof
+END_OF_GENERATE_SERVICE_BEFORE_UPDATE_PATCH_HOOK
+)	## end of feathers generate hook 'testtable-hook'
+
+
+
+
+
+
+
+
 ## edit the oauth2-login-before-create.js to extract the custom login stuff, like username, first-name, etc
 
 sed --in-place --file=- ./src/hooks/oauth2-login-before-create.js   <<END_OF_SED_OAUTH_BEFORE_CREATE_HOOK ;
@@ -277,12 +312,14 @@ sed --in-place --file=- ./src/hooks/oauth2-login-before-create.js   <<END_OF_SED
  \\
  \\
     \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+const path = require('path');\\
 const logger = require('winston');\\
 const _ = require('lodash');\\
     \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
 
 /^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+  context.scriptName = path.basename(__filename);\\
   if  (  _.has(context, 'data.google.profile')  ){\\
     if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
       context.data.displayName = context.data.google.profile.displayName;\\
@@ -291,6 +328,10 @@ const _ = require('lodash');\\
     if  ( _.has(context.data.google.profile, 'emails' ) ) {\\
       context.data.email = context.data.google.profile.emails.find(email => email.value).value;\\
       logger.info('email:       ' + context.data.email);\\
+    }\\
+    if  ( _.has(context.data.google.profile, 'photos' ) ) {\\
+      context.data.photo = context.data.google.profile.photos.find(photos => photo.value).value;\\
+      logger.info('photo:       ' + context.data.photo);\\
     }\\
     if  ( _.has(context.data.google.profile, 'name' ) ) {\\
       ['familyName', 'givenName'].forEach( (val) => {\\
@@ -307,6 +348,34 @@ END_OF_SED_OAUTH_BEFORE_CREATE_HOOK
 
 
 
+
+
+
+sed --in-place --file=- ./src/hooks/oauth2-login-before-update-patch.js   <<END_OF_SED_OAUTH_BEFORE_UPDATE_PATCH_HOOK ;
+3i\
+ \\
+ \\
+    \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+const path = require('path');\\
+const logger = require('winston');\\
+const _ = require('lodash');\\
+    \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+
+/^  return async context => {$/a\
+  \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+context.scriptName = path.basename(__filename);\\  
+  \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
+
+END_OF_SED_OAUTH_BEFORE_UPDATE_PATCH_HOOK
+
+
+
+
+
+
+
+
+
 sed --in-place --file=- ./src/models/oauth-2-logins.model.js   <<END_OF_SED_OAUTH2_LOGIN_MODEL ;
 /    googleId: { type: Sequelize.STRING },/ a\
 \\
@@ -316,6 +385,8 @@ sed --in-place --file=- ./src/models/oauth-2-logins.model.js   <<END_OF_SED_OAUT
     displayName: { type: DataTypes.STRING },\\
     familyName: { type: DataTypes.STRING },\\
     givenName: { type: DataTypes.STRING },\\
+    photos: { type: DataTypes.STRING },\\
+    scriptName: { type: DataTypes.STRING },\\
     \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 
 /  }, {/a \
