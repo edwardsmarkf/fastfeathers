@@ -33,17 +33,17 @@ ServiceName='oauth-2-logins' ;   ## service name (same one that feathers will pr
 
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.3 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.15 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.10.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.7.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
 fi
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.7.6 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.9.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
