@@ -106,12 +106,13 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn	feathers generate authentication ;
 	 
 	expect	-re ".*What authentication providers do you want to use\?.*"
 	##send	-- "\r"		
-	send	-- " ${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"	
+	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"	
 		## return defaults to Local Storage
 		## first space to de-select 'local', DOWNARROW four times, final space to select 'Github', and return
 	 
@@ -177,6 +178,7 @@ expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn	feathers generate hook ;
 	 
@@ -188,11 +190,11 @@ expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 			## downarrow return selects 'before'
 
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW} \r"
+	send	-- "${DOWNARROW}${SPACE}\r"
 			## downarrow space return selects 'users'
 
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} \r"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}\r"	
 		## downarrow (3) space downarrow space selects  both 'create' and 'update'
 	 
 	expect eof
@@ -212,6 +214,7 @@ expect <(cat <<'END_OF_GENERATE_PROC_MESSAGE_HOOK'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn feathers generate hook;
 	 
@@ -224,11 +227,11 @@ expect <(cat <<'END_OF_GENERATE_PROC_MESSAGE_HOOK'
 		## DOWNARROW & return selects "before"
 	 
 	expect -re ".*What service\\\(s\\\) should this hook be for .*"
-	send -- "${DOWNARROW} \r"
+	send -- "${DOWNARROW}${SPACE}\r"
 		## DOWNARROW, space, & return selects "messages"
 
 	expect -re ".*What methods should the hook be for .*"
-	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"
+	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"
 		## DOWNARROW three times, space, and return to select "create"
 	 
 	expect eof
@@ -252,6 +255,7 @@ expect <(cat <<'END_OF_GENERATE_GRAVATAR_HOOK'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn feathers generate hook;
 	 
@@ -264,11 +268,11 @@ expect <(cat <<'END_OF_GENERATE_GRAVATAR_HOOK'
 		## DOWNARROW & return selects "before"
 	 
 	expect -re ".*What service\\\(s\\\) should this hook be for .*"
-	send -- "${DOWNARROW}${DOWNARROW} \r"
+	send -- "${DOWNARROW}${DOWNARROW}${SPACE}\r"
 		## DOWNARROW twice, space, & return selects "user"
 
 	expect -re ".*What methods should the hook be for .*"
-	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW} \r"
+	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"
 		## DOWNARROW three times, space and return to select "create"
 	 
 	expect eof
@@ -291,6 +295,7 @@ expect <(cat <<'END_OF_GENERATE_POPULATE_USER_HOOK'
 	 
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
 
 	spawn feathers generate hook;
 	 
@@ -302,11 +307,11 @@ expect <(cat <<'END_OF_GENERATE_POPULATE_USER_HOOK'
 		## DOWNARROW & return selects "after"
 	 
 	expect -re ".*What service\\\(s\\\) should this hook be for .*"
-	send -- "${DOWNARROW} \r"
+	send -- "${DOWNARROW}${SPACE}\r"
 		## DOWNARROW, space, & return selects "messages"
 
 	expect -re ".*What methods should the hook be for .*"
-	send -- "$ \r"
+	send -- "${SPACE}\r"
 		## space & return to select "all"
 	 
 	expect eof	
