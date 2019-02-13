@@ -304,7 +304,7 @@ END_OF_SED_OAUTH_BEFORE_CREATE_HOOK
 
 
 
-sed --in-place --file=- ./src/models/oauth2-login.model.js   <<END_OF_SED_OAUTH2_LOGIN_MODEL ;
+sed --in-place --file=- ./src/models/oauth-2-login.model.js   <<END_OF_SED_OAUTH2_LOGIN_MODEL ;
 /    googleId: { type: Sequelize.STRING },/ a\
 \\
 \\
