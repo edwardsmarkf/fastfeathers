@@ -329,8 +329,8 @@ const _ = require('lodash');\\
       logger.info('email:       ' + context.data.email);\\
     }\\
     if  ( _.has(context.data.google.profile, 'photos' ) ) {\\
-      context.data.photo = context.data.google.profile.photos.find(photos => photo.value).value;\\
-      logger.info('photo:       ' + context.data.photo);\\
+      context.data.photos = context.data.google.profile.photos.find(photos => photos.value).value;\\
+      logger.info('photos:       ' + context.data.photos);\\
     }\\
     if  ( _.has(context.data.google.profile, 'name' ) ) {\\
       ['familyName', 'givenName'].forEach( (val) => {\\
