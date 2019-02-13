@@ -285,7 +285,8 @@ const _ = require('lodash');\\
 
 /^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
-  context.data.scriptName = path.basename(__filename);\\
+  context.data.scriptDirName = path.dirname(__filename);\\
+  context.data.scriptBaseName = path.basename(__filename);\\
   if  (  _.has(context, 'data.google.profile')  ){\\
     if  ( _.has(context.data.google.profile, 'displayName' ) )    {\\
       context.data.displayName = context.data.google.profile.displayName;\\
@@ -329,15 +330,11 @@ const _ = require('lodash');\\
 
 /^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
-    context.data.scriptName = path.basename(__filename);\\
+  context.data.scriptDirName = path.dirname(__filename);\\
+  context.data.scriptBaseName = path.basename(__filename);\\
   \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 
 END_OF_SED_OAUTH2_BEFORE_UPDATE_PATCH_HOOK
-
-
-
-
-
 
 
 
@@ -352,7 +349,8 @@ sed --in-place --file=- ./src/models/oauth-2-logins.model.js   <<END_OF_SED_OAUT
     familyName: { type: DataTypes.STRING },\\
     givenName: { type: DataTypes.STRING },\\
     photos: { type: DataTypes.STRING },\\
-    scriptName: { type: DataTypes.STRING },\\
+    scriptDirName: { type: DataTypes.STRING },\\
+    scriptBaseName: { type: DataTypes.STRING },\\
     \/* end of data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 
 /  }, {/a \
