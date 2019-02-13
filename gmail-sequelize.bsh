@@ -278,6 +278,7 @@ sed --in-place --file=- ./src/hooks/oauth2-login-before-create.js   <<END_OF_SED
 const logger = require('winston');\\
 const _ = require('lodash');\\
     \/* end of code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
+
 /^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
   if  (  _.has(context, 'data.google.profile')  ){\\
