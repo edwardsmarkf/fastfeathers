@@ -146,7 +146,7 @@ fi
 
 export TableName;
 export ServiceName;
-export CONNECT_STRING;
+
 ##              feathers generate service;   ## all defaults except for the service name - "testtable"
 ##expect <(cat <<'END_OF_GENERATE_SERVICE'
 ##        #       creates a service:      testtable  (all the defaults)
@@ -188,6 +188,7 @@ export CONNECT_STRING;
 ##)       ## end of feathers generate service
 
 
+export CONNECT_STRING;
 ##	feathers generate authentication;  ## all defaults
 expect <(cat <<'END_OF_GENERATE_AUTH'
 	#	generates an authentication for Google
