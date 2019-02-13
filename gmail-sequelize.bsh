@@ -49,8 +49,6 @@ if  [ $? -ne 0 ]; then
         exit 1;
 fi
 
-npm install path;  ## needed for two of the hooks.
-
 echo 'get your authentication information from https://console.developers.google.com/apis/credentials/oauthclient/';
 
 ## prompt for any/all constant-variable changes
@@ -97,6 +95,8 @@ TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 rm -Rf	./${FileNameWithoutExtension} ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension} && cd	./${FileNameWithoutExtension} ;
+
+npm install path;  ## needed for two of the hooks.
 
 ##     feathers generate  app;   ## taking all the defaults, except for the description
 export FileNameWithExtension;
