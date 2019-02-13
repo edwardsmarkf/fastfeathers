@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	sql-tiny.bsh  	last update: 2018-12-06
+##	sql-tiny.bsh  	last update: 2019-02-13
 
 ##  Bash-shell script to create a TINY sql example entirely from scratch.
 
@@ -48,17 +48,17 @@ FEATHERS_PORT='3030'                                                            
 
 ##  check all versions
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.12.0 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.15 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.4.1 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.7 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
 fi
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.8.2 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.9 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
@@ -143,31 +143,36 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	#	written from https://docs.feathersjs.com/guides/chat/creating.html
 	 
 	set timeout -1
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE	\x20;
+	set RETURN	\x0d;
 	 
 	spawn feathers generate app;
 	 
 	expect -re ".*Project name.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to the name of the directory
 	 
 	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!${RETURN}"
 			## optional description
 	 
 	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'src'
 	 
 	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'npm'
 	 
 	expect -re ".*What type of API are you making.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to REST & Realtime via Socket.io
 
 	expect -re ".*Which testing framework do you prefer?.*"		
-        send -- "\r"
+        send -- "${RETURN}"
 	                ## defaults to Mocha + assert
 
 	expect eof
@@ -192,14 +197,18 @@ export CONNECT_STRING;
 expect <(cat <<'END_OF_GENERATE_SERVICE'
 	#	creates a service:	testtable  (all the defaults)
 	#	written from:	https://docs.feathersjs.com/guides/chat/service.html
+	
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
+	set SPACE	\x20;
+	set RETURN	\x0d;
+	
 	set timeout -1
 	 
 	spawn	feathers generate service;
 	 
 	expect	-re ".*What kind of service is it\?.*"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${RETURN}"
 			## defaults to NeDB
 			## one downarrow selects "MongoDB"
 			## 2 - Mongoose
@@ -209,19 +218,19 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 			## 6 - custom service
 	 
 	expect	-re ".*What is the name of the service\?.*"
-	send	-- "$env(TableName)\r"
+	send	-- "$env(TableName)${RETURN}"
 			## testtable
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
-	send	-- "$env(ServiceName)\r"
+	send	-- "$env(ServiceName)${RETURN}"
 			## defaults to something something like /tiny-connect
 	 
 	expect	-re ".*Which database are you connecting to\?.*"
-	send    -- "$env(ARROW_DIRECTION)\r"
+	send    -- "$env(ARROW_DIRECTION)${RETURN}"
 		## downarrow for postgres(cockroachdb), uparrow for mariadb
 		
 		expect	-re ".*What is the database connection string\?.*"
-	send	-- "$env(CONNECT_STRING)\r"
+	send	-- "$env(CONNECT_STRING)${RETURN}"
 		## default answer is nedb://../data
 
 	expect eof
