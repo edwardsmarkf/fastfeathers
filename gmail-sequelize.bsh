@@ -27,8 +27,8 @@ MariaDB='MariaDB'          ;
 CockroachDB='CockroachDB'  ;
 TYPE=MariaDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
-TableName='oath2Logins'    ;   ## name of sql table
-ServiceName='oauth2-logins';   ## service name (same one that feathers will probably convert to
+TableName='oath2Logins'     ;   ## name of sql table
+ServiceName='oauth-2-logins';   ## service name (same one that feathers will probably convert to
                                ## if a CAPPED letter was used.)
 
 
