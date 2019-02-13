@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##   gmail-login.bsh   last update: 2018-08-07
+##   gmail-login.bsh   last update: 2019-02-13
 
 ##  Bash-shell script to create the feathers-gmail 'simple' login example entirely from scratch.
 
@@ -20,17 +20,17 @@ GOOGLE_CLIENT_SECRET='m-RsXXXXXXXXXXXXXXIajwpN'                                 
 
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.3 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.5 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.10.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.7.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
 fi
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.7.6 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.9 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
@@ -74,31 +74,36 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	#	written from https://docs.feathersjs.com/guides/chat/creating.html
 	 
 	set timeout -1
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
+	set RETURN	\x0d;
 	 
 	spawn feathers generate app;
 	 
 	expect -re ".*Project name.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to the name of the directory
 	 
 	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!${RETURN}"
 			## optional description
 	 
 	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'src'
 	 
 	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)?.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'npm'
 	 
 	expect -re ".*What type of API are you making.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to REST & Realtime via Socket.io
 
 	expect -re ".*Which testing framework do you prefer?.*"		
-        send -- "\r"
+        send -- "${RETURN}"
 	                ## defaults to Mocha + assert
 
 	expect eof
@@ -119,25 +124,26 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn	feathers generate authentication ;
 	 
 	expect	-re ".*What authentication providers do you want to use\?.*"
-	##send	-- "\r"		
-	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}\r"	
+	##send	-- "${RETURN}"		
+	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
 		## return defaults to Local Storage
 		## first space to de-select local, DOWNARROW two times, final space to select Google, and return
 	 
 	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 		## default answer is 'users'
 	 
 	expect	-re ".*What kind of service is it\?.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 		## default answer is NeDB
 
 	expect	-re ".*What is the database connection string\?.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 		## default answer is nedb://../data
 
 	 
