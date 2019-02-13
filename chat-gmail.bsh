@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	chat-gmail.bsh    last update: 2018-08-07
+##	chat-gmail.bsh    last update: 2019-02-13
 
 ##  Bash-shell script to create the Google-feathers chat application with gmail login entirely from scratch.
 
@@ -32,17 +32,17 @@ FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.1 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.15 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.10.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.7.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
 fi
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.7.6 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.9 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
@@ -83,31 +83,36 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	#	written from https://docs.feathersjs.com/guides/chat/creating.html
 	 
 	set timeout -1
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
+	set RETURN	\x0d;
 	 
 	spawn feathers generate app;
 	 
 	expect -re ".*Project name.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to the name of the directory
 	 
 	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!${RETURN}"
 			## optional description
 	 
 	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'src'
 	 
 	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'npm'
 	 
 	expect -re ".*What type of API are you making.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to REST & Realtime via Socket.io
 			
 	expect -re ".*Which testing framework do you prefer?.*"		
-        send -- "\r"
+        send -- "${RETURN}"
 	                ## defaults to Mocha + assert
 	
 	expect eof
@@ -127,24 +132,25 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn	feathers generate authentication ;
 	 
 	expect	-re ".*What authentication providers do you want to use\?.*"
-	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}\r"	
+	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
 		## return defaults to Local Storage
 		## first space to de-select 'local', DOWNARROW twice, final space to select 'Google', and return
 	 
 	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 		## default answer is 'users'
 	 
 	expect	-re ".*What kind of service is it\?.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 		## default answer is NeDB
 	 
 	expect	-re ".*What is the database connection string\?.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 		## default answer is nedb://../data
 
 	expect eof
@@ -159,23 +165,28 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 	##	written from:	https://docs.feathersjs.com/guides/chat/service.html
 	 
 	set timeout -1
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
+	set RETURN	\x0d;
 	 
 	spawn	feathers generate service;
 	 
 	expect	-re ".*What kind of service is it\?.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 			## defaults to NeDB
 	 
 	expect	-re ".*What is the name of the service\?.*"
-	send	-- "messages\r"
+	send	-- "messages${RETURN}"
 			## messages
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 			## defaults to /messages
 	 
 	expect	-re ".*Does the service require authentication\?.*"
-	send	-- "y\r"
+	send	-- "y${RETURN}"
 			##  y for 'yes' and return
 
 	expect eof
@@ -198,22 +209,23 @@ expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook\?.*"
-	send	-- "user-hook\r"
+	send	-- "user-hook${RETURN}"
 
 	expect	-re "What kind of hook should it be\?"
-	send	--  "${DOWNARROW}\r"
+	send	--  "${DOWNARROW}${RETURN}"
 			## downarrow return selects 'before'
 
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${SPACE}\r"
+	send	-- "${DOWNARROW}${SPACE}${RETURN}"
 			## downarrow space return selects 'users'
 
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}\r"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}${RETURN}"
 		## downarrow (3) space downarrow(1) space selects both 'create' and 'update'
 	 
 	expect eof
@@ -234,23 +246,24 @@ expect <(cat <<'END_OF_PROCESS_MESSAGE_HOOK'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn feathers generate hook;
 	 
 	expect -re ".*What is the name of the hook\?.*"
-	send -- "process-message\r"
+	send -- "process-message${RETURN}"
 		## hook is "process-message"
 	 
 	expect -re ".*What kind of hook should it be\?.*"
-	send -- "${DOWNARROW}\r"
+	send -- "${DOWNARROW}${RETURN}"
 		## DOWNARROW & return selects "before"
 	 
 	expect -re ".*What service\\\(s\\\) should this hook be for .*"
-	send -- "${DOWNARROW}${SPACE}\r"
+	send -- "${DOWNARROW}${SPACE}${RETURN}"
 		## DOWNARROW, space, & return selects "messages"
 
 	expect -re ".*What methods should the hook be for .*"
-	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${S}ACE}\r"
+	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${S}ACE}${RETURN}"
 		## DOWNARROW three times, space, and return to select "create"
 	 
 	expect eof
@@ -275,23 +288,24 @@ expect <(cat <<'END_OF_GRAVATAR_HOOK'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn feathers generate hook;
 	 
 	expect -re ".*What is the name of the hook\?.*"
-	send -- "gravatar\r"
+	send -- "gravatar${RETURN}"
 		## name the hook "gravatar"
 	 
 	expect -re ".*What kind of hook should it be\?.*"
-	send -- "${DOWNARROW}\r"
+	send -- "${DOWNARROW}${RETURN}"
 		## DOWNARROW & return selects "before"
 	 
 	expect -re ".*What service\\\(s\\\) should this hook be for .*"
-	send -- "${DOWNARROW}${DOWNARROW}${SPACE}\r"
+	send -- "${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"
 		## DOWNARROW twice, space, & return selects "user"
 
 	expect -re ".*What methods should the hook be for .*"
-	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}\r"
+	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"
 		## DOWNARROW three times, space and return to select "create"
 	 
 	expect eof
@@ -315,22 +329,23 @@ expect <(cat <<'END_OF_POPULATE_USER_HOOK'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn feathers generate hook;
 	 
 	expect -re ".*What is the name of the hook\?.*"
-	send -- "populate-user\r"
+	send -- "populate-user${RETURN}"
 	 
 	expect -re ".*What kind of hook should it be\?.*"
-	send -- "${DOWNARROW}${DOWNARROW}\r"
+	send -- "${DOWNARROW}${DOWNARROW}${RETURN}"
 		## DOWNARROW & return selects "after"
 	 
 	expect -re ".*What service\\\(s\\\) should this hook be for .*"
-	send -- "${DOWNARROW}${SPACE}\r"
+	send -- "${DOWNARROW}${SPACE}${RETURN}"
 		## DOWNARROW, space, & return selects "messages"
 
 	expect -re ".*What methods should the hook be for .*"
-	send -- "$ \r"
+	send -- "$ ${RETURN}"
 		## space & return to select "all"
 	 
 	expect eof	
