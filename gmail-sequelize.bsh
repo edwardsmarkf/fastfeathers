@@ -320,7 +320,7 @@ sed --in-place --file=- ./src/models/oauth-2-logins.model.js   <<END_OF_SED_OAUT
 \\
     \/* added tableName by ${FileNameWithExtension} ${TimeStamp} *\/  \\
           tableName       :       '${TableName}'   ,                  \\
-	  freezeTableName :       true                                \\
+	  freezeTableName :       true             ,                  \\
     \/* end of new items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 \\
 END_OF_SED_OAUTH2_LOGIN_MODEL
