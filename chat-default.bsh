@@ -50,6 +50,11 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	#	written from https://docs.feathersjs.com/guides/chat/creating.html
 	 
 	set timeout -1
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
+	set RETURN      \x0d;
 	 
 	spawn feathers generate app;
 	 
