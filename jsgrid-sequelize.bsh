@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	jsgrid-sequelize.bsh  	last update: 2018-08-07
+##	jsgrid-sequelize.bsh  	last update: 2019-02-13
 
 ##  Bash-shell script to create a Google-jsgrid (mariadb or cockroachdb) example entirely from scratch.
 
@@ -32,17 +32,17 @@ DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                  
 
 ##  check all versions
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.11.3 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.15 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      5.10.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.7.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
 fi
-echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.7.6 at the time of this writing
+echo -n  'feathers version: '  ;  feathers --version   ;       ##      3.9 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
@@ -130,31 +130,36 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	#	written from https://docs.feathersjs.com/guides/chat/creating.html
 	 
 	set timeout -1
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE       \x20;
+	set RETURN	\x0d;
 	 
 	spawn feathers generate app;
 	 
 	expect -re ".*Project name.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to the name of the directory
 	 
 	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!\r"
+	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!${RETURN}"
 			## optional description
 	 
 	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'src'
 	 
 	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to 'npm'
 	 
 	expect -re ".*What type of API are you making.*"
-	send -- "\r"
+	send -- "${RETURN}"
 			## defaults to REST & Realtime via Socket.io
 
 	expect -re ".*Which testing framework do you prefer?.*"		
-        send -- "\r"
+        send -- "${RETURN}"
 	                ## defaults to Mocha + assert
 
 	expect eof
@@ -186,29 +191,30 @@ expect <(cat <<'END_OF_GENERATE_AUTHENTICATION'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn	feathers generate authentication ;
 	 
 	expect	-re ".*What authentication providers do you want to use\?.*"
-	##send	-- "\r"		
-	send	-- " ${DOWNARROW}${DOWNARROW}${SPACE}\r"	
+	##send	-- "${RETURN}"		
+	send	-- " ${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
 		## return defaults to Local Storage
 		## SPACE, downarrow (twice) SPACE to select Google
 	 
 	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 		## default answer is 'users'
 	 
 	expect	-re ".*What kind of service is it\?.*"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${RETURN}"
 		## downarrow(3) for sequelize
 
 	expect	-re ".*Which database are you connecting to\?.*"
-        send    -- "$env(ARROW_DIRECTION)\r"
+        send    -- "$env(ARROW_DIRECTION)${RETURN}"
 		## downarrow for postgres(cockroachdb), uparrow for mariadb
 
 	expect	-re ".*What is the database connection string\?.*"
-	send	-- "$env(CONNECT_STRING)\r"
+	send	-- "$env(CONNECT_STRING)${RETURN}"
 		## default answer is nedb://../data
 	 
 	expect eof
@@ -227,22 +233,23 @@ expect <(cat <<'END_OF_GENERATE_USER_HOOK'
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
 	set SPACE       \x20;
+	set RETURN	\x0d;
 
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook\?.*"
-	send	-- "user-hook\r"
+	send	-- "user-hook${RETURN}"
 
 	expect	-re "What kind of hook should it be\?"
-	send	--  "${DOWNARROW}\r"
+	send	--  "${DOWNARROW}${RETURN}"
 			## downarrow return selects 'before'
 
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${SPACE}\r"
+	send	-- "${DOWNARROW}${SPACE}${RETURN}"
 			## downarrow space return selects 'users'
 
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}\r"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}${RETURN}"	
 		## downarrow (3) space downarrow space selects 'create' and 'update'
 	 
 	expect eof
@@ -303,14 +310,17 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 	#	creates a service:	testtable  (all the defaults)
 	#	written from:	https://docs.feathersjs.com/guides/chat/service.html
 
+	set timeout -1
+	
 	set UPARROW	\x1B\[A;
 	set DOWNARROW	\x1B\[B;
-	set timeout -1
+	set SPACE       \x20;
+	set RETURN	\x0d;
 	 
 	spawn	feathers generate service;
 	 
 	expect	-re ".*What kind of service is it\?.*"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}\r"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${RETURN}"
 			## defaults to NeDB
 			## one downarrow selects "MongoDB"
 			## 2 - Mongoose
@@ -320,21 +330,20 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 			## 6 - custom service
 	 
 	expect	-re ".*What is the name of the service\?.*"
-	send	-- "testtable\r"
+	send	-- "testtable${RETURN}"
 			## testtable
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
-	send	-- "\r"
+	send	-- "${RETURN}"
 			## defaults to /testtable
 	 
 	expect	-re ".*Does the service require authentication\?.*"
-	send	-- "y\r"
+	send	-- "y${RETURN}"
 			##  y for 'yes' and return
 
 	expect	-re ".*Which database are you connecting to\?.*"
-	send    -- "$env(ARROW_DIRECTION)\r"
+	send    -- "$env(ARROW_DIRECTION)${RETURN}"
 		## downarrow for postgres(cockroachdb), uparrow for mariadb
-
 
 	expect eof
 END_OF_GENERATE_SERVICE
@@ -378,18 +387,18 @@ expect <(cat <<'END_OF_GENERATE_TESTTABLE_HOOK'
 	spawn	feathers generate hook ;
 	 
 	expect	-re ".*What is the name of the hook\?.*"
-	send	-- "testtable-hook\r"
+	send	-- "testtable-hook${RETURN}"
 
 	expect	-re "What kind of hook should it be\?"
-	send	--  "${DOWNARROW}\r"
+	send	--  "${DOWNARROW}${RETURN}"
 			## downarrow return selects 'before'
 
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW} \r"
+	send	-- "${DOWNARROW} ${RETURN}"
 			## downarrow space return selects 'testtable'
 
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW} \r"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW} ${RETURN}"	
 		## downarrow (3) space downarrow space selects 'create' & 'update'
 	 
 	expect eof
