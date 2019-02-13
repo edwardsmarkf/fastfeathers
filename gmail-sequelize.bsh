@@ -362,7 +362,7 @@ const _ = require('lodash');\\
 
 /^  return async context => {$/a\
   \/*  code added by ${FileNameWithExtension} ${TimeStamp} *\/ \\
-context.scriptName = path.basename(__filename);\\  
+context.scriptName = path.basename(__filename);\\
   \/*  end of code added by ${FileNameWithExtension} ${TimeStamp} *\/\\
 
 END_OF_SED_OAUTH_BEFORE_UPDATE_PATCH_HOOK
