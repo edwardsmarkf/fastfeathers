@@ -1,7 +1,5 @@
 #! /bin/bash
 
-## SAVE THE SCRIPT NAME ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?? ? ? 
-
 ##	gmail-sequelize.bsh  	last update: 2018-02-12
 ##
 ##	Bash script to create a google-gmail authentication with a service,
@@ -51,6 +49,7 @@ if  [ $? -ne 0 ]; then
         exit 1;
 fi
 
+npm install path;  ## needed for two of the hooks.
 
 echo 'get your authentication information from https://console.developers.google.com/apis/credentials/oauthclient/';
 
