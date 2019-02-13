@@ -307,10 +307,10 @@ expect <(cat <<'END_OF_GENERATE_TESTTABLE_HOOK'
 	send	--  "${DOWNARROW}${RETURN}"
 			## downarrow return selects 'before'
 	expect	-re "What service\\\(s\\\) should this hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW} ${RETURN}"
+	send	-- "${DOWNARROW}${SPACE}${RETURN}"
 			## downarrow space return selects 'testtable', 'users' is now the third on the list!
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW} ${DOWNARROW} ${RETURN}"	
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}${RETURN}"	
 		## downarrow (3) space downarrow space selects BOTH 'create' AND 'update'
 		
 	expect eof
