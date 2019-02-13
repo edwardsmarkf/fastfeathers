@@ -270,7 +270,7 @@ END_OF_GENERATE_SERVICE_BEFORE_CREATE_HOOK
 
 ## edit the oath2-login-before-create.js to extract the custom login stuff, like username, first-name, etc
 
-sed --in-place --file=- ./src/hooks/oauth2-login-before-create   <<END_OF_SED_OAUTH_BEFORE_CREATE_HOOK ;
+sed --in-place --file=- ./src/hooks/oauth2-login-before-create.js   <<END_OF_SED_OAUTH_BEFORE_CREATE_HOOK ;
 3i\
  \\
  \\
