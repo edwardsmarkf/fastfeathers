@@ -261,8 +261,8 @@ expect <(cat <<'END_OF_GENERATE_SERVICE_BEFORE_UPDATE_PATCH_HOOK'
 	send	-- "${DOWNARROW}${SPACE}${RETURN}"
 			## downarrow space return selects 'oauth2-login'
 	expect	-re "What methods should the hook be for \\\(select none to add it yourself\\\)\?"
-	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}${RETURN}"	
-		## downarrow (4) space downarrow space selects 'create'
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${DOWNARROW}${SPACE}${RETURN}"	
+		## downarrow (4) space downarrow(1) space selects 'update and patch'
 	 
 	expect eof
 END_OF_GENERATE_SERVICE_BEFORE_UPDATE_PATCH_HOOK
