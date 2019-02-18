@@ -338,13 +338,14 @@ END_OF_SED_OAUTH2_BEFORE_UPDATE_PATCH_HOOK
 
 
 
-
+## 2019-02-18 - changed email to "unique: true" and added password field (not sure if/why the second is required??)
 sed --in-place --file=- ./src/models/${ServiceName}.model.js   <<END_OF_SED_OAUTH2_LOGIN_MODEL ;
 /    googleId: { type: Sequelize.STRING },/ a\
 \\
 \\
     \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
-    email: { type: DataTypes.STRING , allowNull:  false }, \\
+    email: { type: DataTypes.STRING , allowNull:  false, unique: true }, \\
+    password: {  type: DataTypes.STRING,  allowNull: false },  \\
     displayName: { type: DataTypes.STRING },\\
     familyName: { type: DataTypes.STRING },\\
     givenName: { type: DataTypes.STRING },\\
