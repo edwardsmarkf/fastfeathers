@@ -345,7 +345,6 @@ sed --in-place --file=- ./src/models/${ServiceName}.model.js   <<END_OF_SED_OAUT
 \\
     \/* data items added by ${FileNameWithExtension} ${TimeStamp} *\/\\
     email: { type: DataTypes.STRING , allowNull:  false, unique: true }, \\
-    password: {  type: DataTypes.STRING,  allowNull: false },  \\
     displayName: { type: DataTypes.STRING },\\
     familyName: { type: DataTypes.STRING },\\
     givenName: { type: DataTypes.STRING },\\
