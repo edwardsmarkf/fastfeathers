@@ -256,6 +256,7 @@ s|return \\[];|// return[];|;
                   // -- lines added by ${FileNameWithExtension}                                         \\
     const sequelize = this.app.get('sequelizeClient');                                                  \\
     const results = await sequelize.query('${SQL_STATEMENT}', { type: sequelize.QueryTypes.SELECT});    \\
+  //const results = await sequelize.query(params.query.sqlString, { type: sequelize.QueryTypes.SELECT});    \\
     return results;
     
 END_OF_SED_SERVICE_CLASS
@@ -271,5 +272,6 @@ Only a few lines of code were changed in  ./src/services/${SERVICE_NAME}/${SERVI
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 click on this to test FIND:    (note that both of these could just as easily be done using Postman)
     http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}
+    http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}/?sqlString=${SQL_STATEMENT}
 END_OF_SCRIPT
 ##
