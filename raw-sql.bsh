@@ -153,8 +153,8 @@ elif [ "${TYPE}" = "${CockroachDB}" ]; then
     export ARROW_DIRECTION=$'\x1b\x5b\x42'; ## down-arrow for CockroachDB
 fi
 
-export TableName;
 export FAKE_SERVICE_NAME;
+export FAKE_TABLE_NAME;
 export CONNECT_STRING;
 
 ##  database credentials
@@ -189,11 +189,11 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 			## 6 - custom service
 	 
 	expect	-re ".*What is the name of the service\?.*"
-	send	-- "$env(TableName)${RETURN}"
+	send	-- "$env(FAKE_TABLE_NAME)${RETURN}"
 			## testtable
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
-	send	-- "$env(ServiceName)${RETURN}"
+	send	-- "$env(FAKE_SERVICE_NAME)${RETURN}"
 			## defaults to something something like /tiny-connect
 	 
 	expect	-re ".*Which database are you connecting to\?.*"
