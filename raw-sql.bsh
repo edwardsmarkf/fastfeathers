@@ -247,6 +247,11 @@ END_OF_GENERATE_SERVICE
 
 sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js  <<END_OF_SED_SERVICE_CLASS ;
 s|return \\[];|// return[];|;
+/  async find (params) {/i\\
+  setup(app) {        // added by ${FileNameWithExtension} reference https://docs.feathersjs.com/api/services.html#setupapp-path
+    this.app = app;   // added by ${FileNameWithExtension}
+  }                   // added by ${FileNameWithExtension}
+
 /  async find (params) {/a\\
                   // -- lines added by ${FileNameWithExtension}                                         \\
     const sequelize = this.app.get('sequelizeClient');                                                  \\
