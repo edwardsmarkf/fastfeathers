@@ -171,7 +171,7 @@ END_OF_SED_CONFIG_DEFAULT
 cat <<END_OF_SCRIPT;
 Only one line of code was changed in  ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
-click on this to test FIND:    (note that both of these could just as easily be done using Postman
+click on this to test FIND:    (note that both of these could just as easily be done using Postman)
     http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}/?type=dir
     http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}/?type=os
 
