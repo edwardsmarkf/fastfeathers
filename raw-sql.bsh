@@ -238,7 +238,7 @@ END_OF_GENERATE_SERVICE
 
 
 sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js  <<END_OF_SED_SERVICE_CLASS ;
-s|return [];|// return[];|;
+s|return \\[];|// return[];|;
 /  async find (params) {/a\\
                   // -- line addeded by ${FileNameWithExtension}                                              \\
     const sequelize = this.app.get('sequelizeClient');                                                        \\
