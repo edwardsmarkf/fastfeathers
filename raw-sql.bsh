@@ -244,7 +244,6 @@ s|return [];|// return[];|;
     const sequelize = this.app.get('sequelizeClient');                                                        \\
     const results = await sequelize.query('${SQL_STATEMENT}', { type: sequelize.QueryTypes.SELECT});     \\
     
-s|return [];|// return[];|
 END_OF_SED_SERVICE_CLASS
 
 
