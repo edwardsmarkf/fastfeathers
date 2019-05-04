@@ -256,8 +256,10 @@ s|return \\[];|// return[];|;
                   // -- lines added by ${FileNameWithExtension}                                         \\
     const sequelize = this.app.get('sequelizeClient');                                                  \\
     const results = await sequelize.query('${SQL_STATEMENT}', { type: sequelize.QueryTypes.SELECT});    \\
-  //const results = await sequelize.query(params.query.sqlString, { type: sequelize.QueryTypes.SELECT});    \\
-    return results;
+    //const sqlString =   sequelize.escape(params.query.sqlString).replace(/(^')|('$)/g, "");             \\
+    //console.log(sqlString) ;                                                                            \\
+    //const results = await sequelize.query(sqlString, { type: sequelize.QueryTypes.SELECT});             \\
+    //return results;
     
 END_OF_SED_SERVICE_CLASS
 
