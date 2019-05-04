@@ -19,12 +19,12 @@ SERVICE_NAME='customservice';
 FEATHERS_PORT=3030;
 
 
-echo -n  'node version:     '  ;  node     --version   ;       ##      8.15 at the time of this writing
+echo -n  'node version:     '  ;  node     --version   ;       ##      8.16 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'Node has not yet been installed!';
         exit 1;
 fi
-echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.7.0 at the time of this writing
+echo -n  'npm version:      '  ;  npm      --version   ;       ##      6.9.0 at the time of this writing
 if  [ $? -ne 0 ]; then
         echo 'NPM has not yet been installed!';
         exit 1;
