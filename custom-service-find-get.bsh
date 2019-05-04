@@ -13,7 +13,7 @@
 
 ##	!!! Be sure to run the feathers install gist first !!!
 
-sudo yum  --assumeyes  install  gist  expect  bind-utils ;   ## this might need to be in another module
+sudo yum  --assumeyes  install  expect  bind-utils ;   ## this might need to be in another module
 
 SERVICE_NAME='customservice';
 FEATHERS_PORT=3030;
