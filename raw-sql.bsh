@@ -16,8 +16,15 @@
 
 sudo yum  --assumeyes  install  gist  expect  bind-utils ;   ## this might need to be in another module
 
+MariaDB='MariaDB'          ;
+CockroachDB='CockroachDB'  ;
+TYPE=MariaDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
+
 SERVICE_NAME='rawsql';
+FAKE_SERVICE_NAME='fakeservicename';	## we need one "unused" sql service.
+FAKE_TABLE_NAME='faketablename'   ;   ## name of sql table
 FEATHERS_PORT=3030;
+SQL_STATEMENT='SELECT * FROM tester2';	## must be a valid sql statement
 
 
 echo -n  'node version:     '  ;  node     --version   ;       ##      8.15 at the time of this writing
@@ -35,6 +42,45 @@ if  [ $? -ne 0 ]; then
         echo 'Feathers has not yet been installed!';
         exit 1;
 fi
+
+
+## prompt for any/all constant-variable changes
+
+read -p "Enter DB_USER or blank to use '$DB_USER': " tmpDB_USER;
+if  [ ! -z "$tmpDB_USER" ]; then
+        DB_USER=$tmpDB_USER;
+fi;
+
+read -p "Enter DB_PASS or blank to use '$DB_PASS': " tmpDB_PASS;
+if  [ ! -z "$tmpDB_PASS" ]; then
+        DB_PASS=$tmpDB_PASS;
+fi;
+
+
+read -p "Enter DB_NAME or blank to use '$DB_NAME': " tmpDB_NAME;
+if  [ ! -z "$tmpDB_NAME" ]; then
+        DB_NAME=$tmpDB_NAME;
+fi;
+
+
+read -p "Enter DB_SERVER_IP or blank to use '$DB_SERVER_IP': " tmpDB_SERVER_IP;
+if  [ ! -z "$tmpDB_SERVER_IP" ]; then
+        DB_SERVER_IP=$tmpDB_SERVER_IP;
+fi;
+
+
+# build database string
+if [ "${TYPE}" = "${MariaDB}" ]; then
+    SERVER_PORT='3306'                                                                                               ;
+    CONNECT_STRING="mysql://${DB_USER}:${DB_PASS}@${DB_SERVER_IP}:${SERVER_PORT}/${DB_NAME}"                         ;
+    DB_URL="https://mariadb.com/"                                                                                    ;
+elif [ "${TYPE}" = "${CockroachDB}" ]; then
+    SERVER_PORT='26257'                                                                                              ;
+    PG_SSL_FLAG='true'                                                                                               ;
+    CONNECT_STRING="postgres://${DB_USER}:${DB_PASS}@${DB_SERVER_IP}:${SERVER_PORT}/${DB_NAME}?ssl=${PG_SSL_FLAG}"   ;
+    DB_URL="https://cockroachlabs.com/"                                                                              ;
+fi
+
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
 
@@ -91,6 +137,69 @@ END_OF_GENERATE_APP
 )	## end of feathers generate app
 
 
+if [ "${TYPE}" = "${MariaDB}" ]; then
+    echo "Setting one uparrow for ${MariaDB}";
+    export ARROW_DIRECTION=$'\x1b\x5b\x41'; ## up-arrow for MariadbDB
+elif [ "${TYPE}" = "${CockroachDB}" ]; then
+    echo "Setting one downarrow for ${CockroachDB}";
+    export ARROW_DIRECTION=$'\x1b\x5b\x42'; ## down-arrow for CockroachDB
+fi
+
+export TableName;
+export FAKE_SERVICE_NAME;
+export CONNECT_STRING;
+
+##  database credentials
+DB_USER='database-username'                                                                    ;
+DB_PASS='database-password'                                                                    ;
+DB_NAME='database-name'                                                                        ;
+DB_SERVER_IP='XXX.XXX.XXX.XXX'                                                                 ;
+
+
+##		feathers generate service;   ## all defaults except for the service name - "testtable"
+expect <(cat <<'END_OF_GENERATE_SERVICE'
+	#	creates a service:	testtable  (all the defaults)
+	#	written from:	https://docs.feathersjs.com/guides/chat/service.html
+	
+	set UPARROW	\x1B\[A;
+	set DOWNARROW	\x1B\[B;
+	set SPACE	\x20;
+	set RETURN	\x0d;
+	
+	set timeout -1
+	 
+	spawn	feathers generate service;
+	 
+	expect	-re ".*What kind of service is it\?.*"
+	send	-- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${RETURN}"
+			## defaults to NeDB
+			## one downarrow selects "MongoDB"
+			## 2 - Mongoose
+			## 3 - Sequelize
+			## 4 - KnexJS
+			## 5 - RethinDB
+			## 6 - custom service
+	 
+	expect	-re ".*What is the name of the service\?.*"
+	send	-- "$env(TableName)${RETURN}"
+			## testtable
+	 
+	expect	-re ".*Which path should the service be registered on\?.*"
+	send	-- "$env(ServiceName)${RETURN}"
+			## defaults to something something like /tiny-connect
+	 
+	expect	-re ".*Which database are you connecting to\?.*"
+	send    -- "$env(ARROW_DIRECTION)${RETURN}"
+		## downarrow for postgres(cockroachdb), uparrow for mariadb
+		
+		expect	-re ".*What is the database connection string\?.*"
+	send	-- "$env(CONNECT_STRING)${RETURN}"
+		## default answer is nedb://../data
+	expect eof
+END_OF_GENERATE_SERVICE
+)	## end of feathers generate service
+
+
 export SERVICE_NAME;
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
 expect <(cat <<'END_OF_GENERATE_SERVICE'
@@ -118,11 +227,10 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 	 
 	expect	-re ".*What is the name of the service\?.*"
 	send	-- "$env(SERVICE_NAME)${RETURN}"
-			## testtable
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
 	send	-- "${RETURN}"
-			## defaults to /advanced
+			## defaults to /SERVICE_NAME
 	 
 	expect eof
 END_OF_GENERATE_SERVICE
@@ -130,33 +238,13 @@ END_OF_GENERATE_SERVICE
 
 
 sed --in-place --file=- ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js  <<END_OF_SED_SERVICE_CLASS ;
-2iconst os = require('os');                                              \\
-const {promisify} = require('util');                                     \\
-const fs = require('fs');                                                \\
-const readFileAsync = promisify(fs.readdir);                             \\
-const filePath = __dirname ;                                             \\
-                                                                         \\
-async function returnDirectory(path) {                                   \\
-        return await readFileAsync(filePath, {encoding: 'utf8'})         \\
-}                                                                        \\
-function returnOs()     {                                                \\
-        return os.platform() + ' ' +  os.type() + ' ' + os.release() ;   \\
-}                                                                        \\
-s/return \[\];/ \/\/ added by ${FileNameWithExtension}                   \\
-        console.log('params: ' + JSON.stringify(params.query));          \\
-        if  ( params.query.type === 'os' )      {                        \\
-                return returnOs();                                       \\
-        } else if ( params.query.type === 'dir' ){                       \\
-                return returnDirectory();                                \\
-        } else {                                                         \\
-                return [];                                               \\
-        }                                                                \\
-        \/\/ end added by ${FileNameWithExtension}                       \\
-        \/\/  return []; \/\/commented out by ${FileNameWithExtension}   \\
-/;
-s|      id, text: \`A new message with ID: \${id}\!\`|\
-//    id, text: \`A new message with ID: \${id}\!\` -- line commented out by ${FileNameWithExtension}\n\
-      id, text: \`ID reversed: \${id.split('').reverse().join('')}\` // -- line added by ${FileNameWithExtension}|;
+s|return [];|// return[];|;
+/  async find (params) {/a\\
+                  // -- line addeded by ${FileNameWithExtension}                                              \\
+    const sequelize = this.app.get('sequelizeClient');                                                        \\
+    const results = await sequelize.query('${SQL_STATEMENT}', { type: sequelize.QueryTypes.SELECT});     \\
+    
+s|return [];|// return[];|
 END_OF_SED_SERVICE_CLASS
 
 
@@ -166,12 +254,9 @@ END_OF_SED_CONFIG_DEFAULT
 
 
 cat <<END_OF_SCRIPT;
-Only one line of code was changed in  ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js
+Only a few lines of code were changed in  ./src/services/${SERVICE_NAME}/${SERVICE_NAME}.class.js
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
-click on this to test FIND:    (note that both of these could just as easily be done using Postman
-    http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}/?type=dir
-    http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}/?type=os
-and click on this to test GET:
-    http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}/%21%21skrow-siht-kniht-i
+click on this to test FIND:    (note that both of these could just as easily be done using Postman)
+    http://${THIS_IPADDR}:${FEATHERS_PORT}/${SERVICE_NAME}
 END_OF_SCRIPT
 ##
