@@ -1,9 +1,9 @@
 #! /bin/bash
 
-##	custom-service-find=get.bsh  	last update: 2019-02-13
+##	custom-service-find-get.bsh  	last update: 2019-02-13
 
 ##  Bash-shell script to create a more advanced custom service example entirely from scratch.
-##  the only code changed is in the ./src/services/SERVICENAME.class.js  file.
+##  the only code changed is in the ./src/services/SERVICENAME/SERVICENAME.class.js  file.
 
 ##  written from  https://docs.feathersjs.com/guides/basics/services.html
 
