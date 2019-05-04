@@ -12,6 +12,14 @@
 ##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
 ##  am using sudo to make the command global in nature.
 
+##  this writeup was written with the assistance and incredible patience of the
+##  following feathers-slack members:
+##      Beau Shaw
+##      German
+##      Karolis
+##      Ryan Wheale
+##  i am very grateful for them in lending their expertise and tolerating my silly questions.
+
 ##	!!! Be sure to run the feathers install gist first !!!
 
 sudo yum  --assumeyes  install  gist  expect  bind-utils ;   ## this might need to be in another module
