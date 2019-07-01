@@ -60,6 +60,10 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	set SPACE       \x20;
 	 
 	spawn feathers generate app;
+	
+	expect -re ".*Use typescript (y/N).*"
+	send -- "${RETURN}"
+			## new in Crow  2019-07-01
 	 
 	expect -re ".*Project name.*"
 	send -- "${RETURN}"
