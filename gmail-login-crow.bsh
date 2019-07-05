@@ -1,8 +1,8 @@
 #! /bin/bash
 
-##   gmail-login.bsh   last update: 2019-02-13
+##   gmail-login.bsh   last update: 2019-07-04
 
-##  Bash-shell script to create the feathers-gmail 'simple' login example entirely from scratch.
+##  Bash-shell script to create the feathers-gmail 'simple' login example in Crow entirely from scratch.
 
 ##  Note:  expect-tcl is used to run the feathers-cli steps.
 ##  Also, there is a bit of a debate if sudo is required for the feathers installation.  I
