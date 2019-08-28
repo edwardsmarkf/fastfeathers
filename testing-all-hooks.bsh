@@ -50,7 +50,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	 
 	spawn feathers generate app;
 	
-	expect -re ".*Use typescript.*"
+	expect -re ".*Do you want to use JavaScript or TypeScript.*"
 	send -- "${RETURN}"
 			## new in Crow  2019-07-01
 	 
@@ -73,6 +73,11 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	expect -re ".*What type of API are you making\?.*"
 	send -- "\r"
 			## defaults to REST & Realtime via Socket.io
+
+	expect -re ".*This app uses authentication.*"
+	send -- "n${RETURN}"
+			## defaults to Y
+
 	expect eof
 END_OF_GENERATE_APP
 )	## end of feathers generate app
