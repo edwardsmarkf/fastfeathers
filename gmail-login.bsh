@@ -112,7 +112,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	                ## defaults to Mocha + assert
 			
 	expect -re ".*This app uses authentication.*"
-	send -- "Y${RETURN}"
+	send -- "n${RETURN}"
 			## defaults to Y
 		
 	expect eof
