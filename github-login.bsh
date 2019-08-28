@@ -61,7 +61,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	 
 	spawn feathers generate app;
 	
-	expect -re ".*Use typescript.*"
+	expect -re ".*Do you want to use JavaScript or TypeScript.*"
 	send -- "${RETURN}"
 			## new in Crow  2019-07-01
 	 
