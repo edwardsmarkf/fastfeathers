@@ -140,6 +140,11 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	expect -re ".*Which testing framework do you prefer?.*"		
         send -- "${RETURN}"
 	                ## defaults to Mocha + assert
+
+	expect -re ".*This app uses authentication.*"
+	send -- "n${RETURN}"
+			## defaults to Y
+
 	expect eof
 END_OF_GENERATE_APP
 )	## end of feathers generate app
