@@ -2,6 +2,8 @@
 
 ##   gmail-login.bsh   last update: 2019-07-04
 
+##	2019-08-28	-- updated to Crow to deal with typescript
+
 ##  Bash-shell script to create the feathers-gmail 'simple' login example in Crow entirely from scratch.
 
 ##  Note:  expect-tcl is used to run the feathers-cli steps.
@@ -81,7 +83,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	 
 	spawn feathers generate app;
 	
-	expect -re ".*Use typescript.*"
+	expect -re ".*Do you want to use JavaScript or TypeScript.*"
 	send -- "${RETURN}"
 			## new in Crow  2019-07-01
 	 
