@@ -203,7 +203,7 @@ expect <(cat <<'END_OF_GENERATE_AUTHENTICATION'
 
 	spawn	feathers generate authentication ;
 	 
-	expect	-re ".*What authentication providers do you want to use\?.*"
+	expect	-re ".*What authentication strategies do you want to use\?.*"
 	##send	-- "${RETURN}"		
 	send	-- " ${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
 		## return defaults to Local Storage
