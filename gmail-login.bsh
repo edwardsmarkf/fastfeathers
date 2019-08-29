@@ -16,8 +16,8 @@
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
 HOST='fastfeathers.website'                                                                   ;
-GOOGLE_CLIENT_ID='119068144580-gpXXXXXXXXXXXXXXXXXXXXXXXpk5asgs.apps.googleusercontent.com'   ;
-GOOGLE_CLIENT_SECRET='m-RsXXXXXXXXXXXXXXIajwpN'                                               ;
+GOOGLE_KEY='119068144580-gpXXXXXXXXXXXXXXXXXXXXXXXpk5asgs.apps.googleusercontent.com'   ;
+GOOGLE_SECRET='m-RsXXXXXXXXXXXXXXIajwpN'                                               ;
 ###  get credentials here:  https://console.developers.google.com/apis/credentials/
 
 
@@ -48,14 +48,14 @@ if  [ ! -z "$tmpHost" ]; then
         HOST=$tmpHost;
 fi;
 
-read -p "Enter GOOGLE_CLIENT_ID or blank to use '$GOOGLE_CLIENT_ID': " tmpGOOGLE_CLIENT_ID;
-if  [ ! -z "$tmpGOOGLE_CLIENT_ID" ]; then
-        GOOGLE_CLIENT_ID=$tmpGOOGLE_CLIENT_ID;
+read -p "Enter GOOGLE_KEY or blank to use '$GOOGLE_KEY': " tmpGOOGLE_KEY;
+if  [ ! -z "$tmpGOOGLE_KEY" ]; then
+        GOOGLE_KEY=$tmpGOOGLE_KEY;
 fi;
 
-read -p "Enter GOOGLE_CLIENT_SECRET or blank to use '$GOOGLE_CLIENT_SECRET': " tmpGOOGLE_CLIENT_SECRET;
-if  [ ! -z "$tmpGOOGLE_CLIENT_SECRET" ]; then
-        GOOGLE_CLIENT_SECRET=$tmpGOOGLE_CLIENT_SECRET;
+read -p "Enter GOOGLE_SECRET or blank to use '$GOOGLE_SECRET': " tmpGOOGLE_SECRET;
+if  [ ! -z "$tmpGOOGLE_SECRET" ]; then
+        GOOGLE_SECRET=$tmpGOOGLE_SECRET;
 fi;
 
 
@@ -162,10 +162,9 @@ END_OF_GENERATE_AUTH
 ## values came from   https://console.developers.google.com/apis/api under credidentials
 sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${HOST}",/;
-s/<google oauth key>/${GOOGLE_CLIENT_ID}/;
-s/"secret": "<google oauth secret>"/"secret": "${GOOGLE_CLIENT_SECRET}", "scope": [ "profile openid email"]/;
+s/<google oauth key>/${GOOGLE_KEY}/;
+s/"secret": "<google oauth secret>"/"secret": "${GOOGLE_SECRET}", "scope": [ "profile openid email"]/;
 
-s?"redirect" : "/"?"redirect" : "//${HOST}:8005"?;
 END_OF_SED_CONFIG_DEFAULT
 
 echo " dont forget to change the IP ## in both the ./config/default.json  *AND*  the google-applications page (make sure they match)";
@@ -211,8 +210,8 @@ END_OF_INDEX_HTML
 
 cat <<END_OF_SCRIPT;
 Feathers google-gmail app should now be built.  Did you change your ./config/default.json values?
-Client id in your ./config/default.json values file: ${GOOGLE_CLIENT_ID}
-Client secret in your ./config/default.json values file: ${GOOGLE_CLIENT_SECRET}
+Client id in your ./config/default.json values file: ${GOOGLE_KEY}
+Client secret in your ./config/default.json values file: ${GOOGLE_SECRET}
 Now run ' cd ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 END_OF_SCRIPT
 #
