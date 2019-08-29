@@ -163,7 +163,7 @@ END_OF_GENERATE_AUTH
 sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${HOST}",/;
 s/<google oauth key>/${GOOGLE_KEY}/;
-s/"secret": "<google oauth secret>"/"secret": "${GOOGLE_SECRET}", "scope": [ "profile openid email"]/;
+s/"secret": "<google oauth secret>"/"secret": "${GOOGLE_SECRET}",\n"scope": [ "profile openid email"]/;
 
 END_OF_SED_CONFIG_DEFAULT
 
