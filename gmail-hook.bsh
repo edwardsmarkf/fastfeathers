@@ -53,7 +53,7 @@ if  [ ! -z "$tmpGOOGLE_KEY" ]; then
         GOOGLE_KEY=$tmpGOOGLE_KEY;
 fi;
 
-read -p "Enter GOOGLE_SECRET or blank to use '$GOOGLE_SECRET': " tmpGOOGLE_CLIENT_SECRET;
+read -p "Enter GOOGLE_SECRET or blank to use '$GOOGLE_SECRET': " tmpGOOGLE_SECRET;
 if  [ ! -z "$tmpGOOGLE_SECRET" ]; then
         GOOGLE_SECRET=$tmpGOOGLE_SECRET;
 fi;
