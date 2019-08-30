@@ -22,8 +22,8 @@
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
 HOST='fastfeathers.website'                                                                     ;
-GOOGLE_CLIENT_ID='119068144580-gpeiuqXXXXXXXXXXXXXXXXXXXXXXXXgs.apps.googleusercontent.com'     ;
-GOOGLE_CLIENT_SECRET='m-RXXXXXXXXXXXXYpJIajwpN'                                                 ;
+GOOGLE_KEY='119068144580-gpeiuqXXXXXXXXXXXXXXXXXXXXXXXXgs.apps.googleusercontent.com'     ;
+GOOGLE_SECRET='m-RXXXXXXXXXXXXYpJIajwpN'                                                 ;
 ###  get credentials here:  https://console.developers.google.com/apis/credentials/
 
 
@@ -58,14 +58,14 @@ if  [ ! -z "$tmpHost" ]; then
         HOST=$tmpHost;
 fi;
 
-read -p "Enter GOOGLE_CLIENT_ID or blank to use '$GOOGLE_CLIENT_ID': " tmpGOOGLE_CLIENT_ID;
-if  [ ! -z "$tmpGOOGLE_CLIENT_ID" ]; then
-        GOOGLE_CLIENT_ID=$tmpGOOGLE_CLIENT_ID;
+read -p "Enter GOOGLE_KEY or blank to use '$GOOGLE_KEY': " tmpGOOGLE_KEY;
+if  [ ! -z "$tmpGOOGLE_KEY" ]; then
+        GOOGLE_KEY=$tmpGOOGLE_KEY;
 fi;
 
-read -p "Enter GOOGLE_CLIENT_SECRET or blank to use '$GOOGLE_CLIENT_SECRET': " tmpGOOGLE_CLIENT_SECRET;
-if  [ ! -z "$tmpGOOGLE_CLIENT_SECRET" ]; then
-        GOOGLE_CLIENT_SECRET=$tmpGOOGLE_CLIENT_SECRET;
+read -p "Enter GOOGLE_SECRET or blank to use '$GOOGLE_SECRET': " tmpGOOGLE_SECRET;
+if  [ ! -z "$tmpGOOGLE_SECRET" ]; then
+        GOOGLE_SECRET=$tmpGOOGLE_SECRET;
 fi;
 
 
@@ -362,12 +362,12 @@ END_OF_POPULATE_USER_HOOK
 
 
 
-## modify the default.json file if you are using google (you will have to change these values !)
+## modify the default.json file if you are using google (you will have to change these values!)
 ## values came from   https://console.developers.google.com/apis/api under credidentials
 sed --in-place --file=- ./config/default.json  << END_OF_SED_DEFAULT_JSON_HOOK ;
 s/"host": "localhost",/"host": "${HOST}",/;
-s/your google client id/${GOOGLE_CLIENT_ID}/;
-s/your google client secret/${GOOGLE_CLIENT_SECRET}/;
+s/<google oauth key>/${GOOGLE_KEY}/;
+s/"secret": "<google oauth secret>"/"secret": "${GOOGLE_SECRET}",\n"        scope": [ "profile openid email"]/;
 END_OF_SED_DEFAULT_JSON_HOOK
 
 
@@ -533,7 +533,6 @@ cat <<END_OF_CAT_INDEX_HTML	>  ./public/index.html				;
     <script src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
-  </body>
 </html>
 END_OF_CAT_INDEX_HTML
 
@@ -808,7 +807,7 @@ END_OF_CAT_APP_JS
 
 cat <<END_OF_SCRIPT;
 Feathers google app should now be built.  Did you change your ./config/default.json values?
-Client id in your ./config/default.json values file:  ${GOOGLE_CLIENT_ID}
-Client secret in your ./config/default.json values file:  ${GOOGLE_CLIENT_SECRET}
+Client id in your ./config/default.json values file:  ${GOOGLE_KEY}
+Client secret in your ./config/default.json values file:  ${GOOGLE_SECRET}
 Now run ' cd ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 END_OF_SCRIPT
