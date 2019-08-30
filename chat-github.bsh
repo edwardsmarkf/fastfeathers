@@ -21,8 +21,8 @@
 
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-GITHUB_CLIENT_ID='dccac3XXXXXXX23fe2af'                         ;
-GITHUB_CLIENT_SECRET='960393c181XXXXXXXXXXXXX6e4196317939f3c59' ;
+GITHUB_KEY='dccac3XXXXXXX23fe2af'                         ;
+GITHUB_SECRET='960393c181XXXXXXXXXXXXX6e4196317939f3c59' ;
 ##  get credentials here:  https://github.com/settings/developers
 
 
@@ -340,8 +340,8 @@ END_OF_GENERATE_POPULATE_USER_HOOK
 ## values came from   https://console.developers.google.com/apis/api under credidentials
 sed -in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${THIS_IPADDR}",/;
-s/your github client id/${GITHUB_CLIENT_ID}/;
-s/your github client secret/${GITHUB_CLIENT_SECRET}/;
+s/<github oauth key>/${GITHUB_CLIENT_ID}/;
+s/<github oauth secret>/${GITHUB_CLIENT_SECRET}/;
 END_OF_SED_CONFIG_DEFAULT
 
  
