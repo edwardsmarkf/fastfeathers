@@ -556,7 +556,7 @@ const loginHTML = \`<main class="login container">
 <div class="row">
 	<div class="col-12 col-6-tablet push-3-tablet text-center heading">
 	<h1 class="font-100">Log in or signup</h1>
-		<a href="/auth/google">Log in or sign up using Google!</a>
+		<a href="/oauth/connect/google">Log in or sign up using Google!</a>
 	</div>
 </div>
 <!-- REMOVED FOR GOOGLE LOGIN  <div class="row">
