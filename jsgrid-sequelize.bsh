@@ -19,8 +19,8 @@ TYPE=CockroachDB           ;   ## SET THIS LINE FOR YOUR DATABASE CHOICE!
 
 ##	google credentials
 HOST='fastfeathers.site'                                                                    ;
-GOOGLE_CLIENT_ID='81XXXXXXX56-dXXXXXXXXXXXXXXXXXXXXXXaii7rjqp9.apps.googleusercontent.com'     ;
-GOOGLE_CLIENT_SECRET='BLXXXXXXXXXXXXXXXXXXXX7g'                                                ;
+GOOGLE_KEY='81XXXXXXX56-dXXXXXXXXXXXXXXXXXXXXXXaii7rjqp9.apps.googleusercontent.com'     ;
+GOOGLE_SECRET='BLXXXXXXXXXXXXXXXXXXXX7g'                                                ;
 ###  get your credentials here:  https://console.developers.google.com/apis/credentials/
 
 ##  database credentials
@@ -56,14 +56,14 @@ if  [ ! -z "$tmpHost" ]; then
         HOST=$tmpHost;
 fi;
 
-read -p "Enter GOOGLE_CLIENT_ID or blank to use '$GOOGLE_CLIENT_ID': " tmpGOOGLE_CLIENT_ID;
-if  [ ! -z "$tmpGOOGLE_CLIENT_ID" ]; then
-        GOOGLE_CLIENT_ID=$tmpGOOGLE_CLIENT_ID;
+read -p "Enter GOOGLE_KEYor blank to use '$GOOGLE_KEY': " tmpGOOGLE_KEY;
+if  [ ! -z "$tmpGOOGLE_KEY" ]; then
+        GOOGLE_KEY=$tmpGOOGLE_KEY;
 fi;
 
-read -p "Enter GOOGLE_CLIENT_SECRET or blank to use '$GOOGLE_CLIENT_SECRET': " tmpGOOGLE_CLIENT_SECRET;
-if  [ ! -z "$tmpGOOGLE_CLIENT_SECRET" ]; then
-        GOOGLE_CLIENT_SECRET=$tmpGOOGLE_CLIENT_SECRET;
+read -p "Enter GOOGLE_SECRET or blank to use '$GOOGLE_SECRET': " tmpGOOGLE_SECRET;
+if  [ ! -z "$tmpGOOGLE_SECRET" ]; then
+        GOOGLE_SECRET=$tmpGOOGLE_SECRET;
 fi;
 
 read -p "Enter DB_USER or blank to use '$DB_USER': " tmpDB_USER;
@@ -445,10 +445,8 @@ END_OF_SED_SEQUELIZE
 ## values came from   https://console.developers.google.com/apis/api under credidentials
 sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${HOST}",/;
-s/your google client id/${GOOGLE_CLIENT_ID}/;
-s/your google client secret/${GOOGLE_CLIENT_SECRET}/;
-END_OF_SED_CONFIG_DEFAULT
-
+s/<google oauth key>/${GOOGLE_KEY}/;
+s/"secret": "<google oauth secret>"/"secret": "${GOOGLE_SECRET}",\n"        scope": [ "profile openid email"]/;
 
 
 
@@ -469,7 +467,7 @@ cat > ./public/index.html << END_OF_CAT_INDEX_HTML ;
     <main class="container">
       <h2 class="center-text">A REST and realtime API layer for modern applications. - using <a href="${DB_URL}" target="_blank">${TYPE}</a></h2>
 <p class="center-text"><br/>
-  <span id='login'><a href="/auth/google">Login With Google</a></span>
+  <span id='login'><a href="/oauth/connect/google">Login With Google</a></span>
   <span id='logout'><a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google</a></span>
   &nbsp;
   Adapted from <a href='http://js-grid.com/demos/' target='_blank'>js-grid</a>
@@ -792,8 +790,8 @@ Does ${HOST} resolve to ${THIS_IPADDR} ?
 Please dont forget to change/check the IP ## in both the ./config/default.json  
 *AND*  the google-applications page (make sure they match)
 Feathers google app should now be built.  Please confirm your ./config/default.json values.
-Client id in your ./config/default.json values file:  ${GOOGLE_CLIENT_ID}
-Client secret in your ./config/default.json values file:  ${GOOGLE_CLIENT_SECRET}
+Client id in your ./config/default.json values file:  ${GOOGLE_KEY}
+Client secret in your ./config/default.json values file:  ${GOOGLE_SECRET}
 Connect string in your ./config/default.json values file:  
     $CONNECT_STRING
 Now run '  cd  ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
