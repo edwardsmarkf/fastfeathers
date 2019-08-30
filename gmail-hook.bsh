@@ -245,7 +245,7 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
 /<h2 class="center-text">A REST and realtime API layer for modern applications.<\/h2>/ a\
 <!-- code added by ${FileNameWithoutExtension} ${TimeStamp} -->\\
 <p class="center-text"><br\/>\\
-  <a href="/auth/google">Login With Google<\/a>\\
+  <a href="/oauth/connect/google">Login With Google<\/a>\\
   &nbsp;\\
   <a href="javascript: feathersClient.logout(); Cookies.remove('feathers-jwt'); window.location.reload(true);">Log Out Of Google<\/a>\\
   <br /><br />\\
