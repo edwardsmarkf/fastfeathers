@@ -347,13 +347,13 @@ END_OF_SED_TESTTABLE_HOOKS
 
 
 
-## modify the default.json file if you are using google (you will have to change these values!
+## modify the default.json file if you are using google (you will have to change these values!)
 ## values came from   https://console.developers.google.com/apis/api under credidentials
-sed --in-place --file=- ./config/default.json  << END_OF_SED_DEFAULT_JSON ;
+sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${HOST}",/;
-s/your google client id/${GOOGLE_KEY}/;                                           
-s/your google client secret/${GOOGLE_SECRET}/;
-END_OF_SED_DEFAULT_JSON
+s/<google oauth key>/${GOOGLE_KEY}/;
+s/"secret": "<google oauth secret>"/"secret": "${GOOGLE_SECRET}",\n"        scope": [ "profile openid email"]/;
+
 
 echo " dont forget to change the IP ## in both the ./config/default.json  *AND*  the google-applications page (make sure they match)";
 
