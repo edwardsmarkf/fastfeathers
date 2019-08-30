@@ -13,8 +13,8 @@
 
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-GITHUB_CLIENT_ID='dccaXXXXXXXXXXXfe2af'                         ;
-GITHUB_CLIENT_SECRET='960393c18XXXXXXXXXXXXXXXXXXX6317939f3c59' ;
+GITHUB_KEYD='dccaXXXXXXXXXXXfe2af'                         ;
+GITHUB_SECRET='960393c18XXXXXXXXXXXXXXXXXXX6317939f3c59' ;
 ##  get credentials here:  https://github.com/settings/developers
 
 
@@ -142,8 +142,8 @@ END_OF_GENERATE_AUTH
 ## values came from   https://console.developers.github.com/apis/api under credidentials
 sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${THIS_IPADDR}",/;
-s/your github client id/${GITHUB_CLIENT_ID}/;
-s/your github client secret/${GITHUB_CLIENT_SECRET}/;
+s/your github client id/${GITHUB_KEY}/;
+s/your github client secret/${GITHUB_SECRET}/;
 END_OF_SED_CONFIG_DEFAULT
 
 echo " dont forget to change the IP ## in both the ./config/default.json  *AND*  the github-applications page (make sure they match)";
@@ -189,8 +189,8 @@ END_OF_INDEX_HTML
 
 cat <<END_OF_SCRIPT;
 Feathers github login app should now be built.  Did you change your ./config/default.json values?
-Client id in your ./config/default.json values file: ${GITHUB_CLIENT_ID}
-Client secret in your ./config/default.json values file: ${GITHUB_CLIENT_SECRET}
+Client id in your ./config/default.json values file: ${GITHUB_KEY}
+Client secret in your ./config/default.json values file: ${GITHUB_SECRET}
 Now run ' cd ./${FileNameWithoutExtension}/ ; npm start; ' to try it out.
 END_OF_SCRIPT
 #
