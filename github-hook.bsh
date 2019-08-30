@@ -122,9 +122,9 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	 
 	expect	-re ".*What authentication strategies do you want to use\?.*"
 	##send	-- "${RETURN}"		
-	send	-- " ${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
+	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
 		## return defaults to Local Storage
-		## first space to de-select local, DOWNARROW four times, final space to select Github, and return
+		## first space to de-select local, DOWNARROW five times, final space to select Github, and return
 	 
 	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
 	send	-- "${RETURN}"
