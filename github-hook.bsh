@@ -17,8 +17,8 @@
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
 ##       values came from   https://github.com/settings/developers
-GITHUB_CLIENT_ID='dcXXXXXXXXXXXXXfe2af'                         ;
-GITHUB_CLIENT_SECRET='96039XXXXXXXXXXXXXXXXXXXXXXX6317939f3c59' ;
+GITHUB_KEY='dcXXXXXXXXXXXXXfe2af'                         ;
+GITHUB_SECRET='96039XXXXXXXXXXXXXXXXXXXXXXX6317939f3c59' ;
 ##  get credentials here:    https://github.com/settings/developers
 
 THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
@@ -214,8 +214,8 @@ END_OF_SED_USER_HOOK
 ## modify the default.json file if you are using github (you will have to change these values!
 sed --in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${THIS_IPADDR}",/;
-s/your github client id/${GITHUB_CLIENT_ID}/;
-s/your github client secret/${GITHUB_CLIENT_SECRET}/;
+s/<github oauth key>/${GITHUB_KEY}/;
+s/<github oauth secret>/${GITHUB_SECRET}/;
 END_OF_SED_CONFIG_DEFAULT
 
 echo " dont forget to change the IP ## in both the ./config/default.json  *AND*  the github-applications page (make sure they match)";
