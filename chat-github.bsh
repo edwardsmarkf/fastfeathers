@@ -340,8 +340,8 @@ END_OF_GENERATE_POPULATE_USER_HOOK
 ## values came from   https://console.developers.google.com/apis/api under credidentials
 sed -in-place --file=- ./config/default.json  << END_OF_SED_CONFIG_DEFAULT ;
 s/"host": "localhost",/"host": "${THIS_IPADDR}",/;
-s/<github oauth key>/${GITHUB_CLIENT_ID}/;
-s/<github oauth secret>/${GITHUB_CLIENT_SECRET}/;
+s/<github oauth key>/${GITHUB_KEY}/;
+s/<github oauth secret>/${GITHUB_SECRET}/;
 END_OF_SED_CONFIG_DEFAULT
 
  
