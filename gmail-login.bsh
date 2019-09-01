@@ -67,7 +67,12 @@ TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension}/  && cd	./${FileNameWithoutExtension}/ ;
 
-.  $(realpath $(dirname "${BASH_SOURCE[0]}";); );./common/createApp.bsh
+commonPath="$(realpath $(dirname "${BASH_SOURCE[0]}";); )/common";
+
+echo commonPath;
+
+
+.  ${commonPath}/common/createApp.bsh
 ##  ##     feathers generate  app;   ## taking all the defaults, except for the description
 ##  export FileNameWithExtension;
 ##  export TimeStamp;
