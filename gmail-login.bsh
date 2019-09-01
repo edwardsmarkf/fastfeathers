@@ -72,7 +72,7 @@ commonPath="$(realpath $(dirname "${BASH_SOURCE[0]}";); )/common";
 echo commonPath;
 
 
-.  ${commonPath}/common/createApp.bsh
+.  ${commonPath}/createApp.bsh
 ##  ##     feathers generate  app;   ## taking all the defaults, except for the description
 ##  export FileNameWithExtension;
 ##  export TimeStamp;
