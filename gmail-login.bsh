@@ -63,13 +63,12 @@ FileNameWithExtension=${0##*/}                       ;
 FileNameWithoutExtension=${FileNameWithExtension%.*} ;
 TimeStamp=$(date "+%Y-%m-%d %r")                     ;
 
+commonPath="$(readlink -f $0 | xargs dirname)"/common;
+
 
 rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension}/  && cd	./${FileNameWithoutExtension}/ ;
 
-commonPath="$(realpath $(dirname "${BASH_SOURCE[0]}";); )/common";
-
-echo commonPath;
 
 
 .  ${commonPath}/createApp.bsh
