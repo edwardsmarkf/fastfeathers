@@ -126,41 +126,41 @@ mkdir	./${FileNameWithoutExtension}/  && cd	./${FileNameWithoutExtension}/ ;
 ##  END_OF_GENERATE_APP
 ##  )	## end of feathers generate app
 
+.  ${commonPath}/gmailNedbAuth.bsh
 
-
-##	feathers generate authentication;  ## all defaults
-expect <(cat <<'END_OF_GENERATE_AUTH'
-	#	generates an authentication for Google
-	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
-	 
-	set timeout -1
-	 
-	set UPARROW	\x1B\[A;
-	set DOWNARROW	\x1B\[B;
-	set SPACE       \x20;
-	set RETURN	\x0d;
-	spawn	feathers generate authentication ;
-	 
-	expect	-re ".*What authentication strategies do you want to use\?.*"
-	##send	-- "${RETURN}"		
-	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
-		## return defaults to Local Storage
-		## first space to de-select local, DOWNARROW two times, final space to select Google, and return
-	 
-	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
-	send	-- "${RETURN}"
-		## default answer is 'users'
-	 
-	expect	-re ".*What kind of service is it\?.*"
-	send	-- "${RETURN}"
-		## default answer is NeDB
-	expect	-re ".*What is the database connection string\?.*"
-	send	-- "${RETURN}"
-		## default answer is nedb://../data
-	 
-	expect eof
-END_OF_GENERATE_AUTH
-)	## end of feathers generate authentication
+####	feathers generate authentication;  ## all defaults
+##expect <(cat <<'END_OF_GENERATE_AUTH'
+##	#	generates an authentication for Google
+##	#	written from	https://docs.feathersjs.com/guides/chat/authentication.html
+##	 
+##	set timeout -1
+##	 
+##	set UPARROW	\x1B\[A;
+##	set DOWNARROW	\x1B\[B;
+##	set SPACE       \x20;
+##	set RETURN	\x0d;
+##	spawn	feathers generate authentication ;
+##	 
+##	expect	-re ".*What authentication strategies do you want to use\?.*"
+##	##send	-- "${RETURN}"		
+##	send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
+##		## return defaults to Local Storage
+##		## first space to de-select local, DOWNARROW two times, final space to select Google, and return
+##	 
+##	expect	-re ".*What is the name of the user \\\(entity\\\) service.*"
+##	send	-- "${RETURN}"
+##		## default answer is 'users'
+##	 
+##	expect	-re ".*What kind of service is it\?.*"
+##	send	-- "${RETURN}"
+##		## default answer is NeDB
+##	expect	-re ".*What is the database connection string\?.*"
+##	send	-- "${RETURN}"
+##		## default answer is nedb://../data
+##	 
+##	expect eof
+##END_OF_GENERATE_AUTH
+##)	## end of feathers generate authentication
 
 
 ## modify the default.json file if you are using google (you will have to change these values!)
