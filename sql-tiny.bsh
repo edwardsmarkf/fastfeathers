@@ -132,61 +132,13 @@ if [ ! -z "${DOMAIN_NAME}" ]; then
 	sudo yum --assumeyes install certbot;
 fi
 
+commonPath="$(readlink -f $0 | xargs dirname)"/common;
+
+
 rm -Rf	./${FileNameWithoutExtension}/ ;  ## just in case one already exists.
 mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
 
-##     feathers generate  app;   ## taking all the defaults, except for the description
-export FileNameWithExtension;
-export TimeStamp;
-expect <(cat <<'END_OF_GENERATE_APP'
-	#	generates an application, taking ALL the defaults
-	#	written from https://docs.feathersjs.com/guides/chat/creating.html
-	 
-	set timeout -1
-	
-	set UPARROW	\x1B\[A;
-	set DOWNARROW	\x1B\[B;
-	set SPACE	\x20;
-	set RETURN	\x0d;
-	 
-	spawn feathers generate app;
-	
-	expect -re ".*Do you want to use JavaScript or TypeScript.*"
-	send -- "${RETURN}"
-			## new in Crow  2019-07-01
-	 
-	expect -re ".*Project name.*"
-	send -- "${RETURN}"
-			## defaults to the name of the directory
-	 
-	expect -re ".*Description.*"
-	send -- "This app created with expect and $env(FileNameWithExtension) $env(TimeStamp)!${RETURN}"
-			## optional description
-	 
-	expect -re ".*What folder should the source files live in\?.*\\\(src\\\).*"
-	send -- "${RETURN}"
-			## defaults to 'src'
-	 
-	expect -re ".*Which package manager are you using \\\(has to be installed globally\\\)\?.*"
-	send -- "${RETURN}"
-			## defaults to 'npm'
-	 
-	expect -re ".*What type of API are you making.*"
-	send -- "${RETURN}"
-			## defaults to REST & Realtime via Socket.io
-
-	expect -re ".*Which testing framework do you prefer?.*"		
-        send -- "${RETURN}"
-	                ## defaults to Mocha + assert
-
-	expect -re ".*This app uses authentication.*"
-	send -- "n${RETURN}"
-			## defaults to Y
-
-	expect eof
-
-END_OF_GENERATE_APP
-)	## end of feathers generate app
+.  ${commonPath}/createApp.bsh;
 
 
 
