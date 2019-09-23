@@ -193,6 +193,7 @@ sed --in-place --file=- ./public/index.html << END_OF_INDEX_HTML ;
 <script>\\
   // Socket.io is exposed as the \`io\` global.\\
   var socket = io(':3030', {transports: ['websocket']});\\
+  var socket = io();   //   removed websocket for proxy thank you Jonatas Esteves \\
   // feathers-client is exposed as the \`feathers\` global.\\
   var feathersClient = feathers()\\
 	    //.configure(feathers.hooks()) commented out with 3.0\\
