@@ -14,7 +14,7 @@ expect <(cat <<'END_OF_GENERATE_AUTH'
 	spawn	feathers generate authentication ;
 	 
 		expect	-re ".*What authentication strategies do you want to use\?.*"
-	  send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
+	  send	-- "${SPACE}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"	
 		    ## return defaults to Local Storage
 		    ## first space to de-select 'local', DOWNARROW five times, final space to select 'Github', and return
 	 
