@@ -21,7 +21,7 @@
 
 
 ##      ./config/default.json changes  --  YOU WILL NEED TO CHANGE THESE!
-HOST='fastfeathers.website'                                                                     ;
+HOST='localhost'                                                                     ;
 GOOGLE_KEY='119068144580-gpeiuqXXXXXXXXXXXXXXXXXXXXXXXXgs.apps.googleusercontent.com'     ;
 GOOGLE_SECRET='m-RXXXXXXXXXXXXYpJIajwpN'                                                 ;
 ###  get credentials here:  https://console.developers.google.com/apis/credentials/
