@@ -37,12 +37,20 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	expect -re ".*What type of API are you making.*"
 	send -- "${RETURN}"
 			## defaults to REST & Realtime via Socket.io
+
 	expect -re ".*Which testing framework do you prefer?.*"		
         send -- "${RETURN}"
 	                ## defaults to Mocha + assert
+
 	expect -re ".*This app uses authentication.*"
 	send -- "n${RETURN}"
 			## defaults to Y
-	expect eof
+			
+	expect -re ".*Which coding style do you want do use?.*"
+	send -- "n${RETURN}"
+			## defaults to ESLint  -- added 2020-03-02
+
+expect eof
+
 END_OF_GENERATE_APP
 )	## end of feathers generate app
