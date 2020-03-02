@@ -1,6 +1,6 @@
 #! /bin/bash
 
-##	chat-gmail.bsh    last update: 2019-02-13
+##	chat-gmail.bsh    last update: 2020-03-02
 
 ##  Bash-shell script to create the Google-feathers chat application with gmail login entirely from scratch.
 
@@ -186,7 +186,7 @@ expect <(cat <<'END_OF_PROCESS_MESSAGE_HOOK'
 		## DOWNARROW, space, & return selects "messages"
 
 	expect -re ".*What methods should the hook be for .*"
-	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${S}ACE}${RETURN}"
+	send -- "${DOWNARROW}${DOWNARROW}${DOWNARROW}${SPACE}${RETURN}"
 		## DOWNARROW three times, space, and return to select "create"
 	 
 	expect eof
