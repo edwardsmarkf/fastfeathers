@@ -77,7 +77,7 @@ mkdir	./${FileNameWithoutExtension}/ &&  cd	./${FileNameWithoutExtension}/ ;
 
 .  ${commonPath}/createApp.bsh
 
-.  ${commonPath}/gmailNedbAuth.bsh
+.  ${commonPath}/gmailAuth.bsh
 
 
 ##		feathers generate service;   ## all defaults except for the service name - "messages"
