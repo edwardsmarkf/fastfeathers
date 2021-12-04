@@ -32,8 +32,11 @@ ${SUDO}  firewall-cmd --reload;                    ## make the new port opening 
 
 ##		node/npm installation:
 ##	https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora
-${SUDO} curl --silent --location https://rpm.nodesource.com/setup_10.x | ${SUDO} bash -  ;
-${SUDO} yum  --assumeyes  install nodejs ;
+#### ${SUDO} curl --silent --location https://rpm.nodesource.com/setup_10.x | ${SUDO} bash -  ;       ## 2021-12-04
+#### ${SUDO} yum  --assumeyes  install nodejs ;                                                       ## 2021-12-04
+
+dnf --assumeyes  module install nodejs:16  ;                                                          ## 2021-12-04
+
 
 ${SUDO} npm  --global  update  npm ;    ## update to latest version
 
