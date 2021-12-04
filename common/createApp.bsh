@@ -46,7 +46,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 	send -- "n${RETURN}"
 			## defaults to Y
 			
-	expect -re ".*Which coding style do you want do use?.*"
+	expect -re ".*Which coding style do you want to use?.*"
 	send -- "${RETURN}"
 			## defaults to ESLint  -- added 2020-03-02
 
