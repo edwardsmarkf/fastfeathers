@@ -78,7 +78,6 @@ expect <(cat <<'END_OF_GENERATE_SERVICE'
 	 
 	expect	-re ".*What is the name of the service\?.*"
 	send	-- "$env(SERVICE_NAME)${RETURN}"
-			## testtable
 	 
 	expect	-re ".*Which path should the service be registered on\?.*"
 	send	-- "${RETURN}"
