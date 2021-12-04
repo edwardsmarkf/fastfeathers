@@ -47,7 +47,7 @@ expect <(cat <<'END_OF_GENERATE_APP'
 			## defaults to Y
 			
 	expect -re ".*Which coding style do you want do use?.*"
-	send -- "n${RETURN}"
+	send -- "${RETURN}"
 			## defaults to ESLint  -- added 2020-03-02
 
 expect eof
