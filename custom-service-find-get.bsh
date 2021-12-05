@@ -35,7 +35,8 @@ if  [ $? -ne 0 ]; then
         exit 1;
 fi
 
-THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;);
+THIS_IPADDR=$(dig +short myip.opendns.com @resolver1.opendns.com. ;	);
+THIS_IPADDR=$(hostname --all-ip-addresses | sed -e  's/ .*$//;'	);			## take your pick!
 
 
 FileNameWithExtension=${0##*/}                       ;
