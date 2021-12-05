@@ -51,6 +51,10 @@ mkdir	./${FileNameWithoutExtension}/ &&   cd  ./${FileNameWithoutExtension}/   ;
 .  ${commonPath}/createApp.bsh;
 
 
+##	try expect using "-exact" instead!
+##       expect  -exact "Country Name (2 letter code) \[XX]:"
+##        send    -- "${RETURN}"
+
 
 export SERVICE_NAME;
 ##		feathers generate service;   ## all defaults except for the service name - "testtable"
